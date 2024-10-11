@@ -1,0 +1,29 @@
+package cc.unknown.util.render;
+
+import org.lwjgl.opengl.GL11;
+
+import cc.unknown.util.Accessor;
+import cc.unknown.util.interfaces.ThreadAccess;
+import cc.unknown.util.time.StopWatch;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+
+public class BackgroundUtil implements Accessor {
+	private static int pass = 0;
+	private static final int TOTAL_IMAGES = 28;
+    private static StopWatch frames = new StopWatch();
+    private static String imageName = "";
+
+	public static void renderBackground(GuiScreen gui) {
+	    RenderUtil.image(new ResourceLocation("sakura/images/background/menu.jpg"), 0, 0, gui.width, gui.height);
+	}
+	
+	public static void renderSplashScreen() {
+		ScaledResolution sr = new ScaledResolution(mc);
+	    RenderUtil.image(new ResourceLocation("sakura/images/sakura.png"), 
+	        0, 0, sr.getScaledWidth(), sr.getScaledHeight());
+
+	}
+}
