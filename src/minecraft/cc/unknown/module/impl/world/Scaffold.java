@@ -11,6 +11,7 @@ import cc.unknown.component.impl.player.RotationComponent;
 import cc.unknown.component.impl.player.Slot;
 import cc.unknown.component.impl.player.rotationcomponent.MovementFix;
 import cc.unknown.event.Listener;
+import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.KeyboardInputEvent;
 import cc.unknown.event.impl.input.MoveInputEvent;
@@ -23,20 +24,17 @@ import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
 import cc.unknown.module.impl.movement.Speed;
-import cc.unknown.module.impl.player.scaffold.downward.NormalDownward;
-import cc.unknown.module.impl.player.scaffold.sprint.BypassSprint;
-import cc.unknown.module.impl.player.scaffold.sprint.DisabledSprint;
-import cc.unknown.module.impl.player.scaffold.sprint.LegitSprint;
-import cc.unknown.module.impl.player.scaffold.sprint.MatrixSprint;
-import cc.unknown.module.impl.player.scaffold.sprint.TestSprint;
-import cc.unknown.module.impl.player.scaffold.sprint.WatchdogJumpSprint;
-import cc.unknown.module.impl.player.scaffold.sprint.WatchdogLimitSprint;
-import cc.unknown.module.impl.player.scaffold.sprint.WatchdogSlow;
-import cc.unknown.module.impl.player.scaffold.tower.MMCTower;
-import cc.unknown.module.impl.player.scaffold.tower.NCPTower;
-import cc.unknown.module.impl.player.scaffold.tower.NormalTower;
-import cc.unknown.module.impl.player.scaffold.tower.PolarTower;
-import cc.unknown.module.impl.player.scaffold.tower.VanillaTower;
+import cc.unknown.module.impl.world.scaffold.down.NormalDownward;
+import cc.unknown.module.impl.world.scaffold.sprint.BypassSprint;
+import cc.unknown.module.impl.world.scaffold.sprint.DisabledSprint;
+import cc.unknown.module.impl.world.scaffold.sprint.LegitSprint;
+import cc.unknown.module.impl.world.scaffold.sprint.MatrixSprint;
+import cc.unknown.module.impl.world.scaffold.sprint.TestSprint;
+import cc.unknown.module.impl.world.scaffold.tower.MMCTower;
+import cc.unknown.module.impl.world.scaffold.tower.NCPTower;
+import cc.unknown.module.impl.world.scaffold.tower.NormalTower;
+import cc.unknown.module.impl.world.scaffold.tower.PolarTower;
+import cc.unknown.module.impl.world.scaffold.tower.VanillaTower;
 import cc.unknown.util.RayCastUtil;
 import cc.unknown.util.math.MathUtil;
 import cc.unknown.util.packet.PacketUtil;
@@ -92,9 +90,6 @@ public class Scaffold extends Module {
 			.add(new BypassSprint("Bypass", this))
 			.add(new TestSprint("Test", this))
 			.add(new MatrixSprint("Matrix", this))
-			.add(new WatchdogLimitSprint("Watchdog Fast", this))
-			.add(new WatchdogJumpSprint("Watchdog Jump", this))
-			.add(new WatchdogSlow("Watchdog", this))
 			.setDefault("Normal");
 
 	public final ModeValue tower = new ModeValue("Tower", this)
@@ -209,13 +204,13 @@ public class Scaffold extends Module {
 		setKeyBind.accept(back, () -> mc.gameSettings.keyBindBack
 				.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindBack.getKeyCode())));
 	}
-
-	@EventLink
-	public final Listener<PacketEvent> onPacketReceiveEvent = event -> {
-	    if (!event.isReceive()) return;
-	    PacketUtil.correctBlockCount(event);
+	@EventLink(value = Priority.VERY_HIGH)
+	public final Listener<PacketEvent> onPacket = event -> {
+		if (event.isReceive()) {
+			PacketUtil.correctBlockCount(event);
+		}
 	};
-	
+
 	@EventLink
 	public final Listener<KeyboardInputEvent> onKeyboard = event -> {
 	    try {
@@ -421,7 +416,7 @@ public class Scaffold extends Module {
 		case "Eagle":
 			float yaw = (mc.player.rotationYaw + 10000000) % 360;
 			float staticYaw = (yaw - 180) - (yaw % 90) + 45;
-			float staticPitch = 78;
+			float staticPitch = 79;
 
 			boolean straight = (Math.min(Math.abs(yaw % 90), Math.abs(90 - yaw) % 90) < Math
 					.min(Math.abs(yaw + 45) % 90, Math.abs(90 - (yaw + 45)) % 90));
@@ -436,22 +431,19 @@ public class Scaffold extends Module {
 
 			movementFix = MovementFix.SILENT;
 
-			if (Math.random() > (mc.player.onGround ? 0.5 : 0.2)
-					&& getComponent(Slot.class).getItemStack().getItem() instanceof ItemBlock) {
+			if (getComponent(Slot.class).getItemStack() != null && getComponent(Slot.class).getItemStack().getItem() instanceof ItemBlock) {
 				mc.rightClickMouse();
 			}
-
-			if (mc.player.offGroundTicks >= 4 && MoveUtil.isMoving()) {
-				mc.gameSettings.keyBindSneak.setPressed(true);
-			}
-
-			if (mc.player.onGroundTicks == 1)
-				mc.gameSettings.keyBindSneak.setPressed(false);
 
 			if (!straight) {
 				staticYaw += 90;
 			}
-
+			
+	        if (PlayerUtil.isOnEdge()) {
+	            mc.gameSettings.keyBindSneak.pressed = true;
+	        } else mc.gameSettings.keyBindSneak.pressed = false;
+			
+	        mc.entityRenderer.getMouseOver(1);
 			targetYaw = staticYaw + yawDrift / 2;
 			targetPitch = staticPitch + pitchDrift / 2;
 			break;
@@ -725,8 +717,8 @@ public class Scaffold extends Module {
 			mc.rightClickMouse();
 		} else if (mc.playerController.onPlayerRightClick(mc.player, mc.world, getComponent(Slot.class).getItemStack(),
 				blockFace, enumFacing.getEnumFacing(), hitVec)) {
+			//mc.player.swingItem();
 			PacketUtil.send(new C0APacketAnimation());
-			// mc.rightClickMouse();
 		}
 	}
 

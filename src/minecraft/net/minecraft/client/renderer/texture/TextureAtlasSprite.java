@@ -76,6 +76,7 @@ public class TextureAtlasSprite {
 				: (locationNameCompass.equals(s) ? new TextureCompass(s) : new TextureAtlasSprite(s)));
 	}
 
+
 	public static void setLocationNameClock(String clockName) {
 		locationNameClock = clockName;
 	}

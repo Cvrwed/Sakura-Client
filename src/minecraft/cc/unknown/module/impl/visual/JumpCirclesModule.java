@@ -78,6 +78,8 @@ public final class JumpCirclesModule extends Module {
 	private final Listener<Render3DEvent> render3DEventListener = this::onRender3DEvent;
 
 	private void onRender3DEvent(final Render3DEvent render3DEvent) {
+		if (isClickGui()) return;
+
 		for (final Circle circle : this.circles) {
 			final Vec3 pos = circle.getPosition();
 			final double y = pos.yCoord - this.mc.getRenderManager().renderPosY;

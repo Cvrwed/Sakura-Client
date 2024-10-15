@@ -135,7 +135,7 @@ public final class HUD extends Module {
 
     @EventLink(value = Priority.LOW)
     public final Listener<Render2DEvent> onRender2D = event -> {
-        if (mc.gameSettings.showDebugInfo || !isInGame()) {
+        if (isClickGui() || !isInGame()) {
             return;
         }
 

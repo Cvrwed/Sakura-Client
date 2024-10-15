@@ -185,7 +185,7 @@ public class GameSettings {
      */
     public boolean showDebugInfo;
     public boolean showDebugProfilerChart;
-    public boolean field_181657_aC;
+    public boolean showLagometer;
 
     /**
      * The lastServer string.

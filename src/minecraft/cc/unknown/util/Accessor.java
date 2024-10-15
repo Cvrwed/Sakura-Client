@@ -20,6 +20,10 @@ public interface Accessor {
         return mc != null || mc.player != null || mc.world != null;
     }
 
+    default boolean isClickGui() {
+    	return mc.gameSettings.showDebugInfo || mc.currentScreen instanceof ClickGui;
+    }
+    
     default ClickGui getClickGUI() {
         return getInstance().getClickGui();
     }
@@ -38,9 +42,5 @@ public interface Accessor {
 
     default Gson getGSON() {
         return getInstance().getGSON();
-    }
-
-    default Minecraft getClient() {
-        return Minecraft.getMinecraft();
     }
 }

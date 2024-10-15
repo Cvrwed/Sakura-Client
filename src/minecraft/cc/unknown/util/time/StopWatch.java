@@ -13,6 +13,9 @@ public class StopWatch {
     public boolean finished(long delay) {
         return System.currentTimeMillis() - delay >= millis;
     }
+    public boolean finished2(float milliSec) {
+        return (float) (getCurrentTime() - millis) >= milliSec;
+    }
     
     public boolean hasFinished() {
         return System.currentTimeMillis() >= millis;
@@ -37,4 +40,8 @@ public class StopWatch {
     public void setMillis(long millis) {
         this.millis = millis;
     }
+	
+	public long getCurrentTime() {
+		return System.nanoTime() / 1000000;
+	}
 }

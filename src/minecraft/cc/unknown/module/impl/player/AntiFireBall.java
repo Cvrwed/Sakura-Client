@@ -4,6 +4,7 @@ import cc.unknown.component.impl.player.BadPacketsComponent;
 import cc.unknown.component.impl.player.RotationComponent;
 import cc.unknown.component.impl.player.rotationcomponent.MovementFix;
 import cc.unknown.event.Listener;
+import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.motion.PreUpdateEvent;
 import cc.unknown.module.Module;
@@ -26,7 +27,7 @@ public class AntiFireBall extends Module {
     private final BoundsNumberValue rotationSpeed = new BoundsNumberValue("Rotation Speed", this, 5, 10, 0, 10, 1);
     private final BooleanValue rotate = new BooleanValue("Rotate", this, true);
 
-    @EventLink
+    @EventLink(value = Priority.VERY_HIGH)
     public final Listener<PreUpdateEvent> onPreUpdate = event -> {
         for (Entity entity : mc.world.loadedEntityList) {
             if (entity instanceof EntityFireball && entity.getDistanceToEntity(mc.player) < range.getValue().doubleValue()) {

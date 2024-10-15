@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -254,10 +255,10 @@ public abstract class Render<T extends Entity> implements IEntityRenderer {
                 final float f1 = (float) ((p_180549_2_ - d2) / 2.0D / (double) p_180549_10_ + 0.5D);
                 final float f2 = (float) ((p_180549_6_ - d4) / 2.0D / (double) p_180549_10_ + 0.5D);
                 final float f3 = (float) ((p_180549_6_ - d5) / 2.0D / (double) p_180549_10_ + 0.5D);
-                worldrenderer.pos(d1, d3, d4).tex(f, f2).func_181666_a(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
-                worldrenderer.pos(d1, d3, d5).tex(f, f3).func_181666_a(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
-                worldrenderer.pos(d2, d3, d5).tex(f1, f3).func_181666_a(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
-                worldrenderer.pos(d2, d3, d4).tex(f1, f2).func_181666_a(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+                worldrenderer.pos(d1, d3, d4).tex(f, f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+                worldrenderer.pos(d1, d3, d5).tex(f, f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+                worldrenderer.pos(d2, d3, d5).tex(f1, f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+                worldrenderer.pos(d2, d3, d4).tex(f1, f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
             }
         }
     }
@@ -355,10 +356,10 @@ public abstract class Render<T extends Entity> implements IEntityRenderer {
             final int j = width / 2;
             GlStateManager.disableTexture2D();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            worldrenderer.pos(-j - 1, -1, 0.0D).func_181666_a(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos(-j - 1, 8, 0.0D).func_181666_a(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos(j + 1, 8, 0.0D).func_181666_a(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos(j + 1, -1, 0.0D).func_181666_a(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(-j - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(-j - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(j + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(j + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             tessellator.draw();
             GlStateManager.enableTexture2D();
             fontrenderer.draw(str, -width / 2, 0, 553648127);

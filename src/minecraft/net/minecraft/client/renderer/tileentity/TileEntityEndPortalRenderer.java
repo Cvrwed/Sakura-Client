@@ -92,10 +92,10 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
                     f11 = f12 = f13 = 1.0F * f6;
                 }
 
-                worldrenderer.pos(x, y + (double) f3, z).func_181666_a(f11, f12, f13, 1.0F).endVertex();
-                worldrenderer.pos(x, y + (double) f3, z + 1.0D).func_181666_a(f11, f12, f13, 1.0F).endVertex();
-                worldrenderer.pos(x + 1.0D, y + (double) f3, z + 1.0D).func_181666_a(f11, f12, f13, 1.0F).endVertex();
-                worldrenderer.pos(x + 1.0D, y + (double) f3, z).func_181666_a(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x, y + (double) f3, z).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x, y + (double) f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x + 1.0D, y + (double) f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x + 1.0D, y + (double) f3, z).color(f11, f12, f13, 1.0F).endVertex();
                 tessellator.draw();
                 GlStateManager.popMatrix();
                 GlStateManager.matrixMode(5888);

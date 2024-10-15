@@ -1615,13 +1615,13 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 }
 
                 worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-                worldrenderer.pos(0.0D, 100.0D, 0.0D).func_181666_a(f6, f7, f8, afloat[3]).endVertex();
+                worldrenderer.pos(0.0D, 100.0D, 0.0D).color(f6, f7, f8, afloat[3]).endVertex();
 
                 for (int l = 0; l <= 16; ++l) {
                     final float f18 = (float) l * (float) Math.PI * 2.0F / 16.0F;
                     final float f12 = MathHelper.sin(f18);
                     final float f13 = MathHelper.cos(f18);
-                    worldrenderer.pos(f12 * 120.0F, f13 * 120.0F, -f13 * 40.0F * afloat[3]).func_181666_a(afloat[0], afloat[1], afloat[2], 0.0F).endVertex();
+                    worldrenderer.pos(f12 * 120.0F, f13 * 120.0F, -f13 * 40.0F * afloat[3]).color(afloat[0], afloat[1], afloat[2], 0.0F).endVertex();
                 }
 
                 tessellator.draw();
@@ -1866,10 +1866,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
                         for (int i1 = -256; i1 < 256; i1 += 32) {
                             for (int j1 = -256; j1 < 256; j1 += 32) {
-                                worldrenderer.pos(i1 + 0, f6, j1 + 32).tex((float) (i1 + 0) * 4.8828125E-4F + f7, (float) (j1 + 32) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
-                                worldrenderer.pos(i1 + 32, f6, j1 + 32).tex((float) (i1 + 32) * 4.8828125E-4F + f7, (float) (j1 + 32) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
-                                worldrenderer.pos(i1 + 32, f6, j1 + 0).tex((float) (i1 + 32) * 4.8828125E-4F + f7, (float) (j1 + 0) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
-                                worldrenderer.pos(i1 + 0, f6, j1 + 0).tex((float) (i1 + 0) * 4.8828125E-4F + f7, (float) (j1 + 0) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
+                                worldrenderer.pos(i1 + 0, f6, j1 + 32).tex((float) (i1 + 0) * 4.8828125E-4F + f7, (float) (j1 + 32) * 4.8828125E-4F + f8).color(f, f1, f2, 0.8F).endVertex();
+                                worldrenderer.pos(i1 + 32, f6, j1 + 32).tex((float) (i1 + 32) * 4.8828125E-4F + f7, (float) (j1 + 32) * 4.8828125E-4F + f8).color(f, f1, f2, 0.8F).endVertex();
+                                worldrenderer.pos(i1 + 32, f6, j1 + 0).tex((float) (i1 + 32) * 4.8828125E-4F + f7, (float) (j1 + 0) * 4.8828125E-4F + f8).color(f, f1, f2, 0.8F).endVertex();
+                                worldrenderer.pos(i1 + 0, f6, j1 + 0).tex((float) (i1 + 0) * 4.8828125E-4F + f7, (float) (j1 + 0) * 4.8828125E-4F + f8).color(f, f1, f2, 0.8F).endVertex();
                             }
                         }
 
@@ -1983,52 +1983,52 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                     final float f25 = f23 - f20;
 
                     if (f3 > -5.0F) {
-                        worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + 8.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
-                        worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + 8.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
-                        worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
-                        worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + 8.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + 8.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f10, f11, f12, 0.8F).func_181663_c(0.0F, -1.0F, 0.0F).endVertex();
                     }
 
                     if (f3 <= 5.0F) {
-                        worldrenderer.pos(f24 + 0.0F, f3 + 4.0F - 9.765625E-4F, f25 + 8.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
-                        worldrenderer.pos(f24 + 8.0F, f3 + 4.0F - 9.765625E-4F, f25 + 8.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
-                        worldrenderer.pos(f24 + 8.0F, f3 + 4.0F - 9.765625E-4F, f25 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
-                        worldrenderer.pos(f24 + 0.0F, f3 + 4.0F - 9.765625E-4F, f25 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 0.0F, f3 + 4.0F - 9.765625E-4F, f25 + 8.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 8.0F, f3 + 4.0F - 9.765625E-4F, f25 + 8.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 8.0F, f3 + 4.0F - 9.765625E-4F, f25 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+                        worldrenderer.pos(f24 + 0.0F, f3 + 4.0F - 9.765625E-4F, f25 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f4, f5, f6, 0.8F).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
                     }
 
                     if (l1 > -1) {
                         for (int k1 = 0; k1 < 8; ++k1) {
-                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 0.0F, f25 + 8.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
-                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 4.0F, f25 + 8.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
-                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 4.0F, f25 + 0.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
-                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 0.0F, f25 + 0.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 0.0F, f25 + 8.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 4.0F, f25 + 8.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 4.0F, f25 + 0.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) k1 + 0.0F, f3 + 0.0F, f25 + 0.0F).tex((f22 + (float) k1 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(-1.0F, 0.0F, 0.0F).endVertex();
                         }
                     }
 
                     if (l1 <= 1) {
                         for (int i2 = 0; i2 < 8; ++i2) {
-                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 0.0F, f25 + 8.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
-                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 4.0F, f25 + 8.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
-                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 4.0F, f25 + 0.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
-                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 0.0F, f25 + 0.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).func_181666_a(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 0.0F, f25 + 8.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 4.0F, f25 + 8.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 8.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 4.0F, f25 + 0.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
+                            worldrenderer.pos(f24 + (float) i2 + 1.0F - 9.765625E-4F, f3 + 0.0F, f25 + 0.0F).tex((f22 + (float) i2 + 0.5F) * 0.00390625F + f17, (f23 + 0.0F) * 0.00390625F + f18).color(f26, f27, f28, 0.8F).func_181663_c(1.0F, 0.0F, 0.0F).endVertex();
                         }
                     }
 
                     if (j1 > -1) {
                         for (int j2 = 0; j2 < 8; ++j2) {
-                            worldrenderer.pos(f24 + 0.0F, f3 + 4.0F, f25 + (float) j2 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
-                            worldrenderer.pos(f24 + 8.0F, f3 + 4.0F, f25 + (float) j2 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
-                            worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + (float) j2 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
-                            worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + (float) j2 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
+                            worldrenderer.pos(f24 + 0.0F, f3 + 4.0F, f25 + (float) j2 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
+                            worldrenderer.pos(f24 + 8.0F, f3 + 4.0F, f25 + (float) j2 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
+                            worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + (float) j2 + 0.0F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
+                            worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + (float) j2 + 0.0F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) j2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, -1.0F).endVertex();
                         }
                     }
 
                     if (j1 <= 1) {
                         for (int k2 = 0; k2 < 8; ++k2) {
-                            worldrenderer.pos(f24 + 0.0F, f3 + 4.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
-                            worldrenderer.pos(f24 + 8.0F, f3 + 4.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
-                            worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
-                            worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).func_181666_a(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
+                            worldrenderer.pos(f24 + 0.0F, f3 + 4.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
+                            worldrenderer.pos(f24 + 8.0F, f3 + 4.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
+                            worldrenderer.pos(f24 + 8.0F, f3 + 0.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 8.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
+                            worldrenderer.pos(f24 + 0.0F, f3 + 0.0F, f25 + (float) k2 + 1.0F - 9.765625E-4F).tex((f22 + 0.0F) * 0.00390625F + f17, (f23 + (float) k2 + 0.5F) * 0.00390625F + f18).color(f13, f14, f15, 0.8F).func_181663_c(0.0F, 0.0F, 1.0F).endVertex();
                         }
                     }
 

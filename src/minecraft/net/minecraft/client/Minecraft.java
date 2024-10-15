@@ -1885,7 +1885,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 							case 61:
 								this.gameSettings.showDebugInfo = !this.gameSettings.showDebugInfo;
 								this.gameSettings.showDebugProfilerChart = GuiScreen.isShiftKeyDown();
-								this.gameSettings.field_181657_aC = GuiScreen.isAltKeyDown();
+								this.gameSettings.showLagometer = GuiScreen.isAltKeyDown();
 								break;
 							}
 
@@ -2461,7 +2461,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 		theCrash.getCategory().addCrashSectionCallable("Profiler Position",
 				() -> Minecraft.this.mcProfiler.profilingEnabled ? Minecraft.this.mcProfiler.getNameOfLastSection()
 						: "N/A (disabled)");
-		theCrash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::func_183029_j);
+		theCrash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::getCpu);
 
 		if (this.world != null) {
 			this.world.addWorldInfoToCrashReport(theCrash);

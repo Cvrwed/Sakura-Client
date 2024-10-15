@@ -85,39 +85,36 @@ public class ClickGui extends GuiScreen implements Accessor, ThreadAccess {
             rebuildModuleCache();
         }
 
-        //threadPool.execute(() -> {
-            round = 12;
-            scaleAnimation.reset();
-            scaleAnimation.setValue(0);
+        round = 12;
+        scaleAnimation.reset();
+        scaleAnimation.setValue(0);
 
-            ScaledResolution scaledResolution = mc.scaledResolution;
+        ScaledResolution scaledResolution = mc.scaledResolution;
 
-            lastScreen = selectedScreen;
-            timeInCategory.reset();
-            timeInCategory.setMillis(System.currentTimeMillis() - 150);
+        lastScreen = selectedScreen;
+        timeInCategory.reset();
+        timeInCategory.setMillis(System.currentTimeMillis() - 150);
 
-            Keyboard.enableRepeatEvents(true);
-            stopwatch.reset();
-            selectedScreen.onInit();
+        Keyboard.enableRepeatEvents(true);
+        stopwatch.reset();
+        selectedScreen.onInit();
 
-            if (this.position.x < 0 || this.position.y < 0 ||
-                    this.position.x + this.scale.x > scaledResolution.getScaledWidth() ||
-                    this.position.y + this.scale.y > scaledResolution.getScaledHeight()) {
-                this.position.x = scaledResolution.getScaledWidth() / 2f - this.scale.x / 2;
-                this.position.y = scaledResolution.getScaledHeight() / 2f - this.scale.y / 2;
-            }
+        if (this.position.x < 0 || this.position.y < 0 ||
+        		this.position.x + this.scale.x > scaledResolution.getScaledWidth() ||
+        		this.position.y + this.scale.y > scaledResolution.getScaledHeight()) {
+        	this.position.x = scaledResolution.getScaledWidth() / 2f - this.scale.x / 2;
+        	this.position.y = scaledResolution.getScaledHeight() / 2f - this.scale.y / 2;
+        }
 
-            moduleList.forEach(moduleComponent -> {
-                moduleComponent.getValueList().forEach(valueComponent -> {
-                    if (valueComponent instanceof NumberValueComponent) {
-                        ((NumberValueComponent) valueComponent).updateSliders();
-                    } else if (valueComponent instanceof BoundsNumberValueComponent) {
-                        ((BoundsNumberValueComponent) valueComponent).updateSliders();
-                    }
-                });
-            });
-        //});
-        
+        moduleList.forEach(moduleComponent -> {
+        	moduleComponent.getValueList().forEach(valueComponent -> {
+        		if (valueComponent instanceof NumberValueComponent) {
+        			((NumberValueComponent) valueComponent).updateSliders();
+        		} else if (valueComponent instanceof BoundsNumberValueComponent) {
+        			((BoundsNumberValueComponent) valueComponent).updateSliders();
+        		}
+        	});
+        });
         super.initGui();
     }
 
@@ -128,14 +125,11 @@ public class ClickGui extends GuiScreen implements Accessor, ThreadAccess {
     }
 
     public void render() {
-        scale = new Vector2f(400, 300);
-        renderGUI();
-    }
-
-    public void renderGUI() {
         if (mouse == null) {
             return;
         }
+        
+        scale = new Vector2f(400, 300);
 
         final Minecraft mc = Minecraft.getMinecraft();
 
@@ -189,7 +183,11 @@ public class ClickGui extends GuiScreen implements Accessor, ThreadAccess {
         /* Stop objects from going outside the ClickGUI */
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         int padding = 1;
-        RenderUtil.scissor(position.x * animationTime + translate.x + padding, position.y * animationTime + translate.y + padding, scale.x * animationTime - padding * 2, scale.y * animationTime - padding * 2);
+        RenderUtil.scissor(
+        		position.x * animationTime + translate.x + padding, 
+        		position.y * animationTime + translate.y + padding, 
+        		scale.x * animationTime - padding * 2, 
+        		scale.y * animationTime - padding * 2);
 
         GL11.glPushMatrix();
         GL11.glTranslated(0, 0, 0);

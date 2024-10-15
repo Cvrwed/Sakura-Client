@@ -7,13 +7,12 @@ import cc.unknown.Sakura;
 import cc.unknown.module.Module;
 import cc.unknown.module.impl.combat.*;
 import cc.unknown.module.impl.exploit.*;
-import cc.unknown.module.impl.ghost.*;
+import cc.unknown.module.impl.latency.*;
 import cc.unknown.module.impl.movement.*;
 import cc.unknown.module.impl.other.*;
 import cc.unknown.module.impl.player.*;
 import cc.unknown.module.impl.visual.*;
-import cc.unknown.module.impl.world.FastBreak;
-import cc.unknown.module.impl.world.Scaffold;
+import cc.unknown.module.impl.world.*;
 import cc.unknown.util.AdaptiveMap;
 
 public final class ModuleManager {
@@ -24,45 +23,42 @@ public final class ModuleManager {
         moduleMap = new AdaptiveMap<>();
 
         // Combat
-        this.put(AntiBot.class, new AntiBot());
         this.put(Criticals.class, new Criticals());
         this.put(KillAura.class, new KillAura());
-        this.put(BackTrack.class, new BackTrack());
         this.put(Velocity.class, new Velocity());
-        this.put(Regen.class, new Regen());
-
-        // Exploit
-        this.put(Disabler.class, new Disabler());
-        this.put(GodMode.class, new GodMode());
-        this.put(NoRotate.class, new NoRotate());
-        this.put(PingSpoof.class, new PingSpoof());
-        this.put(AntiExploit.class, new AntiExploit());
-
-        // Ghost
         this.put(AimAssist.class, new AimAssist());
         this.put(HitSelect.class, new HitSelect());
         this.put(AutoClicker.class, new AutoClicker());
         this.put(AutoBlock.class, new AutoBlock());
-        this.put(LegitScaffold.class, new LegitScaffold());
-        this.put(FastPlace.class, new FastPlace());
-        this.put(LagRange.class, new LagRange());
+        this.put(TickRange.class, new TickRange());
         this.put(HitBox.class, new HitBox());
-        this.put(KeepRange.class, new KeepRange());
-        this.put(NoClickDelay.class, new NoClickDelay());
+        this.put(STap.class, new STap());
+        this.put(Regen.class, new Regen());
         this.put(Reach.class, new Reach());
-        this.put(SafeWalk.class, new SafeWalk());
         this.put(WTap.class, new WTap());
+        
+        // Latency
+        this.put(BackTrack.class, new BackTrack());
+        this.put(PingSpoof.class, new PingSpoof());
+        
+        // Exploit
+        this.put(Disabler.class, new Disabler());
+        this.put(GodMode.class, new GodMode());
+        this.put(NoRotate.class, new NoRotate());
+        this.put(AntiExploit.class, new AntiExploit());
 
         // Movement
         this.put(Flight.class, new Flight());
         this.put(InventoryMove.class, new InventoryMove());
         this.put(NoClip.class, new NoClip());
+        this.put(AutoExtinguisher.class, new AutoExtinguisher());
         this.put(NoSlow.class, new NoSlow());
         this.put(NoJumpDelay.class, new NoJumpDelay());
         this.put(Speed.class, new Speed());
         this.put(Sneak.class, new Sneak());
         this.put(Sprint.class, new Sprint());
         this.put(Strafe.class, new Strafe());
+        this.put(Parkour.class, new Parkour());
         this.put(Stuck.class, new Stuck());
         this.put(NoWeb.class, new NoWeb());
         this.put(TargetStrafe.class, new TargetStrafe());
@@ -71,10 +67,15 @@ public final class ModuleManager {
         // World
         this.put(Scaffold.class, new Scaffold());
         this.put(FastBreak.class, new FastBreak());
+        this.put(AntiBot.class, new AntiBot());
+        this.put(FastPlace.class, new FastPlace());
+        this.put(LegitScaffold.class, new LegitScaffold());
+        this.put(SafeWalk.class, new SafeWalk());
 
         // Other
         this.put(AntiAFK.class, new AntiAFK());
         this.put(AutoPlay.class, new AutoPlay());
+        this.put(AutoRefill.class, new AutoRefill());
         this.put(Insults.class, new Insults());
         this.put(AutoLeave.class, new AutoLeave());
         this.put(MurderMystery.class, new MurderMystery());
@@ -88,6 +89,7 @@ public final class ModuleManager {
         this.put(AutoPot.class, new AutoPot());
         this.put(AutoTool.class, new AutoTool());
         this.put(Blink.class, new Blink());
+        this.put(NoClickDelay.class, new NoClickDelay());
         this.put(Breaker.class, new Breaker());
         this.put(FastUse.class, new FastUse());
         this.put(Manager.class, new Manager());

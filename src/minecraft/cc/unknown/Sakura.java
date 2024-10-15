@@ -1,5 +1,8 @@
 package cc.unknown;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import org.lwjgl.opengl.Display;
 
 import com.google.gson.Gson;
@@ -29,6 +32,7 @@ public enum Sakura {
 
     public static final String NAME = "Sakura";
     public static final String VERSION_FULL = "4.7";
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(4);
 
     private EventBus<Event> eventBus;
     private ModuleManager moduleManager;

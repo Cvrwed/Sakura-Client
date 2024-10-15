@@ -35,10 +35,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
-/**
- * @author Strikeless
- * @since 11.06.2022
- */
 public class PlayerAPI extends ScriptEntityLiving {
 
     public PlayerAPI() {

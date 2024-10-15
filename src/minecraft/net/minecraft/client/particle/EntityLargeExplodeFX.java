@@ -54,10 +54,10 @@ public class EntityLargeExplodeFX extends EntityFX {
             GlStateManager.disableLighting();
             RenderHelper.disableStandardItemLighting();
             worldRendererIn.begin(7, field_181549_az);
-            worldRendererIn.pos(f5 - p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 - p_180434_6_ * f4 - p_180434_8_ * f4).tex(f1, f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
-            worldRendererIn.pos(f5 - p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 - p_180434_6_ * f4 + p_180434_8_ * f4).tex(f1, f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
-            worldRendererIn.pos(f5 + p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 + p_180434_6_ * f4 + p_180434_8_ * f4).tex(f, f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
-            worldRendererIn.pos(f5 + p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 + p_180434_6_ * f4 - p_180434_8_ * f4).tex(f, f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+            worldRendererIn.pos(f5 - p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 - p_180434_6_ * f4 - p_180434_8_ * f4).tex(f1, f3).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+            worldRendererIn.pos(f5 - p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 - p_180434_6_ * f4 + p_180434_8_ * f4).tex(f1, f2).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+            worldRendererIn.pos(f5 + p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 + p_180434_6_ * f4 + p_180434_8_ * f4).tex(f, f2).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
+            worldRendererIn.pos(f5 + p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 + p_180434_6_ * f4 - p_180434_8_ * f4).tex(f, f3).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(0, 240).func_181663_c(0.0F, 1.0F, 0.0F).endVertex();
             Tessellator.getInstance().draw();
             GlStateManager.enableLighting();
         }

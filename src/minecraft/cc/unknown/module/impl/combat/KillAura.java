@@ -24,13 +24,13 @@ import cc.unknown.event.impl.motion.PreUpdateEvent;
 import cc.unknown.event.impl.motion.SlowDownEvent;
 import cc.unknown.event.impl.other.AttackEvent;
 import cc.unknown.event.impl.other.WorldChangeEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
 import cc.unknown.event.impl.render.MouseOverEvent;
 import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.event.impl.render.RenderItemEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.module.impl.movement.NoClip;
 import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.util.EvictingList;
 import cc.unknown.util.RayCastUtil;
@@ -52,10 +52,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemSword;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -132,7 +131,7 @@ public final class KillAura extends Module {
     private final StopWatch clickStopWatch = new StopWatch();
     private final StopWatch switchTimer = new StopWatch();
 
-    private boolean blocking;
+    public boolean blocking;
     
     private boolean allowAttack;
     private long nextSwing;
@@ -192,6 +191,8 @@ public final class KillAura extends Module {
     @EventLink
     public final Listener<Render3DEvent> onRender = event -> {
         if (esp.getValue() && target != null) {
+    		if (isClickGui()) return;
+
             final float partialTicks = mc.timer.renderPartialTicks;
 
             EntityLivingBase player = (EntityLivingBase) this.target;
@@ -339,8 +340,7 @@ public final class KillAura extends Module {
 
         if (getModule(Scaffold.class).isEnabled() && attackWhilstScaffolding.getValue()) {
             return;
-        }
-        
+        }        
         
         this.attack = Math.max(Math.min(this.attack, this.attack - 2), 0);
 
@@ -386,7 +386,6 @@ public final class KillAura extends Module {
         MovingObjectPosition movingObjectPosition = RayCastUtil.rayCast(rotations, range.getValue().floatValue(), -0.5f);
         return movingObjectPosition != null && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY;
         });
-
     };
 
     // We attack on an event after all others, because other modules may have overridden the rotations
@@ -452,7 +451,7 @@ public final class KillAura extends Module {
 	                        if ((mc.player.getDistanceToEntity(target) <= range && !rayCast.getValue()) || (rayCast.getValue() && movingObjectPosition != null && movingObjectPosition.entityHit == target)) {
 	                            this.attack(target);
 	                        } else if (movingObjectPosition != null && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
-	                            if (!(movingObjectPosition.entityHit instanceof EntityFireball))
+	                            if ((movingObjectPosition.entityHit instanceof EntityFireball))
 	                                this.attack((EntityLivingBase) movingObjectPosition.entityHit);
 	                        }
 	                    }
@@ -501,6 +500,9 @@ public final class KillAura extends Module {
                     return;
                 }
 
+                event.setCancelled();
+                break;
+            default:
                 event.setCancelled();
                 break;
         }
@@ -555,35 +557,37 @@ public final class KillAura extends Module {
                     this.block(true);
                 }
                 break;
-            case "Post":
-            	mc.gameSettings.keyBindUseItem.setPressed(false);
-            	break;
         }
     }
 
     private void preBlock() {
         switch (autoBlock.getValue().getName()) {
-        	case "Beta":
-                double range = PlayerUtil.calculatePerfectRangeToEntity(target);
-        	    Vec3 hitVec = new Vec3(target.posX, target.posY, target.posZ);
-        	    MovingObjectPosition movingObjectPosition = new MovingObjectPosition(target, hitVec);
-
-        		if (range < 2.9 && hitTicks <= 5 && mc.player.ticksSinceVelocity >= 5) {
-        			mc.playerController.sendUseItem(mc.player, mc.world, getComponent(Slot.class).getItemStack());
-        			if (Math.random() > 1) mc.playerController.interactWithEntitySendPacket(mc.player, movingObjectPosition.entityHit);
-        		} else {
-        			blocking = false;
-        		}
-        		break;
-            case "Post":
-            	mc.gameSettings.keyBindUseItem.setPressed(true);
-            	break;
+        case "Post":
+        case "Beta":
+            mc.player.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.player.inventory.currentItem % 8 + 1));
+            mc.player.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.player.inventory.currentItem));
+        	allowAttack = true;
+        	break;
         }
     }
 
     private void postBlock() {
         switch (autoBlock.getValue().getName()) {
-
+        case "Post":
+            if (PlayerUtil.isHoldingWeapon()) {
+            	mc.player.setItemInUse(getComponent(Slot.class).getItemStack(), 1);
+                mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(getComponent(Slot.class).getItemStack()));
+            } else {
+            	mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+            }
+            
+        	break;
+        case "Beta":
+        	if (PlayerUtil.isHoldingWeapon()) {
+	        	mc.player.setItemInUse(getComponent(Slot.class).getItemStack(), 1);
+	        	mc.playerController.sendUseItem(mc.player, mc.world, getComponent(Slot.class).getItemStack());
+        	}
+        	break;
         }
     }
     

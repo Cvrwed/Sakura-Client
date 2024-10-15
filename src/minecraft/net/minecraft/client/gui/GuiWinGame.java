@@ -153,10 +153,10 @@ public class GuiWinGame extends GuiScreen {
 
         f3 = f3 * f3;
         f3 = f3 * 96.0F / 255.0F;
-        worldrenderer.pos(0.0D, this.height, zLevel).tex(0.0D, f * f2).func_181666_a(f3, f3, f3, 1.0F).endVertex();
-        worldrenderer.pos(i, this.height, zLevel).tex((float) i * f2, f * f2).func_181666_a(f3, f3, f3, 1.0F).endVertex();
-        worldrenderer.pos(i, 0.0D, zLevel).tex((float) i * f2, f1 * f2).func_181666_a(f3, f3, f3, 1.0F).endVertex();
-        worldrenderer.pos(0.0D, 0.0D, zLevel).tex(0.0D, f1 * f2).func_181666_a(f3, f3, f3, 1.0F).endVertex();
+        worldrenderer.pos(0.0D, this.height, zLevel).tex(0.0D, f * f2).color(f3, f3, f3, 1.0F).endVertex();
+        worldrenderer.pos(i, this.height, zLevel).tex((float) i * f2, f * f2).color(f3, f3, f3, 1.0F).endVertex();
+        worldrenderer.pos(i, 0.0D, zLevel).tex((float) i * f2, f1 * f2).color(f3, f3, f3, 1.0F).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, zLevel).tex(0.0D, f1 * f2).color(f3, f3, f3, 1.0F).endVertex();
         tessellator.draw();
     }
 
@@ -209,10 +209,10 @@ public class GuiWinGame extends GuiScreen {
         final int j1 = this.width;
         final int k1 = this.height;
         worldrenderer.begin(7, DefaultVertexFormats.field_181709_i);
-        worldrenderer.pos(0.0D, k1, zLevel).tex(0.0D, 1.0D).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-        worldrenderer.pos(j1, k1, zLevel).tex(1.0D, 1.0D).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-        worldrenderer.pos(j1, 0.0D, zLevel).tex(1.0D, 0.0D).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-        worldrenderer.pos(0.0D, 0.0D, zLevel).tex(0.0D, 0.0D).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(0.0D, k1, zLevel).tex(0.0D, 1.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(j1, k1, zLevel).tex(1.0D, 1.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(j1, 0.0D, zLevel).tex(1.0D, 0.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, zLevel).tex(0.0D, 0.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
         tessellator.draw();
         GlStateManager.disableBlend();
         super.drawScreen(mouseX, mouseY, partialTicks);

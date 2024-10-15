@@ -76,7 +76,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
         }
     };
     public final EnumPacketDirection direction;
-    private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
+    public final static Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
     private final ReentrantReadWriteLock field_181680_j = new ReentrantReadWriteLock();
 
     /**
@@ -550,7 +550,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
         }
     }
 
-    static class InboundHandlerTuplePacketListener {
+    public static class InboundHandlerTuplePacketListener {
         private final Packet packet;
         private final GenericFutureListener<? extends Future<? super Void>>[] futureListeners;
 

@@ -11,7 +11,7 @@ import org.lwjgl.input.Mouse;
 
 import cc.unknown.Sakura;
 import cc.unknown.component.impl.player.RotationComponent;
-import cc.unknown.module.impl.ghost.AutoClicker;
+import cc.unknown.module.impl.combat.AutoClicker;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.math.MathUtil;
 import cc.unknown.util.rotation.RotationUtil;

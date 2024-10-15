@@ -3,10 +3,6 @@ package cc.unknown.script.api;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-/**
- * @author Alan
- * @since 11.06.2022
- */
 public class GameSettingsAPI extends API {
 
     public GameSettingsAPI() {

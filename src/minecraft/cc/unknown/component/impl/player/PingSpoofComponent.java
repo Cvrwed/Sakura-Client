@@ -112,7 +112,7 @@ public final class PingSpoofComponent extends Component {
 				enabled = false;
 
 				packets.forEach(packet -> {
-					if (packet.getTime().millis + amount < System.currentTimeMillis()) {
+					if (packet.getStopWatch().millis + amount < System.currentTimeMillis()) {
 						PacketUtil.queue(packet.getPacket());
 						packets.remove(packet);
 					}

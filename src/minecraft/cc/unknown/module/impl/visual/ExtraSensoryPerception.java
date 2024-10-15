@@ -19,6 +19,7 @@ import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.render.ColorUtil;
 import cc.unknown.util.render.RenderUtil;
 import cc.unknown.util.vector.Vector2d;
@@ -69,8 +70,8 @@ public final class ExtraSensoryPerception extends Module {
     
     @EventLink
     public final Listener<Render2DEvent> onRender2D = event -> {
-    	if (chamsESP.getValue()) return;
-    	
+		if (isClickGui()) return;
+		
         for (EntityPlayer player : mc.world.playerEntities) {
             if (mc.getRenderManager() == null || !isInViewFrustrum(player) || player.isDead || Sakura.instance.getBotManager().contains(player) || player == mc.player) {
                 continue;
@@ -138,6 +139,8 @@ public final class ExtraSensoryPerception extends Module {
     
     @EventLink
     public final Listener<Render3DEvent> onRender3D = event -> {
+		if (isClickGui()) return;
+
         if (chamsESP.getValue()) {
 	        for (EntityPlayer player : mc.world.playerEntities) {
 	            if (player == mc.player || player.isDead) {

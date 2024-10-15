@@ -105,10 +105,6 @@ import net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter;
 import net.minecraft.network.play.server.S48PacketResourcePackSend;
 import net.minecraft.network.play.server.S49PacketUpdateEntityNBT;
 
-/**
- * @author Strikeless
- * @since 11.06.2022
- */
 public class NetworkAPI extends API {
 
     public final static Class<Packet<INetHandlerPlayServer>>[] serverbound = new Class[]{

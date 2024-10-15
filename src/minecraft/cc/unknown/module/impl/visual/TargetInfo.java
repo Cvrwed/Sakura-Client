@@ -22,6 +22,7 @@ import cc.unknown.font.Weight;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.animation.Animation;
 import cc.unknown.util.font.Font;
 import cc.unknown.util.math.MathUtil;
@@ -88,6 +89,7 @@ public final class TargetInfo extends Module {
 
 	@EventLink
 	public final Listener<Render2DEvent> onRender2D = event -> {
+		if (isClickGui()) return;
 		if (target == null) {
 			return;
 		}

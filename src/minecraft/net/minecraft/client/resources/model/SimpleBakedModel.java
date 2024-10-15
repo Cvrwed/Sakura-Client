@@ -64,7 +64,7 @@ public class SimpleBakedModel implements IBakedModel {
         private final ItemCameraTransforms builderCameraTransforms;
 
         public Builder(final ModelBlock p_i46074_1_) {
-            this(p_i46074_1_.isAmbientOcclusion(), p_i46074_1_.isGui3d(), p_i46074_1_.func_181682_g());
+            this(p_i46074_1_.isAmbientOcclusion(), p_i46074_1_.isGui3d(), p_i46074_1_.getAllTransforms());
         }
 
         public Builder(final IBakedModel p_i46075_1_, final TextureAtlasSprite p_i46075_2_) {

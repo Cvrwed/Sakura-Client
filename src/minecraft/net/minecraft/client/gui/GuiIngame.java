@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+import cc.unknown.Sakura;
+import cc.unknown.event.impl.render.Render2DEvent;
 import cc.unknown.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -328,6 +330,7 @@ public class GuiIngame extends Gui {
 			GlStateManager.disableRescaleNormal();
 			GlStateManager.disableBlend();
 		}
+		
 	}
 
 	public void renderHorseJumpBar(ScaledResolution scaledRes, int x) {

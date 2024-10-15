@@ -35,7 +35,7 @@ import cc.unknown.module.impl.visual.HurtCamera;
 import cc.unknown.module.impl.visual.NoCameraClip;
 import cc.unknown.ui.menu.main.MainMenu;
 import cc.unknown.util.Accessor;
-import cc.unknown.util.render.RenderUtil;
+import cc.unknown.util.shader.ShaderUtil;
 import cc.unknown.util.time.StopWatch;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -1294,18 +1294,26 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
 				this.mc.mcProfiler.endStartSection("gui");
 
 				if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null) {
-					GlStateManager.alphaFunc(516, 0.1F);
-					this.mc.ingameGUI.renderGameOverlay(partialTicks);
+				    GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
+				    GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
-					Sakura.instance.getEventBus().handle(new Render2DEvent(mc.scaledResolution, partialTicks));
+				    this.mc.ingameGUI.renderGameOverlay(partialTicks);
 
-					if (this.mc.gameSettings.ofShowFps && !this.mc.gameSettings.showDebugInfo) {
-						Config.drawFps();
-					}
+				    GlStateManager.pushMatrix();
+				    Sakura.instance.getEventBus().handle(new Render2DEvent(mc.scaledResolution, partialTicks));
+				    GlStateManager.popMatrix();
 
-					if (this.mc.gameSettings.showDebugInfo) {
-						Lagometer.showLagometer(scaledresolution);
-					}
+				    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				    GlStateManager.disableLighting();
+				    GlStateManager.enableAlpha();
+
+				    if (this.mc.gameSettings.ofShowFps && !this.mc.gameSettings.showDebugInfo) {
+				        Config.drawFps();
+				    }
+
+				    if (this.mc.gameSettings.showDebugInfo) {
+				        Lagometer.showLagometer(scaledresolution);
+				    }
 				}
 
 				this.mc.mcProfiler.endSection();
@@ -2009,16 +2017,16 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
 								final int k3 = j3 >> 16 & 65535;
 								final int l3 = j3 & 65535;
 								worldrenderer.pos((double) l1 - d3 + 0.5D, k2, (double) k1 - d4 + 0.5D)
-										.tex(0.0D, (double) k2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3)
+										.tex(0.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3)
 										.func_181671_a(k3, l3).endVertex();
 								worldrenderer.pos((double) l1 + d3 + 0.5D, k2, (double) k1 + d4 + 0.5D)
-										.tex(1.0D, (double) k2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3)
+										.tex(1.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3)
 										.func_181671_a(k3, l3).endVertex();
 								worldrenderer.pos((double) l1 + d3 + 0.5D, l2, (double) k1 + d4 + 0.5D)
-										.tex(1.0D, (double) l2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3)
+										.tex(1.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3)
 										.func_181671_a(k3, l3).endVertex();
 								worldrenderer.pos((double) l1 - d3 + 0.5D, l2, (double) k1 - d4 + 0.5D)
-										.tex(0.0D, (double) l2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3)
+										.tex(0.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3)
 										.func_181671_a(k3, l3).endVertex();
 							}
 
@@ -2066,22 +2074,22 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
 
 								worldrenderer.pos((double) l1 - d3 + 0.5D, k2, (double) k1 - d4 + 0.5D)
 										.tex(0.0D + d9, (double) k2 * 0.25D + d8 + d10)
-										.func_181666_a(color.getRed() / 255F, color.getGreen() / 255F,
+										.color(color.getRed() / 255F, color.getGreen() / 255F,
 												color.getBlue() / 255F, f4)
 										.func_181671_a(j4, k4).endVertex();
 								worldrenderer.pos((double) l1 + d3 + 0.5D, k2, (double) k1 + d4 + 0.5D)
 										.tex(1.0D + d9, (double) k2 * 0.25D + d8 + d10)
-										.func_181666_a(color.getRed() / 255F, color.getGreen() / 255F,
+										.color(color.getRed() / 255F, color.getGreen() / 255F,
 												color.getBlue() / 255F, f4)
 										.func_181671_a(j4, k4).endVertex();
 								worldrenderer.pos((double) l1 + d3 + 0.5D, l2, (double) k1 + d4 + 0.5D)
 										.tex(1.0D + d9, (double) l2 * 0.25D + d8 + d10)
-										.func_181666_a(color.getRed() / 255F, color.getGreen() / 255F,
+										.color(color.getRed() / 255F, color.getGreen() / 255F,
 												color.getBlue() / 255F, f4)
 										.func_181671_a(j4, k4).endVertex();
 								worldrenderer.pos((double) l1 - d3 + 0.5D, l2, (double) k1 - d4 + 0.5D)
 										.tex(0.0D + d9, (double) l2 * 0.25D + d8 + d10)
-										.func_181666_a(color.getRed() / 255F, color.getGreen() / 255F,
+										.color(color.getRed() / 255F, color.getGreen() / 255F,
 												color.getBlue() / 255F, f4)
 										.func_181671_a(j4, k4).endVertex();
 							}

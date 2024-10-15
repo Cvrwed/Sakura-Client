@@ -30,14 +30,6 @@ public class MathUtil {
         }
     }
     
-    public static int randomizeInt(double min, double max) {
-        return (int) randomizeDouble(min, max);
-    }
-
-    public static double randomizeDouble(double min, double max) {
-        return Math.random() * (max - min) + min;
-    }
-
     public double roundWithSteps(final double value, final double steps) {
         double a = ((Math.round(value / steps)) * steps);
         a *= 1000;

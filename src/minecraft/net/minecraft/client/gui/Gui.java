@@ -137,10 +137,10 @@ public class Gui {
         final Tessellator tessellator = Tessellator.getInstance();
         final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos(right, top, zLevel).func_181666_a(f1, f2, f3, f).endVertex();
-        worldrenderer.pos(left, top, zLevel).func_181666_a(f1, f2, f3, f).endVertex();
-        worldrenderer.pos(left, bottom, zLevel).func_181666_a(f5, f6, f7, f4).endVertex();
-        worldrenderer.pos(right, bottom, zLevel).func_181666_a(f5, f6, f7, f4).endVertex();
+        worldrenderer.pos(right, top, zLevel).color(f1, f2, f3, f).endVertex();
+        worldrenderer.pos(left, top, zLevel).color(f1, f2, f3, f).endVertex();
+        worldrenderer.pos(left, bottom, zLevel).color(f5, f6, f7, f4).endVertex();
+        worldrenderer.pos(right, bottom, zLevel).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();

@@ -7,14 +7,11 @@ import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.motion.MotionEvent;
 import cc.unknown.event.impl.motion.SlowDownEvent;
-import cc.unknown.event.impl.other.TickEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
-import cc.unknown.util.chat.ChatUtil;
+import cc.unknown.module.impl.combat.KillAura;
 import cc.unknown.util.packet.PacketUtil;
-import cc.unknown.util.player.MoveUtil;
 import cc.unknown.util.time.StopWatch;
 import cc.unknown.value.impl.BooleanValue;
 import cc.unknown.value.impl.NumberValue;
@@ -24,12 +21,10 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0CPacketInput;
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
@@ -169,13 +164,14 @@ public class NoSlow extends Module {
 	    if (!isInGame()) return;
 	    ItemStack currentItem = getComponent(Slot.class).getItemStack();
 	    if (currentItem == null) return;
-
-	    boolean useItemPressed = mc.gameSettings.keyBindUseItem.pressed;
-	    if (mc.currentScreen == null && !mc.gameSettings.keyBindUseItem.pressed) {
+	    
+	    
+	    //boolean useItemPressed = mc.player.getHeldItem().;
+	    /*if (mc.currentScreen == null && !mc.gameSettings.keyBindUseItem.pressed || mc.player.isBlocking() || !getModule(KillAura.class).blocking) {
 	        handleKeyPresses();
-	    }
+	    }*/
 
-        if (useItemPressed && mc.player.getItemInUseDuration() == 1) {
+        if (mc.player.getItemInUseDuration() == 1) {
         	if (event.isPre()) {
         		if (currentItem.getItem() instanceof ItemSword) {
         			if (swordC08Pre.getValue()) sendC08();

@@ -447,7 +447,7 @@ public class WorldRenderer {
         this.needsUpdate = true;
     }
 
-    public WorldRenderer func_181666_a(final float p_181666_1_, final float p_181666_2_, final float p_181666_3_, final float p_181666_4_) {
+    public WorldRenderer color(final float p_181666_1_, final float p_181666_2_, final float p_181666_3_, final float p_181666_4_) {
         return this.func_181669_b((int) (p_181666_1_ * 255.0F), (int) (p_181666_2_ * 255.0F), (int) (p_181666_3_ * 255.0F), (int) (p_181666_4_ * 255.0F));
     }
 

@@ -1,5 +1,8 @@
 package cc.unknown.module.impl.combat;
 
+import java.util.concurrent.TimeUnit;
+
+import cc.unknown.Sakura;
 import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
@@ -9,15 +12,15 @@ import cc.unknown.event.impl.packet.PacketEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.util.chat.ChatUtil;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.impl.BooleanValue;
+import cc.unknown.value.impl.BoundsNumberValue;
 import cc.unknown.value.impl.ModeValue;
 import cc.unknown.value.impl.NumberValue;
 import cc.unknown.value.impl.SubMode;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.util.MathHelper;
 
 @ModuleInfo(aliases = "Velocity", description = "Uses heavy dick and balls to drag across the floor to reduce velocity.", category = Category.COMBAT)
 public final class Velocity extends Module {
@@ -31,9 +34,10 @@ public final class Velocity extends Module {
 
 	private final NumberValue horizontal = new NumberValue("Horizontal", this, 0, 0, 100, 1, () -> !mode.is("Simple"));
 	private final NumberValue vertical = new NumberValue("Vertical", this, 0, 0, 100, 1, () -> !mode.is("Simple"));
-	private final NumberValue chance = new NumberValue("Chance", this, 100, 0, 100, 1);
+	
+	private final NumberValue chance = new NumberValue("Chance", this, 100, 0, 100, 1, () -> mode.is("Jump"));
+	
 	private final BooleanValue onSwing = new BooleanValue("On Swing", this, false);
-
 	public final BooleanValue legitTiming = new BooleanValue("Legit Timing", this, true, () -> !mode.is("Legit"));
 
 	private boolean reduced;
@@ -48,11 +52,11 @@ public final class Velocity extends Module {
 		if ((onSwing.getValue() && !mc.player.isSwingInProgress) || event.isCancelled()) {
 			return;
 		}
-
+		
 		if (chance.getValue().intValue() != 100 && Math.random() >= chance.getValue().doubleValue() / 100.0) {
 			return;
 		}
-
+		
 		final Packet<?> p = event.getPacket();
 
 		final double horizontal = this.horizontal.getValue().doubleValue();
@@ -87,39 +91,16 @@ public final class Velocity extends Module {
 						event.setPacket(wrapper);
 						break;
 	
+					case "Legit":
+						if (mc.player.onGround && wrapper.motionY > 0) {
+							if (!legitTiming.getValue() || mc.player.ticksSinceVelocity <= 14 || mc.player.onGroundTicks <= 1) {
+								reduced = true;
+							}
+						}
+						break;
 					case "Polar":
 						if (mc.player.hurtTime >= 5 && mc.player.onGround) {
 							mc.player.jump();
-						}
-	
-						if (mc.player.hurtTime >= 5) {
-							double multi = 1.2224324D;
-							double min = 0.1D;
-							double max = 0.2D;
-	
-							if (MoveUtil.isMoving() && mc.player.onGround
-									&& (Math.abs(mc.player.motionX) > min && Math.abs(mc.player.motionZ) > min)
-									&& (Math.abs(mc.player.motionX) < max && Math.abs(mc.player.motionZ) < max)) {
-								mc.player.motionX /= Math.sin(multi) * min;
-								mc.player.motionZ /= Math.cos(multi) * max;
-							}
-	
-							mc.player.motionX -= 0.605001;
-							mc.player.motionY -= 0.727;
-							mc.player.motionZ -= 0.605001;
-						} else if (!mc.player.onGround) {
-							mc.player.motionX -= 0.305001;
-							mc.player.motionY -= 0.095;
-							mc.player.motionZ -= 0.305001;
-						}
-						break;
-	
-					case "Legit":
-						if (mc.player.onGround && wrapper.motionY > 0) {
-							if (!legitTiming.getValue() || mc.player.ticksSinceVelocity <= 14
-									|| mc.player.onGroundTicks <= 1) {
-								reduced = true;
-							}
 						}
 						break;
 	
@@ -141,10 +122,6 @@ public final class Velocity extends Module {
 		if (event.isPre()) {
 			String name = mode.getValue().getName();
 
-			if (chance.getValue().intValue() != 100 && Math.random() >= chance.getValue().doubleValue() / 100.0) {
-				return;
-			}
-
 			if (name.equals("Legit")) {
 				reduced = false;
 			}
@@ -156,11 +133,7 @@ public final class Velocity extends Module {
 		String name = mode.getValue().getName();
 
 		if (name.equals("Legit")) {
-			if (onSwing.getValue() && !mc.player.isSwingInProgress) {
-				return;
-			}
-
-			if (reduced && MoveUtil.isMoving() && Math.random() * 100 < chance.getValue().doubleValue()) {
+			if (reduced && MoveUtil.isMoving()) {
 				event.setJump(true);
 			}
 		}

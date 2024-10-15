@@ -33,7 +33,7 @@ public final class ClickGUI extends Module {
 
     @EventLink(value = Priority.HIGH)
     public final Listener<Render2DEvent> onRender2D = event -> {
-        Sakura.instance.getClickGui().render();;
+        Sakura.instance.getClickGui().render();
     };
 
     @EventLink

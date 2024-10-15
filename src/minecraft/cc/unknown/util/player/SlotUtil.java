@@ -17,9 +17,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
@@ -62,6 +65,24 @@ public class SlotUtil implements Accessor {
 
         return -1;
     }
+    
+	private boolean holdWaterBucket() {
+		if (this.containsItem(mc.player.getHeldItem(), Items.water_bucket)) {
+			return true;
+		} else {
+			for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
+				if (this.containsItem(mc.player.inventory.mainInventory[i], Items.water_bucket)) {
+					mc.player.inventory.currentItem = i;
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	
+	private boolean containsItem(ItemStack itemStack, Item item) {
+		return itemStack != null && itemStack.getItem() == item;
+	}
     
     /**
      * Gets and returns a slot of the best sword

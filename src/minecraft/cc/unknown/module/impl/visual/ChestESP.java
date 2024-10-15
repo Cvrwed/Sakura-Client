@@ -10,6 +10,7 @@ import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.render.RenderUtil;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.tileentity.TileEntity;
@@ -21,6 +22,8 @@ public final class ChestESP extends Module {
 
 	@EventLink
 	public final Listener<Render3DEvent> onRender3D = event -> {
+		if (isClickGui()) return;
+		
 		final Runnable runnable = () -> {
 			GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 			GL11.glPushMatrix();

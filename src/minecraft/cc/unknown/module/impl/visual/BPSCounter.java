@@ -11,6 +11,7 @@ import cc.unknown.font.Weight;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.math.MathUtil;
 import cc.unknown.util.render.RenderUtil;
 import cc.unknown.util.vector.Vector2d;
@@ -36,8 +37,10 @@ public final class BPSCounter extends Module {
 
     @EventLink
     public final Listener<Render2DEvent> onRender2D = event -> {
-        Vector2d position = this.position.position;
+		if (isClickGui()) return;
 
+    	Vector2d position = this.position.position;
+		
         final String titleString = "BPS ";
         final String bpsString = speed;
 

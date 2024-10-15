@@ -18,6 +18,7 @@ import cc.unknown.font.Weight;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.render.ColorUtil;
 import cc.unknown.util.render.RenderUtil;
 import cc.unknown.util.vector.Vector2d;
@@ -59,9 +60,10 @@ public final class SessionStats extends Module {
 
 	@EventLink
 	public final Listener<Render2DEvent> onRender2D = event -> {
+		if (isClickGui()) return;
+
 		double padding = 8;
 		position.scale = new Vector2d(200 - 70, 100 - 45);
-		if (mc.gameSettings.showDebugInfo) return;
 
 		// Draw all the text itself
 		RenderUtil.roundedRectangle(position.position.x, position.position.y, position.scale.x, position.scale.y, 11, ColorUtil.withAlpha(Color.black, 100));

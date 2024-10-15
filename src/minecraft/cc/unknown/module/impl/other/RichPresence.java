@@ -144,7 +144,7 @@ public class RichPresence extends Module {
                 .setDetails(serverName)
                 .setBigImage(DEFAULT_IMAGE, bigText)
                 .setStartTimestamps(System.currentTimeMillis())
-                .setParty(UUID.randomUUID().toString(), 1, 5000)
+                .setParty(UUID.randomUUID().toString(), 1, 4)
                 .setSecrets(UUID.randomUUID().toString(), "https://dc.zornhub.xyz/")
                 .build();
     }

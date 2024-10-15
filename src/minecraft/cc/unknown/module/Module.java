@@ -56,6 +56,7 @@ public abstract class Module implements Accessor, ThreadAccess, Toggleable, Bind
         return aliases[0];
     }
 
+    @Override
     public void onKey() {
         this.toggle();
     }
@@ -65,10 +66,19 @@ public abstract class Module implements Accessor, ThreadAccess, Toggleable, Bind
         return key;
     }
 
+    @Override
     public void toggle() {
         this.setEnabled(!enabled);
     }
 
+    @Override
+    public void onEnable() {
+    }
+
+    @Override
+    public void onDisable() {
+    }
+    
     public void setEnabled(final boolean enabled) {
         if (this.enabled == enabled || (!this.moduleInfo.allowDisable() && !enabled)) {
             return;
@@ -84,7 +94,7 @@ public abstract class Module implements Accessor, ThreadAccess, Toggleable, Bind
             superDisable();
         }
     }
-
+    
     public final void superEnable() {
         Sakura.instance.getEventBus().register(this);
 
@@ -121,12 +131,6 @@ public abstract class Module implements Accessor, ThreadAccess, Toggleable, Bind
                 });
 
         this.onDisable();
-    }
-
-    public void onEnable() {
-    }
-
-    public void onDisable() {
     }
 
     public List<Value<?>> getAllValues() {

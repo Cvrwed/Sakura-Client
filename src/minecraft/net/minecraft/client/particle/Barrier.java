@@ -38,10 +38,10 @@ public class Barrier extends EntityFX {
         final int i = this.getBrightnessForRender(partialTicks);
         final int j = i >> 16 & 65535;
         final int k = i & 65535;
-        worldRendererIn.pos(f5 - p_180434_4_ * 0.5F - p_180434_7_ * 0.5F, f6 - p_180434_5_ * 0.5F, f7 - p_180434_6_ * 0.5F - p_180434_8_ * 0.5F).tex(f1, f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
-        worldRendererIn.pos(f5 - p_180434_4_ * 0.5F + p_180434_7_ * 0.5F, f6 + p_180434_5_ * 0.5F, f7 - p_180434_6_ * 0.5F + p_180434_8_ * 0.5F).tex(f1, f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
-        worldRendererIn.pos(f5 + p_180434_4_ * 0.5F + p_180434_7_ * 0.5F, f6 + p_180434_5_ * 0.5F, f7 + p_180434_6_ * 0.5F + p_180434_8_ * 0.5F).tex(f, f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
-        worldRendererIn.pos(f5 + p_180434_4_ * 0.5F - p_180434_7_ * 0.5F, f6 - p_180434_5_ * 0.5F, f7 + p_180434_6_ * 0.5F - p_180434_8_ * 0.5F).tex(f, f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
+        worldRendererIn.pos(f5 - p_180434_4_ * 0.5F - p_180434_7_ * 0.5F, f6 - p_180434_5_ * 0.5F, f7 - p_180434_6_ * 0.5F - p_180434_8_ * 0.5F).tex(f1, f3).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
+        worldRendererIn.pos(f5 - p_180434_4_ * 0.5F + p_180434_7_ * 0.5F, f6 + p_180434_5_ * 0.5F, f7 - p_180434_6_ * 0.5F + p_180434_8_ * 0.5F).tex(f1, f2).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
+        worldRendererIn.pos(f5 + p_180434_4_ * 0.5F + p_180434_7_ * 0.5F, f6 + p_180434_5_ * 0.5F, f7 + p_180434_6_ * 0.5F + p_180434_8_ * 0.5F).tex(f, f2).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
+        worldRendererIn.pos(f5 + p_180434_4_ * 0.5F - p_180434_7_ * 0.5F, f6 - p_180434_5_ * 0.5F, f7 + p_180434_6_ * 0.5F - p_180434_8_ * 0.5F).tex(f, f3).color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F).func_181671_a(j, k).endVertex();
     }
 
     public static class Factory implements IParticleFactory {

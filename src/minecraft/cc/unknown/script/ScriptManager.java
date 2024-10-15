@@ -30,7 +30,7 @@ import cc.unknown.script.api.NetworkAPI;
 import cc.unknown.script.api.PacketAPI;
 import cc.unknown.script.api.PlayerAPI;
 import cc.unknown.script.api.RenderAPI;
-import cc.unknown.script.api.SakuraAPI;
+import cc.unknown.script.api.ScriptAPI;
 import cc.unknown.script.api.WorldAPI;
 import cc.unknown.script.util.ScriptClassFilter;
 import cc.unknown.util.Accessor;
@@ -103,7 +103,7 @@ public final class ScriptManager implements Accessor {
         // Create new global bindings
         this.globalBindings = new SimpleBindings() {{
             this.put("mc", new MinecraftAPI());
-            this.put("sakura", new SakuraAPI());
+            this.put("script", new ScriptAPI());
             this.put("player", new PlayerAPI());
             this.put("world", new WorldAPI());
             this.put("network", new NetworkAPI());

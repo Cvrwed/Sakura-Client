@@ -10,6 +10,7 @@ import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.render.ColorUtil;
 import cc.unknown.util.render.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,7 +21,9 @@ public final class Tracers extends Module {
 
     @EventLink
     public final Listener<Render3DEvent> onRender3D = event -> {
-        if (mc.gameSettings.hideGUI) {
+		if (isClickGui()) return;
+		
+		if (mc.gameSettings.hideGUI) {
             return;
         }
 

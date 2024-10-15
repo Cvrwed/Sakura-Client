@@ -62,9 +62,6 @@ public final class PacketUtil implements Accessor {
 	public static void correctBlockCount(PacketEvent event) { // rewrite
 		if (mc.player == null || mc.player.isDead)
 			return;
-		if (!event.isReceive())
-			return;
-
 		Packet<?> packet = event.getPacket();
 
 		if (packet instanceof S2FPacketSetSlot) {

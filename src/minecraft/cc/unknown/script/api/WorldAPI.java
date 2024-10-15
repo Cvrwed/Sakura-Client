@@ -11,10 +11,6 @@ import cc.unknown.script.api.wrapper.impl.ScriptWorld;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockPos;
 
-/**
- * @author Strikeless
- * @since 20.06.2022
- */
 public class WorldAPI extends ScriptWorld {
 
     public WorldAPI() {

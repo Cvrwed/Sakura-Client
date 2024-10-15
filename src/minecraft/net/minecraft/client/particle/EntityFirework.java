@@ -38,10 +38,10 @@ public class EntityFirework {
             final int i = this.getBrightnessForRender(partialTicks);
             final int j = i >> 16 & 65535;
             final int k = i & 65535;
-            worldRendererIn.pos(f5 - p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 - p_180434_6_ * f4 - p_180434_8_ * f4).tex(0.5D, 0.375D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
-            worldRendererIn.pos(f5 - p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 - p_180434_6_ * f4 + p_180434_8_ * f4).tex(0.5D, 0.125D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
-            worldRendererIn.pos(f5 + p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 + p_180434_6_ * f4 + p_180434_8_ * f4).tex(0.25D, 0.125D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
-            worldRendererIn.pos(f5 + p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 + p_180434_6_ * f4 - p_180434_8_ * f4).tex(0.25D, 0.375D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+            worldRendererIn.pos(f5 - p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 - p_180434_6_ * f4 - p_180434_8_ * f4).tex(0.5D, 0.375D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+            worldRendererIn.pos(f5 - p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 - p_180434_6_ * f4 + p_180434_8_ * f4).tex(0.5D, 0.125D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+            worldRendererIn.pos(f5 + p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 + p_180434_6_ * f4 + p_180434_8_ * f4).tex(0.25D, 0.125D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+            worldRendererIn.pos(f5 + p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 + p_180434_6_ * f4 - p_180434_8_ * f4).tex(0.25D, 0.375D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
         }
     }
 

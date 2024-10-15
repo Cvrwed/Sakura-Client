@@ -18,6 +18,7 @@ import cc.unknown.font.Weight;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.font.Font;
 import cc.unknown.util.font.impl.minecraft.FontRenderer;
 import cc.unknown.util.player.PlayerUtil;
@@ -55,7 +56,9 @@ public final class NameTags extends Module {
     public final Listener<WorldChangeEvent> onWorldChange = event -> nameWidths.clear();
     
     @EventLink
-    public final Listener<Render2DEvent> onRender2D = event -> {        
+    public final Listener<Render2DEvent> onRender2D = event -> {
+		if (isClickGui()) return;
+		
         for (EntityPlayer player : mc.world.playerEntities) {
             if (!player.isEntityAlive() || !RenderUtil.isInViewFrustrum(player)) {
                 continue;

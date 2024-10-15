@@ -1,8 +1,10 @@
 package cc.unknown.module.impl.movement;
 
+import cc.unknown.event.CancellableEvent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.motion.PushOutOfBlockEvent;
 import cc.unknown.event.impl.other.BlockAABBEvent;
 import cc.unknown.event.impl.other.TickEvent;
 import cc.unknown.event.impl.packet.PacketEvent;
@@ -12,7 +14,9 @@ import cc.unknown.module.api.ModuleInfo;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.impl.ModeValue;
 import cc.unknown.value.impl.SubMode;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.AxisAlignedBB;
@@ -81,6 +85,19 @@ public class Spider extends Module {
 					event.setPosZ(event.getPosZ() - MathHelper.cos((float) yaw) * 0.1f);
 				}
 			}
+			
+			if (mode.is("polar")) {
+		        if (mc.player.isCollidedHorizontally && !insideBlock()) {
+		            double yaw = MoveUtil.direction();
+		            mc.player.setPosition(
+		                    mc.player.posX + -MathHelper.sin((float) yaw) * 0.05,
+		                    mc.player.posY,
+		                    mc.player.posZ + MathHelper.cos((float) yaw) * 0.05
+		            );
+		            MoveUtil.stop();
+		            mc.gameSettings.keyBindForward.setPressed(false);
+		        }
+			}
 		}
 	};
 
@@ -94,10 +111,7 @@ public class Spider extends Module {
 			}
 
 			if (mc.player == null) return;
-			AxisAlignedBB playerBoundingBox = mc.player.getEntityBoundingBox();
-			if (playerBoundingBox == null)
-				return;
-			boolean isInsideBlock = collideBlockIntersects(playerBoundingBox, null);
+			boolean isInsideBlock = insideBlock();
 			float motion = 0.0F;
 			if (isInsideBlock && motion != 0.0F)
 				mc.player.motionY = motion;
@@ -105,11 +119,14 @@ public class Spider extends Module {
 	};
 
 	@EventLink
-	public final Listener<BlockAABBEvent> onBlockBB = e -> {
+	public final Listener<BlockAABBEvent> onBlockBB = event -> {
 		if (mode.is("polar")) {
-			if (mc.player == null) return;
-			if (e.getBlockPos().getY() > mc.player.posY)
-				e.setBoundingBox(null);
+	        if (insideBlock()) {
+	            BlockPos playerPos = new BlockPos(mc.player);
+	            BlockPos blockPos = event.getBlockPos();
+	            if (blockPos.getY() > playerPos.getY())
+	                event.setBoundingBox(null);
+	        }
 		}
 	};
 
@@ -134,26 +151,27 @@ public class Spider extends Module {
 		}
 	};
 
-	private boolean collideBlockIntersects(AxisAlignedBB axisAlignedBB, Collidable collide) {
-		try {
-			for (int x = (int)axisAlignedBB.minX; x < (int)axisAlignedBB.maxX + 1; x++) {
-				for (int z = (int)axisAlignedBB.minZ; z < (int)axisAlignedBB.maxZ + 1; z++) {
-					BlockPos blockPos = new BlockPos(x, (int)axisAlignedBB.minY, z);
-					IBlockState blockState = mc.world.getBlockState(blockPos);
-					if (collide.test(blockState)) {
-						AxisAlignedBB boundingBox = blockState.getBlock().getCollisionBoundingBox(mc.world, blockPos, blockState);
-						if (boundingBox != null && axisAlignedBB.intersectsWith(boundingBox))
-							return true;
-					}
-				}
-			}
-		} catch (NullPointerException ignored) {
+    private boolean insideBlock(final AxisAlignedBB bb) {
+        final WorldClient world = mc.world;
+        for (int x = MathHelper.floor_double(bb.minX); x < MathHelper.floor_double(bb.maxX) + 1; ++x) {
+            for (int y = MathHelper.floor_double(bb.minY); y < MathHelper.floor_double(bb.maxY) + 1; ++y) {
+                for (int z = MathHelper.floor_double(bb.minZ); z < MathHelper.floor_double(bb.maxZ) + 1; ++z) {
+                    final Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
+                    final AxisAlignedBB boundingBox;
+                    if (block != null && !(block instanceof BlockAir) && (boundingBox = block.getCollisionBoundingBox(world, new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)))) != null && bb.intersectsWith(boundingBox)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    private boolean insideBlock() {
+        if (mc.player.ticksExisted < 5) {
+            return false;
+        }
 
-		}
-		return false;
-	}
-
-	private interface Collidable {
-		boolean test(IBlockState param1IBlockState);
-	}
+        return insideBlock(mc.player.getEntityBoundingBox());
+    }
 }

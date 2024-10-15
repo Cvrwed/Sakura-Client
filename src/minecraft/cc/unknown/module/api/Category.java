@@ -10,10 +10,10 @@ import lombok.Getter;
 public enum Category {
     HOME("Home", new HomeScreen()),
     COMBAT("Combat", new CategoryScreen()),
+    LATENCY("Latency", new CategoryScreen()),
     PLAYER("Player", new CategoryScreen()),
     MOVEMENT("Move", new CategoryScreen()),
     OTHER("Other", new CategoryScreen()),
-    GHOST("Ghost", new CategoryScreen()),
     VISUALS("Visuals", new CategoryScreen()),
     EXPLOIT("Exploit", new CategoryScreen()),
     WORLD("World", new CategoryScreen()),

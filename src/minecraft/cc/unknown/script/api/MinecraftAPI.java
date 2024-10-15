@@ -2,10 +2,6 @@ package cc.unknown.script.api;
 
 import net.minecraft.client.Minecraft;
 
-/**
- * @author Strikeless
- * @since 11.06.2022
- */
 public class MinecraftAPI extends API {
 
     public int getDisplayWidth() {

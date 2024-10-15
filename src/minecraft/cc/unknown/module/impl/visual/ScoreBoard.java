@@ -16,6 +16,7 @@ import cc.unknown.event.impl.render.Render2DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.font.impl.minecraft.FontRenderer;
 import cc.unknown.util.render.RenderUtil;
 import cc.unknown.util.vector.Vector2d;
@@ -39,8 +40,9 @@ public final class ScoreBoard extends Module {
     private final int padding = 3;
     private final int fontHeight = FontRenderer.FONT_HEIGHT;
 
-    @EventLink()
+    @EventLink
     public final Listener<Render2DEvent> onRender2D = event -> {
+		if (isClickGui()) return;
         if (this.scoreObjective == null) return;
 
         final Vector2i position = new Vector2i((int) this.position.position.x, (int) this.position.position.y);
