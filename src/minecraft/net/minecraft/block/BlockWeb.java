@@ -5,7 +5,7 @@ import java.util.Random;
 import com.ibm.icu.impl.duration.impl.Utils;
 
 import cc.unknown.Sakura;
-import cc.unknown.event.impl.motion.BlockWebEvent;
+import cc.unknown.event.impl.player.BlockWebEvent;
 import cc.unknown.util.Accessor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

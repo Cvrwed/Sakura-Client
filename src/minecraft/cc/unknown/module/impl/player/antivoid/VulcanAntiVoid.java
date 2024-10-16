@@ -2,12 +2,12 @@ package cc.unknown.module.impl.player.antivoid;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.JumpEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
-import cc.unknown.event.impl.other.BlockAABBEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.event.impl.other.WorldChangeEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.player.BlockAABBEvent;
+import cc.unknown.event.impl.player.JumpEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.impl.movement.Flight;
 import cc.unknown.module.impl.movement.Speed;
 import cc.unknown.module.impl.player.AntiVoid;
@@ -43,35 +43,33 @@ public class VulcanAntiVoid extends Mode<AntiVoid> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-
-			if (flight == null) {
-				flight = getModule(Flight.class);
-			}
-			if (speed == null) {
-				speed = getModule(Speed.class);
-			}
-			
-			if (mc.player.fallDistance > distance.getValue().floatValue() && !PlayerUtil.isBlockUnder()) {
-
-				noBlock = true;
-			}
-
-			if (flight.isEnabled()) {
-				noBlock = false;
-			}
-
-			if (speed.isEnabled() && noBlock) {
-				speedWasEnabled = true;
-				speed.toggle();
-			}
-
-			if (!noBlock && !(speed.isEnabled()) && speedWasEnabled) {
-				speed.toggle();
-				speedWasEnabled = false;
-			}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (flight == null) {
+			flight = getModule(Flight.class);
 		}
+		if (speed == null) {
+			speed = getModule(Speed.class);
+		}
+
+		if (mc.player.fallDistance > distance.getValue().floatValue() && !PlayerUtil.isBlockUnder()) {
+
+			noBlock = true;
+		}
+
+		if (flight.isEnabled()) {
+			noBlock = false;
+		}
+
+		if (speed.isEnabled() && noBlock) {
+			speedWasEnabled = true;
+			speed.toggle();
+		}
+
+		if (!noBlock && !(speed.isEnabled()) && speedWasEnabled) {
+			speed.toggle();
+			speedWasEnabled = false;
+		}
+
 	};
 
 	@EventLink
@@ -93,7 +91,7 @@ public class VulcanAntiVoid extends Mode<AntiVoid> {
 	};
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		if (noBlock) {
 			MoveUtil.strafe(.1);
 			if (mc.player.ticksExisted % 2 == 1 || !(mc.player.moveForward == 0)) {
@@ -109,7 +107,8 @@ public class VulcanAntiVoid extends Mode<AntiVoid> {
 	@EventLink
 	public final Listener<PacketEvent> onPacketReceive = event -> {
 		Packet<?> packet = event.getPacket();
-	    if (!event.isReceive()) return;
+		if (!event.isReceive())
+			return;
 
 		if (packet instanceof S08PacketPlayerPosLook) {
 			S08PacketPlayerPosLook posLook = ((S08PacketPlayerPosLook) packet);

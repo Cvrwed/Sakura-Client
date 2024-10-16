@@ -10,7 +10,7 @@ import com.mojang.authlib.GameProfile;
 
 import cc.unknown.Sakura;
 import cc.unknown.component.impl.player.Slot;
-import cc.unknown.event.impl.motion.HitSlowDownEvent;
+import cc.unknown.event.impl.player.HitSlowDownEvent;
 import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.time.StopWatch;

@@ -10,18 +10,16 @@ import org.apache.commons.lang3.RandomUtils;
 import cc.unknown.component.impl.player.BadPacketsComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.other.AttackEvent;
 import cc.unknown.event.impl.other.WorldChangeEvent;
+import cc.unknown.event.impl.player.AttackEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
 import cc.unknown.util.player.PlayerUtil;
 import cc.unknown.value.impl.BooleanValue;
-import cc.unknown.value.impl.ModeValue;
 import cc.unknown.value.impl.NumberValue;
 import cc.unknown.value.impl.StringValue;
-import cc.unknown.value.impl.SubMode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -35,63 +33,52 @@ public final class Insults extends Module {
 	private final BooleanValue randomizer = new BooleanValue("Randomizer", this, false);
 	private final BooleanValue autoTell = new BooleanValue("Auto Tell", this, false);
 
-	private final String[] defaultInsults = { 
-			"Akemi Client esta en otro level %s", 
-			"Config issue %s",
-			"Eso te paso por no usar Akemi Client, bobo %s", 
-			"Deberias simplemente descargar Akemi Client %s",
+	private final String[] defaultInsults = { "Akemi Client esta en otro level %s", "Config issue %s",
+			"Eso te paso por no usar Akemi Client, bobo %s", "Deberias simplemente descargar Akemi Client %s",
 			"Esto no se te da, descarga Akemi Client anda. %s",
 			"No, no puedo ganar sin hacks, solo con Akemi Client! %s",
-			"Antes de insultarme al tell mejor descarga Akemi Client! %s", 
-			"He-he-headshot!",
-			"Que puedo decir, Akemi Client me da poderes %s", 
-			"Akemi Client 1 - %s 0",
-			"Eso te pasa por no descargar Akemi Client muajaj! %s", 
-			"Deberias descargar akemi cliente yperra %s",
-			"Jajaja que malo eres %s", 
-			"Puta de yMierda %s", 
-			"Du Schweinehund %s", 
-			};
+			"Antes de insultarme al tell mejor descarga Akemi Client! %s", "He-he-headshot!",
+			"Que puedo decir, Akemi Client me da poderes %s", "Akemi Client 1 - %s 0",
+			"Eso te pasa por no descargar Akemi Client muajaj! %s", "Deberias descargar akemi cliente yperra %s",
+			"Jajaja que malo eres %s", "Puta de yMierda %s", "Du Schweinehund %s", };
 
 	private EntityPlayer target;
 	private int ticks;
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (target != null && !mc.world.playerEntities.contains(target)) {
-				if (ticks >= delay.getValue().intValue() + Math.random() * 2 && !BadPacketsComponent.bad()) {
-					String insult = "";
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (target != null && !mc.world.playerEntities.contains(target)) {
+			if (ticks >= delay.getValue().intValue() + Math.random() * 2 && !BadPacketsComponent.bad()) {
+				String insult = "";
 
-					insult = defaultInsults[RandomUtils.nextInt(0, defaultInsults.length)];
+				insult = defaultInsults[RandomUtils.nextInt(0, defaultInsults.length)];
 
-					insult = String.format(insult, PlayerUtil.name(target));
+				insult = String.format(insult, PlayerUtil.name(target));
 
-					if (!this.prefix.getValue().isEmpty()) {
-						insult = this.prefix.getValue() + " " + insult;
-					}
-					final String cmd = "/tell %s ";
+				if (!this.prefix.getValue().isEmpty()) {
+					insult = this.prefix.getValue() + " " + insult;
+				}
+				final String cmd = "/tell %s ";
 
-					final String generatedString = new Random().ints(97, 123).limit(3)
-							.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-							.toString();
+				final String generatedString = new Random().ints(97, 123).limit(3)
+						.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 
-					if (randomizer.getValue()) {
-						mc.player.sendChatMessage(insult + " " + generatedString);
-					}
-
-					if (autoTell.getValue()) {
-						mc.player.sendChatMessage(cmd + insult);
-					} else {
-						mc.player.sendChatMessage(insult);
-					}
-
-					target = null;
+				if (randomizer.getValue()) {
+					mc.player.sendChatMessage(insult + " " + generatedString);
 				}
 
-				ticks++;
+				if (autoTell.getValue()) {
+					mc.player.sendChatMessage(cmd + insult);
+				} else {
+					mc.player.sendChatMessage(insult);
+				}
+
+				target = null;
 			}
+
+			ticks++;
 		}
+
 	};
 
 	@EventLink

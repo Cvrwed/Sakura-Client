@@ -6,7 +6,7 @@ import cc.unknown.Sakura;
 import cc.unknown.command.Command;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.util.chat.ChatUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;

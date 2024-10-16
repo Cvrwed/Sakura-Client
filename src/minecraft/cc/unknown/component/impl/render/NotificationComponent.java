@@ -6,7 +6,7 @@ import cc.unknown.component.impl.Component;
 import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render2DEvent;
 import cc.unknown.font.Fonts;
 import cc.unknown.font.Weight;
@@ -73,22 +73,21 @@ public class NotificationComponent extends Component {
 	};
 
 	@EventLink(value = Priority.VERY_HIGH)
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			if (mc.player.ticksExisted % 5 != 0)
-				return;
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		if (mc.player.ticksExisted % 5 != 0)
+			return;
 
-			if (!queue.isEmpty() && (current == null || time.finished(current.getThird() + 200))) {
-				if (current != null)
-					queue.remove(current);
+		if (!queue.isEmpty() && (current == null || time.finished(current.getThird() + 200))) {
+			if (current != null)
+				queue.remove(current);
 
-				if (!queue.isEmpty()) {
-					current = queue.get(0);
-					time.reset();
-				}
-				SCALE.x = Math.max(140, light.width(current.getSecond()) + SPACER * 3 + ICON_SCALE.x + 2);
+			if (!queue.isEmpty()) {
+				current = queue.get(0);
+				time.reset();
 			}
+			SCALE.x = Math.max(140, light.width(current.getSecond()) + SPACER * 3 + ICON_SCALE.x + 2);
 		}
+
 	};
 
 	public static void post(String title, String description) {

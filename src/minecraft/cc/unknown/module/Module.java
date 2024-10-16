@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 import cc.unknown.Sakura;
 import cc.unknown.bindable.Bindable;
-import cc.unknown.event.impl.other.ModuleToggleEvent;
+import cc.unknown.event.impl.input.ModuleToggleEvent;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
 import cc.unknown.module.impl.visual.ClickGUI;

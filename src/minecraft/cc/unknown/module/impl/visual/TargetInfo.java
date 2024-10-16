@@ -14,15 +14,14 @@ import org.lwjgl.opengl.GL11;
 import cc.unknown.component.impl.render.ProjectionComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.other.AttackEvent;
+import cc.unknown.event.impl.player.AttackEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render2DEvent;
 import cc.unknown.font.Fonts;
 import cc.unknown.font.Weight;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
-import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.animation.Animation;
 import cc.unknown.util.font.Font;
 import cc.unknown.util.math.MathUtil;
@@ -62,21 +61,20 @@ public final class TargetInfo extends Module {
 	private final Animation healthAnimation = new Animation(EASE_OUT_SINE, 500);
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			if (mc.currentScreen instanceof GuiChat) {
-				stopwatch.reset();
-				target = mc.player;
-			}
-
-			if (target == null) {
-				inWorld = false;
-				return;
-			}
-
-			distanceSq = mc.player.getDistanceSqToEntity(target);
-			inWorld = mc.world.loadedEntityList.contains(target);
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		if (mc.currentScreen instanceof GuiChat) {
+			stopwatch.reset();
+			target = mc.player;
 		}
+
+		if (target == null) {
+			inWorld = false;
+			return;
+		}
+
+		distanceSq = mc.player.getDistanceSqToEntity(target);
+		inWorld = mc.world.loadedEntityList.contains(target);
+
 	};
 
 	@EventLink
@@ -89,7 +87,8 @@ public final class TargetInfo extends Module {
 
 	@EventLink
 	public final Listener<Render2DEvent> onRender2D = event -> {
-		if (isClickGui()) return;
+		if (isClickGui())
+			return;
 		if (target == null) {
 			return;
 		}

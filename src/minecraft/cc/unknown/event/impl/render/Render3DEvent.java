@@ -2,7 +2,7 @@ package cc.unknown.event.impl.render;
 
 import cc.unknown.event.Event;
 import cc.unknown.script.api.wrapper.impl.event.ScriptEvent;
-import cc.unknown.script.api.wrapper.impl.event.impl.ScriptRender3DEvent;
+import cc.unknown.script.api.wrapper.impl.event.impl.render.ScriptRender3DEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

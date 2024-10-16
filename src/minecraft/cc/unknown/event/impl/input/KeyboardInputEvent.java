@@ -3,7 +3,7 @@ package cc.unknown.event.impl.input;
 import cc.unknown.event.CancellableEvent;
 import cc.unknown.event.Event;
 import cc.unknown.script.api.wrapper.impl.event.ScriptEvent;
-import cc.unknown.script.api.wrapper.impl.event.impl.ScriptKeyboardInputEvent;
+import cc.unknown.script.api.wrapper.impl.event.impl.input.ScriptKeyboardInputEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiScreen;

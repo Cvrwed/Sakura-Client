@@ -15,11 +15,11 @@ import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.KeyboardInputEvent;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.event.impl.other.TeleportEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -29,7 +29,6 @@ import cc.unknown.module.impl.world.scaffold.sprint.BypassSprint;
 import cc.unknown.module.impl.world.scaffold.sprint.DisabledSprint;
 import cc.unknown.module.impl.world.scaffold.sprint.LegitSprint;
 import cc.unknown.module.impl.world.scaffold.sprint.MatrixSprint;
-import cc.unknown.module.impl.world.scaffold.sprint.TestSprint;
 import cc.unknown.module.impl.world.scaffold.tower.MMCTower;
 import cc.unknown.module.impl.world.scaffold.tower.NCPTower;
 import cc.unknown.module.impl.world.scaffold.tower.NormalTower;
@@ -74,7 +73,7 @@ public class Scaffold extends Module {
 			.add(new SubMode("Breesily"))
 			.add(new SubMode("Snap"))
 			.add(new SubMode("Telly"))
-			.add(new SubMode("Eagle"))
+			.add(new SubMode("Legit"))
 			.setDefault("Normal");
 
 	public final ModeValue rayCast = new ModeValue("Ray Cast", this)
@@ -88,7 +87,6 @@ public class Scaffold extends Module {
 			.add(new DisabledSprint("Disabled", this))
 			.add(new LegitSprint("Legit", this))
 			.add(new BypassSprint("Bypass", this))
-			.add(new TestSprint("Test", this))
 			.add(new MatrixSprint("Matrix", this))
 			.setDefault("Normal");
 
@@ -413,7 +411,8 @@ public class Scaffold extends Module {
 
 			break;
 
-		case "Eagle":
+		case "Legit":
+	        mc.entityRenderer.getMouseOver(1);
 			float yaw = (mc.player.rotationYaw + 10000000) % 360;
 			float staticYaw = (yaw - 180) - (yaw % 90) + 45;
 			float staticPitch = 79;
@@ -427,23 +426,15 @@ public class Scaffold extends Module {
 					&& RayCastUtil.rayCast(new Vector2f(staticYaw, staticPitch),
 							3).typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
 				staticYaw += 90;
+
 			}
 
 			movementFix = MovementFix.SILENT;
-
-			if (getComponent(Slot.class).getItemStack() != null && getComponent(Slot.class).getItemStack().getItem() instanceof ItemBlock) {
-				mc.rightClickMouse();
-			}
 
 			if (!straight) {
 				staticYaw += 90;
 			}
 			
-	        if (PlayerUtil.isOnEdge()) {
-	            mc.gameSettings.keyBindSneak.pressed = true;
-	        } else mc.gameSettings.keyBindSneak.pressed = false;
-			
-	        mc.entityRenderer.getMouseOver(1);
 			targetYaw = staticYaw + yawDrift / 2;
 			targetPitch = staticPitch + pitchDrift / 2;
 			break;
@@ -521,23 +512,18 @@ public class Scaffold extends Module {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			this.offset = new Vec3i(0, 0, 0);
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		this.offset = new Vec3i(0, 0, 0);
 
-			if (targetBlock == null || enumFacing == null || blockFace == null) {
-				return;
-			}
-
-			mc.player.hideSneakHeight.reset();
-
-			// Timer
-			if (timer.getValue().floatValue() != 1)
-				mc.timer.timerSpeed = timer.getValue().floatValue();
-			
-			/*ChatUtil.display("Rotation Yaw: " + RotationComponent.targetRotations.x % 180);
-			ChatUtil.display("Rotation Pitch: " + RotationComponent.targetRotations.y);*/
+		if (targetBlock == null || enumFacing == null || blockFace == null) {
+			return;
 		}
+
+		mc.player.hideSneakHeight.reset();
+
+		// Timer
+		if (timer.getValue().floatValue() != 1)
+			mc.timer.timerSpeed = timer.getValue().floatValue();
 	};
 
 	public void runMode() {
@@ -757,7 +743,7 @@ public class Scaffold extends Module {
 	}
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		this.runMode();
 
 		if (!Objects.equals(yawOffset.getValue().getName(), "0") && !movementCorrection.getValue()) {

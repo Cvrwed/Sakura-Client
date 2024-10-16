@@ -13,7 +13,7 @@ import com.google.common.collect.Maps;
 
 import cc.unknown.Sakura;
 import cc.unknown.component.impl.player.RotationComponent;
-import cc.unknown.event.impl.motion.JumpEvent;
+import cc.unknown.event.impl.player.JumpEvent;
 import cc.unknown.event.impl.render.SwingAnimationEvent;
 import cc.unknown.util.player.MoveUtil;
 import net.minecraft.block.Block;
@@ -1401,10 +1401,8 @@ public abstract class EntityLivingBase extends Entity implements java.io.Seriali
             if (event.isCancelled()) {
                 return;
             }
-        } /*else if (this == ServerSideMovementComponent.serverSidePlayer) {
-            this.movementYaw = this.rotationYaw;
-        }*/
-
+        }
+        
         this.ticksSinceJump = 0;
         this.motionY = jumpMotion;
 
@@ -1460,7 +1458,6 @@ public abstract class EntityLivingBase extends Entity implements java.io.Seriali
                         f5 = this.jumpMovementFactor;
                     }
 
-//                    if (this == Minecraft.getMinecraft().thePlayer) ChatUtil.display(f5);
                     this.moveFlying(strafe, forward, f5);
                     f4 = 0.91F;
 
@@ -1505,7 +1502,6 @@ public abstract class EntityLivingBase extends Entity implements java.io.Seriali
                     this.motionX *= f4;
                     this.motionZ *= f4;
 
-//                    ChatUtil.display(f4);
                 } else {
                     final double d1 = this.posY;
                     this.moveFlying(strafe, forward, 0.02F);

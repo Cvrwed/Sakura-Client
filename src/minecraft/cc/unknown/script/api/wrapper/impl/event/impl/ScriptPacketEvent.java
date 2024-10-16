@@ -1,6 +1,6 @@
 package cc.unknown.script.api.wrapper.impl.event.impl;
 
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.script.api.wrapper.impl.event.CancellableScriptEvent;
 
 /**

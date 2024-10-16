@@ -2,7 +2,7 @@ package cc.unknown.event.impl.input;
 
 import cc.unknown.event.Event;
 import cc.unknown.script.api.wrapper.impl.event.ScriptEvent;
-import cc.unknown.script.api.wrapper.impl.event.impl.ScriptMouseInputEvent;
+import cc.unknown.script.api.wrapper.impl.event.impl.input.ScriptMouseInputEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -25,7 +25,7 @@ public class MusicPlayer extends Module {
             .add(new SubMode("Local"))
             .setDefault("Local");
 
-    private final StringValue text = new StringValue("URL", this, "C:\\Users\\admin\\Music\\");
+    private final StringValue text = new StringValue("URL", this, "C:\\Users\\admin\\Music\\", () -> !mode.is("Local"));
     
     private boolean started = false;
 

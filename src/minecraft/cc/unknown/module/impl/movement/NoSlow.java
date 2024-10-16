@@ -5,12 +5,12 @@ import org.lwjgl.input.Keyboard;
 import cc.unknown.component.impl.player.Slot;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.SlowDownEvent;
+import cc.unknown.event.impl.player.PostMotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.SlowDownEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
-import cc.unknown.module.impl.combat.KillAura;
 import cc.unknown.util.packet.PacketUtil;
 import cc.unknown.util.time.StopWatch;
 import cc.unknown.value.impl.BooleanValue;
@@ -158,77 +158,74 @@ public class NoSlow extends Module {
 			timeHelper.reset();
 		}
 	};
-
+	
 	@EventLink
-	public final Listener<MotionEvent> onMotion = event -> {
+	public final Listener<PostMotionEvent> onPostMotion = event -> {
 	    if (!isInGame()) return;
 	    ItemStack currentItem = getComponent(Slot.class).getItemStack();
 	    if (currentItem == null) return;
 	    
-	    
-	    //boolean useItemPressed = mc.player.getHeldItem().;
-	    /*if (mc.currentScreen == null && !mc.gameSettings.keyBindUseItem.pressed || mc.player.isBlocking() || !getModule(KillAura.class).blocking) {
-	        handleKeyPresses();
-	    }*/
+    	if (currentItem.getItem() instanceof ItemSword) {
+    		if (swordC08Post.getValue()) sendC08();
+    		if (swordC07NRPost.getValue()) sendC07NormalRelease();
+    		if (swordC07BRPost.getValue()) sendC07BlockRelease();
+    		if (swordC07NDPost.getValue()) sendC07DropNormal();
+    		if (swordC07BDPost.getValue()) sendC07BlockDrop();
+    	} else if (currentItem.getItem() instanceof ItemBow) {
+    		if (bowC08Post.getValue()) sendC08();
+    		if (bowC07NRPost.getValue()) sendC07NormalRelease();
+    		if (bowC07BRPost.getValue()) sendC07BlockRelease();
+    		if (bowC07NDPost.getValue()) sendC07DropNormal();
+    		if (bowC07BDPost.getValue()) sendC07BlockDrop();
+    		if (bowPostSwitch.getValue()) switchItem();
+    	} else if (currentItem.getItem() instanceof ItemFood || currentItem.getItem() instanceof ItemPotion || currentItem.getItem() instanceof ItemBucketMilk) {
+    		if (restC08Post.getValue()) sendC08();
+    		if (restC07NRPost.getValue()) sendC07NormalRelease();
+    		if (restC07BRPost.getValue()) sendC07BlockRelease();
+    		if (restC07NDPost.getValue()) sendC07DropNormal();
+    		if (restC07BDPost.getValue()) sendC07BlockDrop();
+    		if (restPostSwitch.getValue()) switchItem();
+    	}
+	};
+
+	@EventLink
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+	    if (!isInGame()) return;
+	    ItemStack currentItem = getComponent(Slot.class).getItemStack();
+	    if (currentItem == null) return;
 
         if (mc.player.getItemInUseDuration() == 1) {
-        	if (event.isPre()) {
-        		if (currentItem.getItem() instanceof ItemSword) {
-        			if (swordC08Pre.getValue()) sendC08();
-		    		if (swordC0CPre.getValue()) sendC0C();
-		    		if (swordC07NRPre.getValue()) sendC07NormalRelease();
-		    		if (swordC07BRPre.getValue()) sendC07BlockRelease();
-		    		if (swordC07NDPre.getValue()) sendC07DropNormal();
-		    		if (swordC07BDPre.getValue()) sendC07BlockDrop();
-		    		if (swordPostSwitch.getValue()) switchItem();
-		    		if (swordPreSwitch.getValue() && mc.player.isBlocking()) switchItem();
-		    		setTimerSpeed(swordTimer, timerSword);
-		    	} else if (currentItem.getItem() instanceof ItemBow) {
-		    		if (bowC08Pre.getValue()) sendC08();
-		    		if (bowC0CPre.getValue()) sendC0C();
-		    		if (bowC07NRPre.getValue()) sendC07NormalRelease();
-		    		if (bowC07BRPre.getValue()) sendC07BlockRelease();
-		    		if (bowC07NDPre.getValue()) sendC07DropNormal();
-		    		if (bowC07BDPre.getValue()) sendC07BlockDrop();
-		    		if (bowPreSwitch.getValue()) switchItem();
-		    		setTimerSpeed(bowTimer, timerBow);	    
-		    	} else if (currentItem.getItem() instanceof ItemFood || currentItem.getItem() instanceof ItemPotion || currentItem.getItem() instanceof ItemBucketMilk) {
-		    		if (restC08Pre.getValue()) sendC08();
-		    		if (restC0CPre.getValue()) sendC0C();
-		    		if (restC07NRPre.getValue()) sendC07NormalRelease();
-		    		if (restC07BRPre.getValue()) sendC07BlockRelease();
-		    		if (restC07NDPre.getValue()) sendC07DropNormal();
-		    		if (restC07BDPre.getValue()) sendC07BlockDrop();
-		    		if (restPreSwitch.getValue()) switchItem();
-		    		if (restLastUsingC07ND.getValue()) handleRestLastUsing();
-		    		if (restLegitBug.getValue()) handleLegitBug();
-		    		setTimerSpeed(restTimer, timerRest);
-		    	}
-		    }
-        	
-    	    if (event.isPost()) {
-    	    	if (currentItem.getItem() instanceof ItemSword) {
-    	    		if (swordC08Post.getValue()) sendC08();
-    	    		if (swordC07NRPost.getValue()) sendC07NormalRelease();
-    	    		if (swordC07BRPost.getValue()) sendC07BlockRelease();
-    	    		if (swordC07NDPost.getValue()) sendC07DropNormal();
-    	    		if (swordC07BDPost.getValue()) sendC07BlockDrop();
-    	    	} else if (currentItem.getItem() instanceof ItemBow) {
-    	    		if (bowC08Post.getValue()) sendC08();
-    	    		if (bowC07NRPost.getValue()) sendC07NormalRelease();
-    	    		if (bowC07BRPost.getValue()) sendC07BlockRelease();
-    	    		if (bowC07NDPost.getValue()) sendC07DropNormal();
-    	    		if (bowC07BDPost.getValue()) sendC07BlockDrop();
-    	    		if (bowPostSwitch.getValue()) switchItem();
-    	    	} else if (currentItem.getItem() instanceof ItemFood || currentItem.getItem() instanceof ItemPotion || currentItem.getItem() instanceof ItemBucketMilk) {
-    	    		if (restC08Post.getValue()) sendC08();
-    	    		if (restC07NRPost.getValue()) sendC07NormalRelease();
-    	    		if (restC07BRPost.getValue()) sendC07BlockRelease();
-    	    		if (restC07NDPost.getValue()) sendC07DropNormal();
-    	    		if (restC07BDPost.getValue()) sendC07BlockDrop();
-    	    		if (restPostSwitch.getValue()) switchItem();
-    	    	}
-    	    }
+        	if (currentItem.getItem() instanceof ItemSword) {
+        		if (swordC08Pre.getValue()) sendC08();
+        		if (swordC0CPre.getValue()) sendC0C();
+        		if (swordC07NRPre.getValue()) sendC07NormalRelease();
+        		if (swordC07BRPre.getValue()) sendC07BlockRelease();
+        		if (swordC07NDPre.getValue()) sendC07DropNormal();
+        		if (swordC07BDPre.getValue()) sendC07BlockDrop();
+        		if (swordPostSwitch.getValue()) switchItem();
+        		if (swordPreSwitch.getValue() && mc.player.isBlocking()) switchItem();
+        		setTimerSpeed(swordTimer, timerSword);
+        	} else if (currentItem.getItem() instanceof ItemBow) {
+        		if (bowC08Pre.getValue()) sendC08();
+        		if (bowC0CPre.getValue()) sendC0C();
+        		if (bowC07NRPre.getValue()) sendC07NormalRelease();
+        		if (bowC07BRPre.getValue()) sendC07BlockRelease();
+        		if (bowC07NDPre.getValue()) sendC07DropNormal();
+        		if (bowC07BDPre.getValue()) sendC07BlockDrop();
+        		if (bowPreSwitch.getValue()) switchItem();
+        		setTimerSpeed(bowTimer, timerBow);	    
+        	} else if (currentItem.getItem() instanceof ItemFood || currentItem.getItem() instanceof ItemPotion || currentItem.getItem() instanceof ItemBucketMilk) {
+        		if (restC08Pre.getValue()) sendC08();
+        		if (restC0CPre.getValue()) sendC0C();
+        		if (restC07NRPre.getValue()) sendC07NormalRelease();
+        		if (restC07BRPre.getValue()) sendC07BlockRelease();
+        		if (restC07NDPre.getValue()) sendC07DropNormal();
+        		if (restC07BDPre.getValue()) sendC07BlockDrop();
+        		if (restPreSwitch.getValue()) switchItem();
+        		if (restLastUsingC07ND.getValue()) handleRestLastUsing();
+        		if (restLegitBug.getValue()) handleLegitBug();
+        		setTimerSpeed(restTimer, timerRest);
+		    }  	
         }
 	};
 	

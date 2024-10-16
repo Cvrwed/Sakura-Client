@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import cc.unknown.Sakura;
-import cc.unknown.event.impl.other.BlockAABBEvent;
+import cc.unknown.event.impl.player.BlockAABBEvent;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;

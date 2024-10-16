@@ -4,8 +4,8 @@ import java.awt.Color;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
@@ -59,39 +59,39 @@ public final class Ambience extends Module {
 	};
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			if (mc.player.ticksExisted % 20 == 0) {
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		if (mc.player.ticksExisted % 20 == 0) {
 
-				switch (this.weather.getValue().getName()) {
-				case "Clear": {
-					mc.world.setRainStrength(0);
-					mc.world.getWorldInfo().setCleanWeatherTime(Integer.MAX_VALUE);
-					mc.world.getWorldInfo().setRainTime(0);
-					mc.world.getWorldInfo().setThunderTime(0);
-					mc.world.getWorldInfo().setRaining(false);
-					mc.world.getWorldInfo().setThundering(false);
-					break;
-				}
-				case "Nether Particles":
-				case "Light Snow":
-				case "Heavy Snow":
-				case "Rain": {
-					mc.world.setRainStrength(1);
-					mc.world.getWorldInfo().setCleanWeatherTime(0);
-					mc.world.getWorldInfo().setRainTime(Integer.MAX_VALUE);
-					mc.world.getWorldInfo().setThunderTime(Integer.MAX_VALUE);
-					mc.world.getWorldInfo().setRaining(true);
-					mc.world.getWorldInfo().setThundering(false);
-				}
-				}
+			switch (this.weather.getValue().getName()) {
+			case "Clear": {
+				mc.world.setRainStrength(0);
+				mc.world.getWorldInfo().setCleanWeatherTime(Integer.MAX_VALUE);
+				mc.world.getWorldInfo().setRainTime(0);
+				mc.world.getWorldInfo().setThunderTime(0);
+				mc.world.getWorldInfo().setRaining(false);
+				mc.world.getWorldInfo().setThundering(false);
+				break;
+			}
+			case "Nether Particles":
+			case "Light Snow":
+			case "Heavy Snow":
+			case "Rain": {
+				mc.world.setRainStrength(1);
+				mc.world.getWorldInfo().setCleanWeatherTime(0);
+				mc.world.getWorldInfo().setRainTime(Integer.MAX_VALUE);
+				mc.world.getWorldInfo().setThunderTime(Integer.MAX_VALUE);
+				mc.world.getWorldInfo().setRaining(true);
+				mc.world.getWorldInfo().setThundering(false);
+			}
+
 			}
 		}
 	};
 
 	@EventLink
 	public final Listener<PacketEvent> onPacketReceiveEvent = event -> {
-		if (!event.isReceive()) return;
+		if (!event.isReceive())
+			return;
 		if (event.getPacket() instanceof S03PacketTimeUpdate) {
 			event.setCancelled();
 		} else if (event.getPacket() instanceof S2BPacketChangeGameState

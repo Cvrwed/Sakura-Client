@@ -4,7 +4,7 @@ import org.lwjgl.input.Mouse;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -29,9 +29,8 @@ public class AutoBlock extends Module {
 	private long lastExecutionTime = 0L;
 
 	@EventLink
-	public final Listener<MotionEvent> onPre = event -> {
+	public final Listener<PreMotionEvent> onPre = event -> {
 		if (mc.currentScreen != null) return;
-		if (!event.isPre()) return;
 		if (chance.getValue().intValue() != 100.0D && Math.random() >= chance.getValue().intValue() / 100.0D) return;
 		
 		if (isPushWithinThreshold()) { }

@@ -4,14 +4,7 @@ import java.util.ArrayList;
 
 import cc.unknown.module.Module;
 import cc.unknown.ui.clickgui.components.value.ValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.BooleanValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.BoundsNumberValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.ColorValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.ListValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.ModeValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.NumberValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.PositionValueComponent;
-import cc.unknown.ui.clickgui.components.value.impl.StringValueComponent;
+import cc.unknown.ui.clickgui.components.value.impl.*;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.animation.Animation;
 import cc.unknown.util.animation.Easing;
@@ -21,6 +14,7 @@ import cc.unknown.value.Value;
 import cc.unknown.value.impl.BooleanValue;
 import cc.unknown.value.impl.BoundsNumberValue;
 import cc.unknown.value.impl.ColorValue;
+import cc.unknown.value.impl.DescValue;
 import cc.unknown.value.impl.DragValue;
 import cc.unknown.value.impl.ListValue;
 import cc.unknown.value.impl.ModeValue;
@@ -46,6 +40,8 @@ public class SettingsRenderer implements Accessor {
                 valueList.add(new BooleanValueComponent(value));
             } else if (value instanceof StringValue) {
                 valueList.add(new StringValueComponent(value));
+            } else if (value instanceof DescValue) {
+            	valueList.add(new DescValueComponent(value));
             } else if (value instanceof NumberValue) {
                 valueList.add(new NumberValueComponent(value));
             } else if (value instanceof BoundsNumberValue) {
@@ -80,10 +76,6 @@ public class SettingsRenderer implements Accessor {
         	if (valueComponent.getValue() != null && valueComponent.getValue().getHideIf() != null && valueComponent.getValue().getHideIf().getAsBoolean()) {
         		continue;
         	}
-
-//                valueComponent.draw(new Vector2d((positionValue.position.x +
-//                        (valueComponent.getValue().getHideIf() == null ? 0 : 10)),
-//                        (float) (positionValue.position.y)), mouseX, mouseY, partialTicks);
         }
 
         GlStateManager.popMatrix();

@@ -40,6 +40,8 @@ public final class ModuleManager {
         // Latency
         this.put(BackTrack.class, new BackTrack());
         this.put(PingSpoof.class, new PingSpoof());
+        //this.put(LegitBlink.class, new LegitBlink());
+        //this.put(Lag.class, new Lag());
         
         // Exploit
         this.put(Disabler.class, new Disabler());
@@ -92,13 +94,12 @@ public final class ModuleManager {
         this.put(NoClickDelay.class, new NoClickDelay());
         this.put(Breaker.class, new Breaker());
         this.put(FastUse.class, new FastUse());
-        this.put(Manager.class, new Manager());
+        this.put(InventoryManager.class, new InventoryManager());
         this.put(NoFall.class, new NoFall());
-        this.put(Manager.class, new Manager());
+        this.put(InventoryManager.class, new InventoryManager());
         this.put(NoFall.class, new NoFall());
         this.put(Timer.class, new Timer());
-        this.put(Stealer.class, new Stealer());
-        this.put(PolarDetector.class, new PolarDetector());
+        this.put(ChestStealer.class, new ChestStealer());
 
         // Render
         this.put(Ambience.class, new Ambience());
@@ -113,6 +114,7 @@ public final class ModuleManager {
         this.put(FullBright.class, new FullBright());
         this.put(HurtCamera.class, new HurtCamera());
         this.put(HUD.class, new HUD());
+        this.put(PacketDebug.class, new PacketDebug());
         this.put(ItemPhysics.class, new ItemPhysics());
         this.put(NameTags.class, new NameTags());
         this.put(NoCameraClip.class, new NoCameraClip());

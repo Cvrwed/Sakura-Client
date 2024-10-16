@@ -174,18 +174,22 @@ public class FontRenderer extends cc.unknown.util.font.Font {
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, byteBuffer);
     }
 
+    @Override
     public int draw(final String text, final double x, final double y, final int color) {
         return draw(text, x, y, color, false);
     }
 
+    @Override
     public int drawCentered(final String text, final double x, final double y, final int color) {
         return draw(text, x - (width(text) >> 1), y, color, false); // whoever bitshifted this instead of diving by 2 is a fucking nerd and virgin
     }
 
+    @Override
     public int drawRight(String text, double x, double y, int color) {
         return draw(text, x - (width(text)), y, color, false);
     }
 
+    @Override
     public int drawWithShadow(final String text, final double x, final double y, final int color) {
         return draw(text, x, y, color, false);
     }
@@ -194,11 +198,13 @@ public class FontRenderer extends cc.unknown.util.font.Font {
         draw(text, x - (width(text) >> 1), y, color, false);
     }
 
+    
+    @Override
     public int draw(String text, double x, double y, final int color, final boolean shadow) {
-        if (text == null) {
+        if (text == null || text.isEmpty()) {
             return 0;
         }
-        
+
         RenderTextEvent renderTextEvent = new RenderTextEvent(text, RenderTextEvent.Type.Post);
         Sakura.instance.getEventBus().handle(renderTextEvent);
         text = renderTextEvent.getString();
@@ -206,6 +212,7 @@ public class FontRenderer extends cc.unknown.util.font.Font {
         final FontCharacter[] characterSet = this.international ? internationalCharacters : defaultCharacters;
 
         double givenX = x;
+
         GL11.glPushMatrix();
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -220,29 +227,36 @@ public class FontRenderer extends cc.unknown.util.font.Font {
         y -= fontHeight / 5;
 
         final double startX = x;
+        int i = 0; // Inicializamos `i` aquí
 
         final int length = text.length();
+
         ColorUtil.glColor(shadow ? Color.white.getRGB() : color);
+
         text = text.replaceAll("\247l", "");
+
         try {
             char[] characters = text.toCharArray();
             final int textLength = characters.length;
             final int lineHeightTimes2 = (int) (height() * 2);
             final int marginWidthTimes2 = MARGIN_WIDTH * 2;
 
-            for (int i = 0; i < textLength; i++) {
-                char character = characters[i];
+            for (int index = 0; index < textLength; index++) {
+                char character = characters[index];
 
                 if (character == '\n') {
                     x = startX;
                     y += lineHeightTimes2;
                     continue;
                 }
+
                 if (character == '§') {
-                    i++;
-                    ColorUtil.glColor(new Color(COLOR_CODES["0123456789abcdefklmnor".indexOf(characters[i])]));
+                    index++;
+                    ColorUtil.glColor(new Color(COLOR_CODES["0123456789abcdefklmnor".indexOf(characters[index])]));
                     continue;
                 }
+
+                // Renderizado del carácter
                 final FontCharacter fontCharacter = characterSet[character];
                 float characterWidth = fontCharacter.getWidth();
                 fontCharacter.render((float) x, (float) y);
@@ -260,7 +274,6 @@ public class FontRenderer extends cc.unknown.util.font.Font {
 
         return (int) (x - givenX);
     }
-
     @Override
     public void drawCharacter(final char character, final int x, final int y, final Color color) {
         final FontCharacter[] characterSet = this.international ? internationalCharacters : defaultCharacters;
@@ -270,6 +283,7 @@ public class FontRenderer extends cc.unknown.util.font.Font {
         fontCharacter.render(x, y);
     }
     
+    @Override
     public int width(String text) {
         if (text == null) return 0;
         
@@ -328,6 +342,7 @@ public class FontRenderer extends cc.unknown.util.font.Font {
         return width / 2;
     }*/
 
+    @Override
     public float height() {
         return fontHeight;
     }

@@ -5,19 +5,17 @@ import java.awt.Color;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.ClickEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render2DEvent;
 import cc.unknown.font.Fonts;
 import cc.unknown.font.Weight;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
-import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.EvictingList;
 import cc.unknown.util.render.RenderUtil;
 import cc.unknown.util.vector.Vector2d;
 import cc.unknown.util.vector.Vector2f;
-import cc.unknown.value.impl.BooleanValue;
 import cc.unknown.value.impl.DragValue;
 
 @ModuleInfo(aliases = { "CPS Counter" }, description = "Displays your clicks per second", category = Category.VISUALS)
@@ -59,16 +57,14 @@ public final class CPSCounter extends Module {
 	};
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			cps = 0;
-			clicks.add(clicked);
-			clicks.forEach((click) -> {
-				if (click) {
-					cps++;
-				}
-			});
-			clicked = false;
-		}
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		cps = 0;
+		clicks.add(clicked);
+		clicks.forEach((click) -> {
+			if (click) {
+				cps++;
+			}
+		});
+		clicked = false;
 	};
 }

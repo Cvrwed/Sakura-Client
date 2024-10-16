@@ -1,35 +1,22 @@
 package cc.unknown.module.impl.combat;
 
-import java.awt.Color;
 import java.util.Comparator;
-
-import org.lwjgl.opengl.GL11;
 
 import cc.unknown.Sakura;
 import cc.unknown.component.impl.player.FriendAndTargetComponent;
-import cc.unknown.component.impl.player.PingSpoofComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
 import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
-import cc.unknown.module.impl.latency.BackTrack;
 import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.util.player.PlayerUtil;
-import cc.unknown.util.render.ColorUtil;
-import cc.unknown.util.render.RenderUtil;
-import cc.unknown.util.time.StopWatch;
 import cc.unknown.util.tuples.Doble;
 import cc.unknown.value.impl.BooleanValue;
 import cc.unknown.value.impl.BoundsNumberValue;
-import cc.unknown.value.impl.ModeValue;
 import cc.unknown.value.impl.NumberValue;
-import cc.unknown.value.impl.SubMode;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
 

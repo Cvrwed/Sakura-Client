@@ -8,10 +8,10 @@ import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.JumpEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.player.JumpEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.event.impl.render.LookEvent;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.util.rotation.RotationUtil;
@@ -88,7 +88,7 @@ public final class RotationComponent extends Component {
 	};
 
 	@EventLink(value = Priority.VERY_LOW)
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		if (active && (correctMovement == MovementFix.SILENT || correctMovement == MovementFix.STRICT)
 				&& rotations != null) {
 			event.setYaw(rotations.x);
@@ -104,35 +104,34 @@ public final class RotationComponent extends Component {
 	};
 
 	@EventLink(value = Priority.VERY_LOW)
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			if (active && rotations != null) {
-				final float yaw = rotations.x;
-				final float pitch = rotations.y;
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		if (active && rotations != null) {
+			final float yaw = rotations.x;
+			final float pitch = rotations.y;
 
-				event.setYaw(yaw);
-				event.setPitch(pitch);
+			event.setYaw(yaw);
+			event.setPitch(pitch);
 
-				mc.player.rotationYawHead = yaw;
-				mc.player.renderPitchHead = pitch;
+			mc.player.rotationYawHead = yaw;
+			mc.player.renderPitchHead = pitch;
 
-				lastServerRotations = new Vector2f(yaw, pitch);
+			lastServerRotations = new Vector2f(yaw, pitch);
 
-				if (Math.abs((rotations.x - mc.player.rotationYaw) % 360) < 1
-						&& Math.abs((rotations.y - mc.player.rotationPitch)) < 1) {
-					active = false;
+			if (Math.abs((rotations.x - mc.player.rotationYaw) % 360) < 1
+					&& Math.abs((rotations.y - mc.player.rotationPitch)) < 1) {
+				active = false;
 
-					this.correctDisabledRotations();
-				}
-
-				lastRotations = rotations;
-			} else {
-				lastRotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
+				this.correctDisabledRotations();
 			}
 
-			targetRotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
-			smoothed = false;
+			lastRotations = rotations;
+		} else {
+			lastRotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
 		}
+
+		targetRotations = new Vector2f(mc.player.rotationYaw, mc.player.rotationPitch);
+		smoothed = false;
+
 	};
 
 	private void correctDisabledRotations() {

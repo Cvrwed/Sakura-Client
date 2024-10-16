@@ -2,8 +2,8 @@ package cc.unknown.module.impl.world.scaffold.tower;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.value.Mode;
 import net.minecraft.network.Packet;
@@ -17,20 +17,20 @@ public class NormalTower extends Mode<Scaffold> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (mc.gameSettings.keyBindJump.isKeyDown()) {
-				if (mc.player.onGround) {
-					mc.player.motionY = 0.42F;
-				}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (mc.gameSettings.keyBindJump.isKeyDown()) {
+			if (mc.player.onGround) {
+				mc.player.motionY = 0.42F;
 			}
 		}
+
 	};
 
 	@EventLink
 	public final Listener<PacketEvent> onPacketSend = event -> {
 		final Packet<?> packet = event.getPacket();
-	    if (!event.isSend()) return;
+		if (!event.isSend())
+			return;
 
 		if (mc.player.motionY > -0.0784000015258789 && packet instanceof C08PacketPlayerBlockPlacement) {
 			final C08PacketPlayerBlockPlacement wrapper = ((C08PacketPlayerBlockPlacement) packet);

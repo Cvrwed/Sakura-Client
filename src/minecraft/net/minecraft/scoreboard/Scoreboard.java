@@ -159,25 +159,29 @@ public class Scoreboard {
 	}
 
 	public void removeObjective(ScoreObjective p_96519_1_) {
-		this.scoreObjectives.remove(p_96519_1_.getName());
-
-		for (int i = 0; i < 19; ++i) {
-			if (this.getObjectiveInDisplaySlot(i) == p_96519_1_) {
-				this.setObjectiveInDisplaySlot(i, (ScoreObjective) null);
+		try {
+			this.scoreObjectives.remove(p_96519_1_.getName());
+	
+			for (int i = 0; i < 19; ++i) {
+				if (this.getObjectiveInDisplaySlot(i) == p_96519_1_) {
+					this.setObjectiveInDisplaySlot(i, (ScoreObjective) null);
+				}
 			}
+	
+			List<ScoreObjective> list = (List) this.scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
+	
+			if (list != null) {
+				list.remove(p_96519_1_);
+			}
+	
+			for (Map<ScoreObjective, Score> map : this.entitiesScoreObjectives.values()) {
+				map.remove(p_96519_1_);
+			}
+	
+			this.onScoreObjectiveRemoved(p_96519_1_);
+		} catch (NullPointerException ignored) {
+			
 		}
-
-		List<ScoreObjective> list = (List) this.scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
-
-		if (list != null) {
-			list.remove(p_96519_1_);
-		}
-
-		for (Map<ScoreObjective, Score> map : this.entitiesScoreObjectives.values()) {
-			map.remove(p_96519_1_);
-		}
-
-		this.onScoreObjectiveRemoved(p_96519_1_);
 	}
 
 	public void setObjectiveInDisplaySlot(int p_96530_1_, ScoreObjective p_96530_2_) {

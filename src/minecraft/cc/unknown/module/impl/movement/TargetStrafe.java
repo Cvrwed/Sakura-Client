@@ -6,9 +6,9 @@ import cc.unknown.component.impl.player.TargetComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.JumpEvent;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.player.JumpEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -47,7 +47,7 @@ public class TargetStrafe extends Module {
     };
 
     @EventLink(value = Priority.HIGH)
-    public final Listener<StrafeEvent> onStrafe = event -> {
+    public final Listener<PreStrafeEvent> onStrafe = event -> {
         if (target != null && active) {
             event.setYaw(yaw);
         }

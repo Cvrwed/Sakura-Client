@@ -111,6 +111,16 @@ public class ConfigFile extends cc.unknown.util.file.File {
 
                                 stringValue.setValue(load);
                             }
+                        } else if (value instanceof DescValue) {
+                        	final DescValue descValue = (DescValue) value;
+                        	
+                        	if (valueJsonObject.has("value")) {
+                        		
+                        		String load = valueJsonObject.get("value").getAsString();
+                        		load = load.replace("<percentsign>", "%");
+                        		
+                        		descValue.setValue(load);
+                        	}
                         } else if (value instanceof NumberValue) {
                             final NumberValue numberValue = (NumberValue) value;
 

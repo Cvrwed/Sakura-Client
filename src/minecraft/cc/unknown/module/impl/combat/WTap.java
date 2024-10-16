@@ -5,7 +5,7 @@ import org.lwjgl.input.Mouse;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -33,8 +33,7 @@ public class WTap extends Module {
 	private EntityPlayer target;
 
 	@EventLink
-	public final Listener<MotionEvent> onTick = event -> {
-	    if (!event.isPre()) return;
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
 	    if (target == null) return;
 
 	    if (waitingForPostDelay) {

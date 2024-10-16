@@ -2,7 +2,7 @@ package cc.unknown.module.impl.player.antivoid;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.impl.player.AntiVoid;
 import cc.unknown.util.player.PlayerUtil;
 import cc.unknown.value.Mode;
@@ -17,11 +17,10 @@ public class PositionAntiVoid extends Mode<AntiVoid> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (mc.player.fallDistance > distance.getValue().floatValue() && !PlayerUtil.isBlockUnder()) {
-				event.setPosY(event.getPosY() + mc.player.fallDistance);
-			}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (mc.player.fallDistance > distance.getValue().floatValue() && !PlayerUtil.isBlockUnder()) {
+			event.setPosY(event.getPosY() + mc.player.fallDistance);
 		}
+
 	};
 }

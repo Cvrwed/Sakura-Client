@@ -1,5 +1,7 @@
 package net.minecraft.client.gui.inventory;
 
+import cc.unknown.Sakura;
+import cc.unknown.event.impl.render.RenderContainerEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.ContainerChest;
@@ -48,5 +50,13 @@ public class GuiChest extends GuiContainer {
         final int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
         this.drawTexturedModalRect(i, j + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
+    }
+    
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        RenderContainerEvent event = new RenderContainerEvent();
+        Sakura.instance.getEventBus().handle(event);
+        if (event.isCancelled()) return;
+        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

@@ -4,8 +4,8 @@ import cc.unknown.component.impl.player.RotationComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.RightClickEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.other.AttackEvent;
+import cc.unknown.event.impl.player.AttackEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.MouseOverEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
@@ -35,10 +35,8 @@ public class Reach extends Module {
 	private double combo;
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			this.attackTicks++;
-		}
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		this.attackTicks++;
 	};
 
 	@EventLink

@@ -7,9 +7,9 @@ import cc.unknown.component.impl.Component;
 import cc.unknown.event.CancellableEvent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.event.impl.other.WorldChangeEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.util.packet.PacketUtil;
 import cc.unknown.util.packet.TimedPacket;
 import cc.unknown.util.time.StopWatch;
@@ -51,23 +51,43 @@ public final class PingSpoofComponent extends Component {
 	static StopWatch enabledTimer = new StopWatch();
 	public static boolean enabled;
 	static long amount;
-	static Tuple<Class[], Boolean> regular = new Tuple<>(new Class[] { C0FPacketConfirmTransaction.class, C00PacketKeepAlive.class, S1CPacketEntityMetadata.class }, false);
-	static Tuple<Class[], Boolean> velocity = new Tuple<>(new Class[] { S12PacketEntityVelocity.class, S27PacketExplosion.class }, false);
-	static Tuple<Class[], Boolean> teleports = new Tuple<>(new Class[] { S08PacketPlayerPosLook.class, S39PacketPlayerAbilities.class, S09PacketHeldItemChange.class }, false);
-	static Tuple<Class[], Boolean> players = new Tuple<>(new Class[] { S13PacketDestroyEntities.class, S14PacketEntity.class, S14PacketEntity.S16PacketEntityLook.class, S14PacketEntity.S15PacketEntityRelMove.class, S14PacketEntity.S17PacketEntityLookMove.class, S18PacketEntityTeleport.class, S20PacketEntityProperties.class, S19PacketEntityHeadLook.class }, false);
-	static Tuple<Class[], Boolean> blink = new Tuple<>(new Class[] { C02PacketUseEntity.class, C0DPacketCloseWindow.class, C0EPacketClickWindow.class, C0CPacketInput.class, C0BPacketEntityAction.class, C08PacketPlayerBlockPlacement.class, C07PacketPlayerDigging.class, C09PacketHeldItemChange.class, C13PacketPlayerAbilities.class, C15PacketClientSettings.class, C16PacketClientStatus.class, C17PacketCustomPayload.class, C18PacketSpectate.class, C19PacketResourcePackStatus.class, C03PacketPlayer.class, C03PacketPlayer.C04PacketPlayerPosition.class, C03PacketPlayer.C05PacketPlayerLook.class, C03PacketPlayer.C06PacketPlayerPosLook.class, C0APacketAnimation.class }, false);
-	static Tuple<Class[], Boolean> movement = new Tuple<>(new Class[] { C03PacketPlayer.class, C03PacketPlayer.C04PacketPlayerPosition.class, C03PacketPlayer.C05PacketPlayerLook.class, C03PacketPlayer.C06PacketPlayerPosLook.class }, false);
+	static Tuple<Class[], Boolean> regular = new Tuple<>(
+			new Class[] { C0FPacketConfirmTransaction.class, C00PacketKeepAlive.class, S1CPacketEntityMetadata.class },
+			false);
+	static Tuple<Class[], Boolean> velocity = new Tuple<>(
+			new Class[] { S12PacketEntityVelocity.class, S27PacketExplosion.class }, false);
+	static Tuple<Class[], Boolean> teleports = new Tuple<>(
+			new Class[] { S08PacketPlayerPosLook.class, S39PacketPlayerAbilities.class, S09PacketHeldItemChange.class },
+			false);
+	static Tuple<Class[], Boolean> players = new Tuple<>(new Class[] { S13PacketDestroyEntities.class,
+			S14PacketEntity.class, S14PacketEntity.S16PacketEntityLook.class,
+			S14PacketEntity.S15PacketEntityRelMove.class, S14PacketEntity.S17PacketEntityLookMove.class,
+			S18PacketEntityTeleport.class, S20PacketEntityProperties.class, S19PacketEntityHeadLook.class }, false);
+	static Tuple<Class[], Boolean> blink = new Tuple<>(
+			new Class[] { C02PacketUseEntity.class, C0DPacketCloseWindow.class, C0EPacketClickWindow.class,
+					C0CPacketInput.class, C0BPacketEntityAction.class, C08PacketPlayerBlockPlacement.class,
+					C07PacketPlayerDigging.class, C09PacketHeldItemChange.class, C13PacketPlayerAbilities.class,
+					C15PacketClientSettings.class, C16PacketClientStatus.class, C17PacketCustomPayload.class,
+					C18PacketSpectate.class, C19PacketResourcePackStatus.class, C03PacketPlayer.class,
+					C03PacketPlayer.C04PacketPlayerPosition.class, C03PacketPlayer.C05PacketPlayerLook.class,
+					C03PacketPlayer.C06PacketPlayerPosLook.class, C0APacketAnimation.class },
+			false);
+	static Tuple<Class[], Boolean> movement = new Tuple<>(
+			new Class[] { C03PacketPlayer.class, C03PacketPlayer.C04PacketPlayerPosition.class,
+					C03PacketPlayer.C05PacketPlayerLook.class, C03PacketPlayer.C06PacketPlayerPosLook.class },
+			false);
 
-	public static Tuple<Class[], Boolean>[] types = new Tuple[] { regular, velocity, teleports, players, blink, movement };
+	public static Tuple<Class[], Boolean>[] types = new Tuple[] { regular, velocity, teleports, players, blink,
+			movement };
 
 	@EventLink
 	public final Listener<PacketEvent> onPacket = event -> {
 		Packet packet = event.getPacket();
-		
+
 		if (event.isSend()) {
 			event.setCancelled(onPacket(event.getPacket(), event).isCancelled());
 		}
-		
+
 		if (event.isReceive()) {
 			event.setCancelled(onPacket(event.getPacket(), event).isCancelled());
 		}
@@ -103,24 +123,23 @@ public final class PingSpoofComponent extends Component {
 	public final Listener<WorldChangeEvent> onWorldChange = event -> dispatch();
 
 	@EventLink
-	public final Listener<MotionEvent> onMotionEvent = event -> {
-		if (event.isPre()) {
-			if (!(enabled = !enabledTimer.finished(100) && !(mc.currentScreen instanceof GuiDownloadTerrain))) {
-				dispatch();
-			} else {
-				// Stops the packets from being called twice
-				enabled = false;
+	public final Listener<PreMotionEvent> onMotionEvent = event -> {
+		if (!(enabled = !enabledTimer.finished(100) && !(mc.currentScreen instanceof GuiDownloadTerrain))) {
+			dispatch();
+		} else {
+			// Stops the packets from being called twice
+			enabled = false;
 
-				packets.forEach(packet -> {
-					if (packet.getStopWatch().millis + amount < System.currentTimeMillis()) {
-						PacketUtil.queue(packet.getPacket());
-						packets.remove(packet);
-					}
-				});
+			packets.forEach(packet -> {
+				if (packet.getStopWatch().millis + amount < System.currentTimeMillis()) {
+					PacketUtil.queue(packet.getPacket());
+					packets.remove(packet);
+				}
+			});
 
-				enabled = true;
-			}
+			enabled = true;
 		}
+
 	};
 
 	public static void spoof(int amount, boolean regular, boolean velocity, boolean teleports, boolean players) {

@@ -5,7 +5,8 @@ import static net.minecraft.network.play.client.C0BPacketEntityAction.Action.STO
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PostMotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -22,17 +23,16 @@ public class Sneak extends Module {
     }
     
     @EventLink
-	public final Listener<MotionEvent> onMotion = event -> {
+    public final Listener<PostMotionEvent> onPostMotion = event -> {
+        PacketUtil.send(new C0BPacketEntityAction(mc.player, STOP_SNEAKING));
+        PacketUtil.send(new C0BPacketEntityAction(mc.player, START_SNEAKING));
+    };
+    
+    @EventLink
+	public final Listener<PreMotionEvent> oPrenMotion = event -> {
     	if (mc.player == null) return;		
 
-		if (event.isPre()) {
-	        PacketUtil.send(new C0BPacketEntityAction(mc.player, START_SNEAKING));
-	        PacketUtil.send(new C0BPacketEntityAction(mc.player, STOP_SNEAKING));
-		}
-		
-		if (event.isPost()) {
-	        PacketUtil.send(new C0BPacketEntityAction(mc.player, STOP_SNEAKING));
-	        PacketUtil.send(new C0BPacketEntityAction(mc.player, START_SNEAKING));
-		}
+    	PacketUtil.send(new C0BPacketEntityAction(mc.player, START_SNEAKING));
+    	PacketUtil.send(new C0BPacketEntityAction(mc.player, STOP_SNEAKING));
 	};
 }

@@ -4,7 +4,7 @@ import cc.unknown.component.impl.player.FallDistanceComponent;
 import cc.unknown.component.impl.player.PingSpoofComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render2DEvent;
 import cc.unknown.module.impl.player.NoFall;
 import cc.unknown.module.impl.world.Scaffold;
@@ -31,36 +31,35 @@ public class WatchdogNoFall extends Mode<NoFall> {
 	public final BooleanValue LessFall = new BooleanValue("Packet", this, true);
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (!PlayerUtil.isBlockUnder() || getModule(Scaffold.class).isEnabled()) {
-				return;
-			}
-
-			if (this.mc.player.offGroundTicks == 1 && mc.player.motionY < 0 && PlayerUtil.isBlockUnder()
-					&& !PlayerUtil.isBlockUnder(3)) {
-				start = true;
-			}
-
-			if (start) {
-				PingSpoofComponent.spoof(99999, true, false, false, false, true);
-				event.setOnGround(true);
-				blinkTicks++;
-			}
-
-			if (start && mc.player.onGround) {
-				PingSpoofComponent.dispatch();
-				start = false;
-				blinkTicks = 0;
-			}
-
-			if (!(blinkTicks > 0) && (FallDistanceComponent.distance > 3) && LessFall.getValue()) {
-				PacketUtil.send(new C03PacketPlayer(true));
-
-				mc.timer.timerSpeed = 0.5f;
-				FallDistanceComponent.distance = 0;
-			}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (!PlayerUtil.isBlockUnder() || getModule(Scaffold.class).isEnabled()) {
+			return;
 		}
+
+		if (this.mc.player.offGroundTicks == 1 && mc.player.motionY < 0 && PlayerUtil.isBlockUnder()
+				&& !PlayerUtil.isBlockUnder(3)) {
+			start = true;
+		}
+
+		if (start) {
+			PingSpoofComponent.spoof(99999, true, false, false, false, true);
+			event.setOnGround(true);
+			blinkTicks++;
+		}
+
+		if (start && mc.player.onGround) {
+			PingSpoofComponent.dispatch();
+			start = false;
+			blinkTicks = 0;
+		}
+
+		if (!(blinkTicks > 0) && (FallDistanceComponent.distance > 3) && LessFall.getValue()) {
+			PacketUtil.send(new C03PacketPlayer(true));
+
+			mc.timer.timerSpeed = 0.5f;
+			FallDistanceComponent.distance = 0;
+		}
+
 	};
 
 	@EventLink

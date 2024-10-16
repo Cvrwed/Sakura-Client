@@ -2,11 +2,7 @@ package net.minecraft.client.entity;
 
 import cc.unknown.Sakura;
 import cc.unknown.event.impl.input.ChatInputEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
-import cc.unknown.event.impl.motion.PushOutOfBlockEvent;
-import cc.unknown.event.impl.motion.SlowDownEvent;
-import cc.unknown.event.impl.other.MoveEvent;
+import cc.unknown.event.impl.player.*;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.vector.Vector2f;
 import net.minecraft.client.Minecraft;
@@ -188,7 +184,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate() {
+    /*public void onUpdate() {
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
             prevRenderPitchHead = renderPitchHead;
             renderPitchHead = rotationPitch;
@@ -207,20 +203,41 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
                 Sakura.instance.getEventBus().handle(new MotionEvent(MotionEvent.Type.Post));
             }
         }
+    }*/
+    
+    public void onUpdate() {
+        if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0, this.posZ))) {
+            prevRenderPitchHead = renderPitchHead;
+            renderPitchHead = rotationPitch;
+
+            Sakura.instance.getEventBus().handle(new PreUpdateEvent());
+
+            super.onUpdate();
+
+            if (this.isRiding()) {
+                this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
+                this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
+            } else {
+                this.onUpdateWalkingPlayer();
+            }
+
+            Sakura.instance.getEventBus().handle(new PostUpdateEvent());
+        }
+
     }
 
     /**
      * called every tick when the player is on foot. Performs all the things that normally happen during movement.
      */
-    public void onUpdateWalkingPlayer() {
-        final MotionEvent event = new MotionEvent(
+    /*public void onUpdateWalkingPlayer() {
+        final PreMotionEvent event = new PreMotionEvent(
                 this.posX,
                 this.posY,
                 this.posZ,
                 this.rotationYaw,
                 this.rotationPitch,
                 this.onGround,
-                this.isSprinting(), MotionEvent.Type.Pre
+                this.isSprinting()
         );
 
         if (this == mc.player) {
@@ -260,9 +277,6 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
             final double d3 = event.getYaw() - this.lastReportedYaw;
             final double d4 = event.getPitch() - this.lastReportedPitch;
 
-//            MinimumFlyingEvent minimumFlyingEvent = new MinimumFlyingEvent(9.0E-4D);
-//            Rise.INSTANCE.getEventBus().handle(minimumFlyingEvent);
-
             final boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
             final boolean flag3 = d3 != 0.0D || d4 != 0.0D;
 
@@ -300,6 +314,83 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
                 this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
             }
         }
+    }*/
+    
+    public void onUpdateWalkingPlayer() {
+        final PreMotionEvent event = new PreMotionEvent(
+                this.posX,
+                this.posY,
+                this.posZ,
+                this.rotationYaw,
+                this.rotationPitch,
+                this.onGround,
+                this.isSprinting()
+        );
+
+        Sakura.instance.getEventBus().handle(event);
+        if (event.isCancelled()) return;
+
+        boolean flag = event.isSprinting();
+        if (flag != this.serverSprintState) {
+            if (flag) {
+                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SPRINTING));
+            } else {
+                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SPRINTING));
+            }
+
+            this.serverSprintState = flag;
+        }
+
+        boolean flag1 = this.isSneaking();
+        if (flag1 != this.serverSneakState) {
+            if (flag1) {
+                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SNEAKING));
+            } else {
+                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SNEAKING));
+            }
+
+            this.serverSneakState = flag1;
+        }
+
+        if (this.isCurrentViewEntity()) {
+            double d0 = event.getPosX() - this.lastReportedPosX;
+            double d1 = event.getPosY() - this.lastReportedPosY;
+            double d2 = event.getPosZ() - this.lastReportedPosZ;
+            double d3 = event.getYaw() - this.lastReportedYaw;
+            double d4 = event.getPitch() - this.lastReportedPitch;
+            boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4 || this.positionUpdateTicks >= 20;
+            boolean flag3 = d3 != 0.0 || d4 != 0.0;
+            if (this.ridingEntity == null) {
+                if (flag2 && flag3) {
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(event.getPosX(), event.getPosY(), event.getPosZ(), event.getYaw(), event.getPitch(), event.isOnGround()));
+                } else if (flag2) {
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(event.getPosX(), event.getPosY(), event.getPosZ(), event.isOnGround()));
+                } else if (flag3) {
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(event.getYaw(), event.getPitch(), event.isOnGround()));
+                } else {
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
+                }
+            } else {
+                this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, this.motionZ, event.getYaw(), event.getPitch(), event.isOnGround()));
+                flag2 = false;
+            }
+
+            ++this.positionUpdateTicks;
+
+            if (flag2) {
+                this.lastReportedPosX = event.getPosX();
+                this.lastReportedPosY = event.getPosY();
+                this.lastReportedPosZ = event.getPosZ();
+                this.positionUpdateTicks = 0;
+            }
+
+            if (flag3) {
+                this.lastReportedYaw = event.getYaw();
+                this.lastReportedPitch = event.getPitch();
+            }
+        }
+
+        Sakura.instance.getEventBus().handle(new PostMotionEvent());
     }
 
     /**

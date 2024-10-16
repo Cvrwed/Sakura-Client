@@ -6,7 +6,7 @@ import com.ibm.icu.impl.duration.impl.Utils;
 
 import cc.unknown.Sakura;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.other.MoveEvent;
+import cc.unknown.event.impl.player.MoveEvent;
 import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.math.MathUtil;

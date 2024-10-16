@@ -2,7 +2,7 @@ package cc.unknown.util.packet;
 
 import java.util.Arrays;
 
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.script.api.NetworkAPI;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.player.SlotUtil;

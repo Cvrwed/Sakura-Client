@@ -4,12 +4,11 @@ import org.lwjgl.input.Keyboard;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
-import cc.unknown.util.chat.ChatUtil;
 import cc.unknown.util.player.PlayerUtil;
 import cc.unknown.util.time.StopWatch;
 import cc.unknown.value.impl.BooleanValue;
@@ -47,94 +46,93 @@ public class LegitScaffold extends Module {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			if (!(mc.currentScreen == null) || !isInGame())
-				return;
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		if (!(mc.currentScreen == null) || !isInGame())
+			return;
 
-			boolean shift = delay.getSecondValue().intValue() > 0;
+		boolean shift = delay.getSecondValue().intValue() > 0;
 
-			if (mc.player.rotationPitch < pitchRange.getValue().floatValue()
-					|| mc.player.rotationPitch > pitchRange.getSecondValue().floatValue()) {
-				shouldBridge = false;
-				if (Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
-					setSneak(true);
-				}
-				return;
-			}
-
-			if (holdShift.getValue()) {
-				if (!Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
-					shouldBridge = false;
-					return;
-				}
-			}
-
-			if (mc.playerController.getCurrentGameType() == WorldSettings.GameType.SPECTATOR) {
-				return;
-			}
-
-			if (blocksOnly.getValue()) {
-				ItemStack i = mc.player.getHeldItem();
-				if (i == null || !(i.getItem() instanceof ItemBlock)) {
-					if (isShifting) {
-						isShifting = false;
-						setSneak(false);
-					}
-					return;
-				}
-			}
-
-			if (backwards.getValue()) {
-				if ((mc.player.movementInput.moveForward > 0) && (mc.player.movementInput.moveStrafe == 0)
-						|| mc.player.movementInput.moveForward >= 0) {
-					shouldBridge = false;
-					return;
-				}
-			}
-
-			if (mc.player.onGround) {
-				if (PlayerUtil.isOverAir()) {
-					if (shift) {
-						shiftTimer.setMillis(MathHelper.randomInt(delay.getValue().intValue(),
-								(int) (delay.getSecondValue().intValue() + 0.1)));
-						shiftTimer.reset();
-					}
-
-					isShifting = true;
-					setSneak(true);
-					shouldBridge = true;
-				} else if (mc.player.isSneaking() && !Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())
-						&& holdShift.getValue()) {
-					isShifting = false;
-					shouldBridge = false;
-					setSneak(false);
-				} else if (holdShift.getValue() && !Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
-					isShifting = false;
-					shouldBridge = false;
-					setSneak(false);
-				} else if (mc.player.isSneaking()
-						&& (Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode()) && holdShift.getValue())
-						&& (!shift || shiftTimer.hasFinished())) {
-					isShifting = false;
-					setSneak(false);
-					shouldBridge = true;
-				} else if (mc.player.isSneaking() && !holdShift.getValue() && (!shift || shiftTimer.hasFinished())) {
-					isShifting = false;
-					setSneak(false);
-					shouldBridge = true;
-				}
-			} else if (shouldBridge && mc.player.capabilities.isFlying) {
-				setSneak(false);
-				shouldBridge = false;
-			} else if (shouldBridge && PlayerUtil.isOverAir() && legit.getValue()) {
-				isShifting = true;
+		if (mc.player.rotationPitch < pitchRange.getValue().floatValue()
+				|| mc.player.rotationPitch > pitchRange.getSecondValue().floatValue()) {
+			shouldBridge = false;
+			if (Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
 				setSneak(true);
-			} else {
-				isShifting = false;
-				setSneak(false);
+			}
+			return;
+		}
+
+		if (holdShift.getValue()) {
+			if (!Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
+				shouldBridge = false;
+				return;
 			}
 		}
+
+		if (mc.playerController.getCurrentGameType() == WorldSettings.GameType.SPECTATOR) {
+			return;
+		}
+
+		if (blocksOnly.getValue()) {
+			ItemStack i = mc.player.getHeldItem();
+			if (i == null || !(i.getItem() instanceof ItemBlock)) {
+				if (isShifting) {
+					isShifting = false;
+					setSneak(false);
+				}
+				return;
+			}
+		}
+
+		if (backwards.getValue()) {
+			if ((mc.player.movementInput.moveForward > 0) && (mc.player.movementInput.moveStrafe == 0)
+					|| mc.player.movementInput.moveForward >= 0) {
+				shouldBridge = false;
+				return;
+			}
+		}
+
+		if (mc.player.onGround) {
+			if (PlayerUtil.isOverAir()) {
+				if (shift) {
+					shiftTimer.setMillis(MathHelper.randomInt(delay.getValue().intValue(),
+							(int) (delay.getSecondValue().intValue() + 0.1)));
+					shiftTimer.reset();
+				}
+
+				isShifting = true;
+				setSneak(true);
+				shouldBridge = true;
+			} else if (mc.player.isSneaking() && !Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())
+					&& holdShift.getValue()) {
+				isShifting = false;
+				shouldBridge = false;
+				setSneak(false);
+			} else if (holdShift.getValue() && !Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
+				isShifting = false;
+				shouldBridge = false;
+				setSneak(false);
+			} else if (mc.player.isSneaking()
+					&& (Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode()) && holdShift.getValue())
+					&& (!shift || shiftTimer.hasFinished())) {
+				isShifting = false;
+				setSneak(false);
+				shouldBridge = true;
+			} else if (mc.player.isSneaking() && !holdShift.getValue() && (!shift || shiftTimer.hasFinished())) {
+				isShifting = false;
+				setSneak(false);
+				shouldBridge = true;
+			}
+		} else if (shouldBridge && mc.player.capabilities.isFlying) {
+			setSneak(false);
+			shouldBridge = false;
+		} else if (shouldBridge && PlayerUtil.isOverAir() && legit.getValue()) {
+			isShifting = true;
+			setSneak(true);
+		} else {
+			isShifting = false;
+			setSneak(false);
+		}
+
 	};
 
 	@EventLink

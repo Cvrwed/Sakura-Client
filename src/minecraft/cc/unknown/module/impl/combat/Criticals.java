@@ -1,17 +1,14 @@
 package cc.unknown.module.impl.combat;
 
-import cc.unknown.component.impl.player.FallDistanceComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.other.AttackEvent;
+import cc.unknown.event.impl.player.AttackEvent;
 import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
 import cc.unknown.util.packet.PacketUtil;
 import cc.unknown.util.time.StopWatch;
-import cc.unknown.value.impl.BooleanValue;
 import cc.unknown.value.impl.ModeValue;
 import cc.unknown.value.impl.NumberValue;
 import cc.unknown.value.impl.SubMode;

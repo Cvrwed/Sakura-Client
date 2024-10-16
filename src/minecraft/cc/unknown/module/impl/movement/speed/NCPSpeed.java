@@ -2,9 +2,9 @@ package cc.unknown.module.impl.movement.speed;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.event.impl.other.TeleportEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.impl.movement.Speed;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.Mode;
@@ -57,7 +57,7 @@ public class NCPSpeed extends Mode<Speed> {
 
 
     @EventLink
-    public final Listener<StrafeEvent> onStrafe = event -> {
+    public final Listener<PreStrafeEvent> onStrafe = event -> {
         if (lowHop.getValue()){
             if (mc.player.offGroundTicks == 4){
                 mc.player.motionY = -0.09800000190734864;

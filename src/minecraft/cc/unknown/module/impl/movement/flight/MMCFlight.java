@@ -3,9 +3,9 @@ package cc.unknown.module.impl.movement.flight;
 import cc.unknown.component.impl.player.BlinkComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
 import cc.unknown.event.impl.other.TeleportEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.impl.movement.Flight;
 import cc.unknown.util.packet.PacketUtil;
 import cc.unknown.util.player.MoveUtil;
@@ -40,40 +40,38 @@ public class MMCFlight extends Mode<Flight> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			ticks++;
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		ticks++;
 
-			if (mc.player.onGround) {
-				MoveUtil.stop();
-			} else {
-				return;
-			}
+		if (mc.player.onGround) {
+			MoveUtil.stop();
+		} else {
+			return;
+		}
 
-			if (ticks == 1) {
-				if (PlayerUtil.blockRelativeToPlayer(0, -2.5, 0).isFullBlock()) {
-					mc.timer.timerSpeed = 0.1F;
-					BlinkComponent.blinking = true;
+		if (ticks == 1) {
+			if (PlayerUtil.blockRelativeToPlayer(0, -2.5, 0).isFullBlock()) {
+				mc.timer.timerSpeed = 0.1F;
+				BlinkComponent.blinking = true;
 
-					PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.player.posX, mc.player.posY,
-							mc.player.posZ, true));
-					PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.player.posX,
-							MoveUtil.roundToGround(mc.player.posY - (2.5 - (Math.random() / 100))), mc.player.posZ,
-							false));
-					PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.player.posX, mc.player.posY,
-							mc.player.posZ, false));
+				PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.player.posX, mc.player.posY,
+						mc.player.posZ, true));
+				PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.player.posX,
+						MoveUtil.roundToGround(mc.player.posY - (2.5 - (Math.random() / 100))), mc.player.posZ, false));
+				PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.player.posX, mc.player.posY,
+						mc.player.posZ, false));
 
-					clipped = true;
+				clipped = true;
 
-					mc.player.jump();
-					MoveUtil.strafe(7 - Math.random() / 10);
-				}
+				mc.player.jump();
+				MoveUtil.strafe(7 - Math.random() / 10);
 			}
 		}
+
 	};
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		MoveUtil.strafe();
 	};
 

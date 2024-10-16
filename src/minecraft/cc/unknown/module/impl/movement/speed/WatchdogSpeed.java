@@ -3,7 +3,7 @@ package cc.unknown.module.impl.movement.speed;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.impl.movement.Speed;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.Mode;
@@ -23,7 +23,7 @@ public class WatchdogSpeed extends Mode<Speed> {
 	public final Listener<MoveInputEvent> onInput = inputEvent -> inputEvent.setJump(false);
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		if (mc.player == null) {
 		    return;
 		}

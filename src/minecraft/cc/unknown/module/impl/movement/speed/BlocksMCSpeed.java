@@ -2,9 +2,9 @@ package cc.unknown.module.impl.movement.speed;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
 import cc.unknown.event.impl.other.TeleportEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.impl.movement.Speed;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.Mode;
@@ -25,7 +25,7 @@ public class BlocksMCSpeed extends Mode<Speed> {
 	}
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		final double base = MoveUtil.getAllowedHorizontalDistance();
 		final boolean potionActive = mc.player.isPotionActive(Potion.moveSpeed);
 
@@ -71,12 +71,10 @@ public class BlocksMCSpeed extends Mode<Speed> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (!MoveUtil.isMoving()) {
-				event.setPosX(event.getPosX() + (Math.random() - 0.5) / 3);
-				event.setPosZ(event.getPosZ() + (Math.random() - 0.5) / 3);
-			}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (!MoveUtil.isMoving()) {
+			event.setPosX(event.getPosX() + (Math.random() - 0.5) / 3);
+			event.setPosZ(event.getPosZ() + (Math.random() - 0.5) / 3);
 		}
 
 	};

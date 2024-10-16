@@ -18,8 +18,8 @@ import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import cc.unknown.Sakura;
-import cc.unknown.event.impl.packet.PacketEvent;
-import cc.unknown.event.impl.packet.PacketEvent.PacketDirection;
+import cc.unknown.event.impl.netty.PacketEvent;
+import cc.unknown.event.impl.netty.PacketEvent.PacketDirection;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;

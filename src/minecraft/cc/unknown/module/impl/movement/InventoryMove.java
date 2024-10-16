@@ -4,12 +4,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.JumpEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
 import cc.unknown.event.impl.other.WorldChangeEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.player.JumpEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -67,39 +67,38 @@ public class InventoryMove extends Module {
 	};
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (mode.is("buffer abuse")) {
-				if (this.canAbuse()) {
-					if (!this.sent) {
-						if (!this.done) {
-							this.done = true;
-						} else {
-							for (int i = 0; i < this.amount.getValue().intValue(); i++) {
-								PacketUtil.sendNoEvent(new C0EPacketClickWindow());
-							}
-							packets.forEach(PacketUtil::sendNoEvent);
-							packets.clear();
-							this.sent = true;
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (mode.is("buffer abuse")) {
+			if (this.canAbuse()) {
+				if (!this.sent) {
+					if (!this.done) {
+						this.done = true;
+					} else {
+						for (int i = 0; i < this.amount.getValue().intValue(); i++) {
+							PacketUtil.sendNoEvent(new C0EPacketClickWindow());
 						}
+						packets.forEach(PacketUtil::sendNoEvent);
+						packets.clear();
+						this.sent = true;
 					}
-				} else {
-					this.done = false;
-					this.sent = false;
 				}
-			}
-
-			if (mode.is("watchdog")) {
-				if (mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiChest
-						|| mc.currentScreen == this.getClickGUI() || mc.currentScreen instanceof GuiInventory) {
-					MoveUtil.stop();
-				}
+			} else {
+				this.done = false;
+				this.sent = false;
 			}
 		}
+
+		if (mode.is("watchdog")) {
+			if (mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiChest
+					|| mc.currentScreen == this.getClickGUI() || mc.currentScreen instanceof GuiInventory) {
+				MoveUtil.stop();
+			}
+		}
+
 	};
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		if (mode.is("buffer abuse")) {
 			if (this.canAbuse() && !this.sent) {
 				event.setCancelled();
@@ -119,7 +118,8 @@ public class InventoryMove extends Module {
 	@EventLink
 	public final Listener<PacketEvent> onPacketSend = event -> {
 		final Packet<?> p = event.getPacket();
-	    if (!event.isSend()) return;
+		if (!event.isSend())
+			return;
 
 		if (mode.is("buffer abuse")) {
 			if (p instanceof C0EPacketClickWindow) {

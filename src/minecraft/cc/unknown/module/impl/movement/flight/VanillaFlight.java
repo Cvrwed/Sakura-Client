@@ -3,8 +3,8 @@ package cc.unknown.module.impl.movement.flight;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.impl.movement.Flight;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.Mode;
@@ -24,20 +24,19 @@ public class VanillaFlight extends Mode<Flight> {
 	}
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		final float speed = this.speed.getValue().floatValue();
 
 		event.setSpeed(speed);
 	};
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			final float speed = this.speed.getValue().floatValue();
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		final float speed = this.speed.getValue().floatValue();
 
-			mc.player.motionY = 0.0D + (mc.gameSettings.keyBindJump.isKeyDown() ? speed : 0.0D)
-					- (mc.gameSettings.keyBindSneak.isKeyDown() ? speed : 0.0D);
-		}
+		mc.player.motionY = 0.0D + (mc.gameSettings.keyBindJump.isKeyDown() ? speed : 0.0D)
+				- (mc.gameSettings.keyBindSneak.isKeyDown() ? speed : 0.0D);
+
 	};
 
 	@EventLink

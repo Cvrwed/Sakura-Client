@@ -10,7 +10,7 @@ import cc.unknown.component.impl.player.Slot;
 import cc.unknown.component.impl.player.rotationcomponent.MovementFix;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.module.impl.player.NoFall;
 import cc.unknown.util.RayCastUtil;
 import cc.unknown.util.chat.ChatUtil;

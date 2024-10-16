@@ -4,7 +4,7 @@ import cc.unknown.component.impl.Component;
 import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;

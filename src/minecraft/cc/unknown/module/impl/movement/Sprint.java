@@ -6,34 +6,29 @@ import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.util.vector.Vector2f;
 import cc.unknown.value.impl.BooleanValue;
-import cc.unknown.value.impl.ModeValue;
-import cc.unknown.value.impl.SubMode;
 
 @ModuleInfo(aliases = "Sprint", description = "Makes you sprint", category = Category.MOVEMENT)
 public class Sprint extends Module {
-
-		private ModeValue mode = new ModeValue("Mode", this)
-				.add(new SubMode("Legit"))
-				.add(new SubMode("OmniSprint"))
-				.add(new SubMode("Legit OmniSprint"))
-				.setDefault("Legit");
+		
+	private final BooleanValue legit = new BooleanValue("Legit", this, true);
+	private final BooleanValue omniLegit = new BooleanValue("Omni Legit", this, false, () -> !legit.getValue());
 	    
     private float forward = 0;
     private float strafe = 0;
 
     @EventLink(value = Priority.LOW)
-    public final Listener<StrafeEvent> onStrafe = event -> {
-    	if (mode.is("Legit") || mode.is("Legit OmniSprint")) mc.gameSettings.keyBindSprint.setPressed(true);
+    public final Listener<PreStrafeEvent> onStrafe = event -> {
+    	if (legit.getValue()) mc.gameSettings.keyBindSprint.setPressed(true);
     	
-    	if (mode.is("OmniSprint")) {
+    	if (!legit.getValue()) {
             mc.player.omniSprint = MoveUtil.isMoving();
 
             MoveUtil.preventDiagonalSpeed();
@@ -51,15 +46,15 @@ public class Sprint extends Module {
 
     @EventLink(value = Priority.HIGH)
     public final Listener<MoveInputEvent> moveInput = event -> {
-    	if (mode.is("Legit OmniSprint")) {
+    	if (omniLegit.getValue()) {
 	        forward = event.getForward();
 	        strafe = event.getStrafe();
     	}
     };
     
     @EventLink(value = Priority.LOW)
-    public final Listener<PreUpdateEvent> onPreUpdate = event -> {
-    	if (mode.is("Legit OmniSprint")) {
+    public final Listener<PreMotionEvent> onPreMotion = event -> {
+    	if (omniLegit.getValue()) {
 	        RotationComponent.setRotations(new Vector2f((float) Math.toDegrees(MoveUtil.direction(forward, strafe)), mc.player.rotationPitch),
 	                10, MovementFix.SILENT);
     	}

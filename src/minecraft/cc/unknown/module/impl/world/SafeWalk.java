@@ -3,7 +3,7 @@ package cc.unknown.module.impl.world;
 import cc.unknown.component.impl.player.Slot;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;

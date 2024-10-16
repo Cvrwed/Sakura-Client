@@ -103,7 +103,7 @@ public final class ScriptManager implements Accessor {
         // Create new global bindings
         this.globalBindings = new SimpleBindings() {{
             this.put("mc", new MinecraftAPI());
-            this.put("script", new ScriptAPI());
+            this.put("sakura", new ScriptAPI());
             this.put("player", new PlayerAPI());
             this.put("world", new WorldAPI());
             this.put("network", new NetworkAPI());

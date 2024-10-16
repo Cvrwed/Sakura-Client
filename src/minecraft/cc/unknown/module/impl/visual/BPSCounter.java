@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.PostStrafeEvent;
+import cc.unknown.event.impl.player.PostStrafeEvent;
 import cc.unknown.event.impl.render.Render2DEvent;
 import cc.unknown.font.Fonts;
 import cc.unknown.font.Weight;

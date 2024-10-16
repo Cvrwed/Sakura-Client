@@ -3,8 +3,8 @@ package cc.unknown.module.impl.movement.flight;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.other.BlockAABBEvent;
+import cc.unknown.event.impl.player.BlockAABBEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.impl.movement.Flight;
 import cc.unknown.value.Mode;
 import net.minecraft.block.BlockAir;
@@ -28,16 +28,15 @@ public class AirJumpFlight extends Mode<Flight> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (mc.gameSettings.keyBindJump.isKeyDown() || mc.gameSettings.keyBindSneak.isKeyDown()) {
-				y = mc.player.posY;
-			}
-
-			if (mc.player.onGround) {
-				mc.player.jump();
-			}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (mc.gameSettings.keyBindJump.isKeyDown() || mc.gameSettings.keyBindSneak.isKeyDown()) {
+			y = mc.player.posY;
 		}
+
+		if (mc.player.onGround) {
+			mc.player.jump();
+		}
+
 	};
 
 	@EventLink

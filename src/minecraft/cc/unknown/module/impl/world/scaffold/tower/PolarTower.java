@@ -2,7 +2,7 @@ package cc.unknown.module.impl.world.scaffold.tower;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.value.Mode;
 
@@ -12,7 +12,7 @@ public class PolarTower extends Mode<Scaffold> {
     }
 
     @EventLink
-    public final Listener<StrafeEvent> onStrafe = event -> {
+    public final Listener<PreStrafeEvent> onStrafe = event -> {
         if (!mc.gameSettings.keyBindJump.isKeyDown()) {
             return;
         }

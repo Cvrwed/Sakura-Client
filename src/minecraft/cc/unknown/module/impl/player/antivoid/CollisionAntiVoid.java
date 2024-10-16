@@ -3,7 +3,7 @@ package cc.unknown.module.impl.player.antivoid;
 import cc.unknown.component.impl.player.FallDistanceComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.impl.player.AntiVoid;
 import cc.unknown.util.player.PlayerUtil;
 import cc.unknown.value.Mode;
@@ -18,16 +18,15 @@ public class CollisionAntiVoid extends Mode<AntiVoid> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (FallDistanceComponent.distance > distance.getValue().intValue() && !PlayerUtil.isBlockUnder()
-					&& mc.player.posY + mc.player.motionY < Math.floor(mc.player.posY)) {
-				mc.player.motionY = Math.floor(mc.player.posY) - mc.player.posY;
-				if (mc.player.motionY == 0) {
-					mc.player.onGround = true;
-					event.setOnGround(true);
-				}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (FallDistanceComponent.distance > distance.getValue().intValue() && !PlayerUtil.isBlockUnder()
+				&& mc.player.posY + mc.player.motionY < Math.floor(mc.player.posY)) {
+			mc.player.motionY = Math.floor(mc.player.posY) - mc.player.posY;
+			if (mc.player.motionY == 0) {
+				mc.player.onGround = true;
+				event.setOnGround(true);
 			}
 		}
+
 	};
 }

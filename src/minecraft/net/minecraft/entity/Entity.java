@@ -6,9 +6,9 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import cc.unknown.Sakura;
-import cc.unknown.event.impl.motion.PostStrafeEvent;
-import cc.unknown.event.impl.motion.SafeWalkEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
+import cc.unknown.event.impl.player.PostStrafeEvent;
+import cc.unknown.event.impl.player.SafeWalkEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.util.EvictingList;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.util.time.StopWatch;
@@ -1217,7 +1217,7 @@ public abstract class Entity implements ICommandSender {
         if (player) {
 //            if (Minecraft.getMinecraft().thePlayer.ticksExisted % 40 == 0) System.out.println(friction);
 
-            final StrafeEvent event = new StrafeEvent(forward, strafe, friction, this.movementYaw);
+            final PreStrafeEvent event = new PreStrafeEvent(forward, strafe, friction, this.movementYaw);
 
             Sakura.instance.getEventBus().handle(event);
 

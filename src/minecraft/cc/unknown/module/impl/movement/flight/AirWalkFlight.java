@@ -2,7 +2,7 @@ package cc.unknown.module.impl.movement.flight;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.other.BlockAABBEvent;
+import cc.unknown.event.impl.player.BlockAABBEvent;
 import cc.unknown.module.impl.movement.Flight;
 import cc.unknown.value.Mode;
 import net.minecraft.block.BlockAir;

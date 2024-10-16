@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
@@ -48,37 +48,37 @@ public final class JumpCirclesModule extends Module {
 	}
 
 	@EventLink
-	private final Listener<MotionEvent> postMotionEventListener = event -> {
-		if (event.isPost()) {
-			if (this.mc.player.onGround && this.playerWasInAir) {
-				final double lerpedX = MathUtil.lerp(this.mc.player.prevPosX, this.mc.player.posX,
-						this.mc.timer.renderPartialTicks);
-				final double lerpedY = MathUtil.lerp(this.mc.player.prevPosY, this.mc.player.posY,
-						this.mc.timer.renderPartialTicks);
-				final double lerpedZ = MathUtil.lerp(this.mc.player.prevPosZ, this.mc.player.posZ,
-						this.mc.timer.renderPartialTicks);
+	private final Listener<PreMotionEvent> postMotionEventListener = event -> {
+		if (this.mc.player.onGround && this.playerWasInAir) {
+			final double lerpedX = MathUtil.lerp(this.mc.player.prevPosX, this.mc.player.posX,
+					this.mc.timer.renderPartialTicks);
+			final double lerpedY = MathUtil.lerp(this.mc.player.prevPosY, this.mc.player.posY,
+					this.mc.timer.renderPartialTicks);
+			final double lerpedZ = MathUtil.lerp(this.mc.player.prevPosZ, this.mc.player.posZ,
+					this.mc.timer.renderPartialTicks);
 
-				circles.add(new Circle(new Vec3(lerpedX, lerpedY, lerpedZ), 0, 255));
-				this.playerWasInAir = false;
-			} else if (!this.mc.player.onGround) {
-				this.playerWasInAir = true;
-			}
-
-			for (final Circle circle : this.circles) {
-				if (circle.alpha > 0) {
-					return;
-				}
-
-				this.circles.clear();
-			}
+			circles.add(new Circle(new Vec3(lerpedX, lerpedY, lerpedZ), 0, 255));
+			this.playerWasInAir = false;
+		} else if (!this.mc.player.onGround) {
+			this.playerWasInAir = true;
 		}
+
+		for (final Circle circle : this.circles) {
+			if (circle.alpha > 0) {
+				return;
+			}
+
+			this.circles.clear();
+		}
+
 	};
 
 	@EventLink
 	private final Listener<Render3DEvent> render3DEventListener = this::onRender3DEvent;
 
 	private void onRender3DEvent(final Render3DEvent render3DEvent) {
-		if (isClickGui()) return;
+		if (isClickGui())
+			return;
 
 		for (final Circle circle : this.circles) {
 			final Vec3 pos = circle.getPosition();

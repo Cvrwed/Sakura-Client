@@ -3,9 +3,9 @@ package cc.unknown.module.impl.movement.flight;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.other.BlockAABBEvent;
-import cc.unknown.event.impl.other.MoveEvent;
+import cc.unknown.event.impl.player.BlockAABBEvent;
+import cc.unknown.event.impl.player.MoveEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.impl.movement.Flight;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.Mode;
@@ -31,16 +31,15 @@ public class VerusFlight extends Mode<Flight> { // TODO: make sneaking go down
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			if (mc.gameSettings.keyBindJump.isKeyDown()) {
-				if (mc.player.ticksExisted % 2 == 0) {
-					mc.player.motionY = 0.42F;
-				}
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		if (mc.gameSettings.keyBindJump.isKeyDown()) {
+			if (mc.player.ticksExisted % 2 == 0) {
+				mc.player.motionY = 0.42F;
 			}
-
-			++ticks;
 		}
+
+		++ticks;
+
 	};
 
 	@EventLink

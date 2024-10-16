@@ -4,8 +4,9 @@ import cc.unknown.Sakura;
 import cc.unknown.component.impl.player.PingSpoofComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
 import cc.unknown.event.impl.other.WorldChangeEvent;
+import cc.unknown.event.impl.player.PostMotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -38,19 +39,18 @@ public class Blink extends Module {
     }
     
     @EventLink
-    public final Listener<MotionEvent> onMotion = event -> {
-    	if (event.isPre()) {
-    		PingSpoofComponent.blink();
-    	}
-    	
-    	if (event.isPost()) {
-            if (mc.player.ticksExisted > next && pulse.getValue()) {
-                getNext();
-                PingSpoofComponent.dispatch();
+    public final Listener<PreMotionEvent> onPreMotion = event -> {
+    	PingSpoofComponent.blink();
+    };
+    
+    @EventLink
+    public final Listener<PostMotionEvent> onPostMotion = event -> {
+        if (mc.player.ticksExisted > next && pulse.getValue()) {
+            getNext();
+            PingSpoofComponent.dispatch();
 
-                deSpawnEntity();
-            }
-    	}
+            deSpawnEntity();
+        }
     };
 
     @EventLink

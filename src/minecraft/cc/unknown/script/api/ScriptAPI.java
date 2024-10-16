@@ -198,7 +198,7 @@ public class ScriptAPI {
     }
 
     public ScriptBlockPos newBlockPos(int x, int y, int z) {
-        ChatUtil.display("Please use world.newBlockPos(), instead of script.newBlockPos().");
+        ChatUtil.display("Please use world.newBlockPos(), instead of sakura.newBlockPos().");
         return null;
     }
 

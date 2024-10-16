@@ -4,7 +4,7 @@ import cc.unknown.component.impl.player.FallDistanceComponent;
 import cc.unknown.component.impl.player.Slot;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.MotionEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.module.impl.player.NoFall;
 import cc.unknown.util.packet.PacketUtil;
 import cc.unknown.value.Mode;
@@ -22,18 +22,17 @@ public class PlaceNoFall extends Mode<NoFall> {
 	}
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotion = event -> {
-		if (event.isPre()) {
-			float distance = FallDistanceComponent.distance;
+	public final Listener<PreMotionEvent> onPreMotion = event -> {
+		float distance = FallDistanceComponent.distance;
 
-			if (distance > 3) {
-				PacketUtil.send(new C03PacketPlayer.C06PacketPlayerPosLook(event.getPosX(), event.getPosY(),
-						event.getPosZ(), event.getYaw(), event.getPitch(), true));
-				PacketUtil.send(new C08PacketPlayerBlockPlacement(getComponent(Slot.class).getItemStack()));
-				distance = 0;
-			}
-
-			FallDistanceComponent.distance = distance;
+		if (distance > 3) {
+			PacketUtil.send(new C03PacketPlayer.C06PacketPlayerPosLook(event.getPosX(), event.getPosY(),
+					event.getPosZ(), event.getYaw(), event.getPitch(), true));
+			PacketUtil.send(new C08PacketPlayerBlockPlacement(getComponent(Slot.class).getItemStack()));
+			distance = 0;
 		}
+
+		FallDistanceComponent.distance = distance;
+
 	};
 }

@@ -4,10 +4,10 @@ import cc.unknown.event.CancellableEvent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.motion.MotionEvent;
-import cc.unknown.event.impl.motion.StrafeEvent;
-import cc.unknown.event.impl.other.BlockAABBEvent;
-import cc.unknown.event.impl.packet.PacketEvent;
+import cc.unknown.event.impl.netty.PacketEvent;
+import cc.unknown.event.impl.player.BlockAABBEvent;
+import cc.unknown.event.impl.player.PreMotionEvent;
+import cc.unknown.event.impl.player.PreStrafeEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
@@ -64,20 +64,18 @@ public final class FreeCam extends Module {
 	};
 
 	@EventLink
-	public final Listener<StrafeEvent> onStrafe = event -> {
+	public final Listener<PreStrafeEvent> onStrafe = event -> {
 		final float speed = this.speed.getValue().floatValue();
 
 		event.setSpeed(speed);
 	};
 
 	@EventLink
-	public final Listener<MotionEvent> onPreMotionEvent = event -> {
-		if (event.isPre()) {
-			final float speed = this.speed.getValue().floatValue();
+	public final Listener<PreMotionEvent> onPreMotionEvent = event -> {
+		final float speed = this.speed.getValue().floatValue();
 
-			mc.player.motionY = 0.0D + (mc.gameSettings.keyBindJump.isKeyDown() ? speed : 0.0D)
-					- (mc.gameSettings.keyBindSneak.isKeyDown() ? speed : 0.0D);
-		}
+		mc.player.motionY = 0.0D + (mc.gameSettings.keyBindJump.isKeyDown() ? speed : 0.0D)
+				- (mc.gameSettings.keyBindSneak.isKeyDown() ? speed : 0.0D);
 	};
 
 	@EventLink

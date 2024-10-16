@@ -5,7 +5,7 @@ import org.lwjgl.input.Keyboard;
 import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.motion.PreUpdateEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.value.Mode;
 
