@@ -83,7 +83,6 @@ public final class ModuleManager {
         this.put(MurderMystery.class, new MurderMystery());
         this.put(RichPresence.class, new RichPresence());
         this.put(NoGuiClose.class, new NoGuiClose());
-        this.put(BedWarsUtils.class, new BedWarsUtils());
 
         // Player
         this.put(AntiFireBall.class, new AntiFireBall());

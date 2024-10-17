@@ -88,12 +88,11 @@ public class RichPresence extends Module {
 
             Gson gson = new Gson();
 
-            List<ServerMapping> serverMappings = gson.fromJson(reader, new TypeToken<List<ServerMapping>>(){}.getType());
+            List<ServerData> serverMappings = gson.fromJson(reader, new TypeToken<List<ServerData>>(){}.getType());
 
-            for (ServerMapping mapping : serverMappings) {
+            for (ServerData mapping : serverMappings) {
                 ServerData serverData = new ServerData();
                 serverData.name = mapping.name;
-                serverData.logo = mapping.images.logo;
 
                 serverDataMap.put(mapping.primaryAddress.toLowerCase(), serverData);
 
@@ -151,18 +150,7 @@ public class RichPresence extends Module {
     
     class ServerData {
         String name;
-        String logo;
-        List<String> addresses;
-    }
-
-    class ServerMapping {
         String primaryAddress;
-        String name;
-        Images images;
         List<String> addresses;
-        
-        class Images {
-            String logo;
-        }
     }
 }
