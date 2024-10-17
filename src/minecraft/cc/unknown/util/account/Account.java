@@ -2,9 +2,13 @@ package cc.unknown.util.account;
 
 import com.google.gson.JsonObject;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
+@Getter
+@Setter
 public class Account {
     private AccountType type;
     private String name;
@@ -63,44 +67,4 @@ public class Account {
             lastUsed = object.get("lastUsed").getAsLong();
         }
     }
-
-	public AccountType getType() {
-		return type;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public long getLastUsed() {
-		return lastUsed;
-	}
-
-	public void setType(AccountType type) {
-		this.type = type;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
-
-	public void setLastUsed(long lastUsed) {
-		this.lastUsed = lastUsed;
-	}
 }

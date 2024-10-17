@@ -66,9 +66,7 @@ import cc.unknown.event.impl.other.PreTickEvent;
 import cc.unknown.event.impl.other.TickEvent;
 import cc.unknown.event.impl.player.AttackEvent;
 import cc.unknown.module.impl.visual.FreeLook;
-import cc.unknown.ui.menu.main.LoginMenu;
 import cc.unknown.ui.menu.main.MainMenu;
-import cc.unknown.util.chat.ChatUtil;
 import cc.unknown.util.font.impl.minecraft.FontRenderer;
 import cc.unknown.util.interfaces.ThreadAccess;
 import cc.unknown.util.render.BackgroundUtil;
@@ -634,9 +632,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 		this.ingameGUI = new GuiIngame(this);
 		    	
 		if (this.serverName != null) {
-			this.displayGuiScreen(new GuiConnecting(new LoginMenu(), this, this.serverName, this.serverPort));
+			this.displayGuiScreen(new GuiConnecting(new MainMenu(), this, this.serverName, this.serverPort));
 		} else {
-			this.displayGuiScreen(new LoginMenu());
+			this.displayGuiScreen(new MainMenu());
 		}
 
 		this.renderEngine.deleteTexture(this.mojangLogo);

@@ -20,7 +20,11 @@ import cc.unknown.util.font.Font;
 import cc.unknown.util.render.ColorUtil;
 import cc.unknown.util.render.RenderUtil;
 import cc.unknown.util.render.StencilUtil;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AccountViewModel<T extends Account> implements Accessor, MenuColors {
     private static final Font FONT_RENDERER = Fonts.MAIN.get(24, Weight.LIGHT);
     private static final Font INFO_FONT_RENDERER = Fonts.MAIN.get(18, Weight.LIGHT);
@@ -196,124 +200,4 @@ public class AccountViewModel<T extends Account> implements Accessor, MenuColors
     public boolean isRemovable() {
         return removable || !account.isValid();
     }
-
-	public static Font getFontRenderer() {
-		return FONT_RENDERER;
-	}
-
-	public static Font getInfoFontRenderer() {
-		return INFO_FONT_RENDERER;
-	}
-
-	public static Color getBloomColor() {
-		return BLOOM_COLOR;
-	}
-
-	public static Color getFontColor() {
-		return FONT_COLOR;
-	}
-
-	public static Color getInfoColor() {
-		return INFO_COLOR;
-	}
-
-	public static Color getBackgroundColor() {
-		return BACKGROUND_COLOR;
-	}
-
-	public static Color getBorderOneColor() {
-		return BORDER_ONE_COLOR;
-	}
-
-	public static Color getBorderTwoColor() {
-		return BORDER_TWO_COLOR;
-	}
-
-	public Animation getHoverAnimation() {
-		return hoverAnimation;
-	}
-
-	public Animation getPositionAnimation() {
-		return positionAnimation;
-	}
-
-	public T getAccount() {
-		return account;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public double getScroll() {
-		return scroll;
-	}
-
-	public float getWidth() {
-		return width;
-	}
-
-	public float getHeight() {
-		return height;
-	}
-
-	public int getScreenHeight() {
-		return screenHeight;
-	}
-
-	public MenuLabelButton[] getLabelButtons() {
-		return labelButtons;
-	}
-
-	public Runnable getDefaultRenderRunnable() {
-		return defaultRenderRunnable;
-	}
-
-	public Runnable getInvalidRenderRunnable() {
-		return invalidRenderRunnable;
-	}
-
-	public Runnable getBloomRunnable() {
-		return bloomRunnable;
-	}
-
-	public void setAccount(T account) {
-		this.account = account;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public void setScroll(double scroll) {
-		this.scroll = scroll;
-	}
-
-	public void setWidth(float width) {
-		this.width = width;
-	}
-
-	public void setHeight(float height) {
-		this.height = height;
-	}
-
-	public void setScreenHeight(int screenHeight) {
-		this.screenHeight = screenHeight;
-	}
-
-	public void setRemovable(boolean removable) {
-		this.removable = removable;
-	}
-
-	public void setLabelButtons(MenuLabelButton[] labelButtons) {
-		this.labelButtons = labelButtons;
-	}
 }

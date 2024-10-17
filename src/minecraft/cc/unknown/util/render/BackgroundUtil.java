@@ -16,7 +16,7 @@ public class BackgroundUtil implements Accessor {
 	private static StopWatch frames = new StopWatch();
 	private static String imageName = "";
 
-	public static void renderBackground(GuiScreen gui) {
+	public static synchronized void renderBackground(GuiScreen gui) {
 	    if (frames.getElapsedTime() >= 60) {
 	        for (int i = 1; i <= TOTAL_IMAGES; i++) {
 	            if (pass % TOTAL_IMAGES == i - 1) {

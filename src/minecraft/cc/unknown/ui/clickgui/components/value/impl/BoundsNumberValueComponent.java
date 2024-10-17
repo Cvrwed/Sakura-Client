@@ -1,11 +1,10 @@
 package cc.unknown.ui.clickgui.components.value.impl;
 
-import java.awt.Color;
-
 import cc.unknown.font.Fonts;
 import cc.unknown.font.Weight;
 import cc.unknown.ui.clickgui.components.value.ValueComponent;
 import cc.unknown.ui.clickgui.screen.Colors;
+import cc.unknown.ui.menu.main.impl.TextField;
 import cc.unknown.util.gui.GUIUtil;
 import cc.unknown.util.gui.textbox.TextAlign;
 import cc.unknown.util.gui.textbox.TextBox;
@@ -84,7 +83,6 @@ public class BoundsNumberValueComponent extends ValueComponent {
         this.valueDisplay.setWidth(20);
         this.valueDisplay.setColor(ColorUtil.withAlpha(this.valueDisplay.getColor(), opacity));
         this.valueDisplay.draw();
-//        Fonts.SF_ROUNDED.get(16, Weight.LIGHT).drawString(value.replace(".0", ""), this.position.x + valueWidth + 105, this.position.y, this.getClickGUI().fontDarkColor.hashCode());
 
         // Draws background
         RenderUtil.roundedRectangle(this.position.x + valueWidth, this.position.y + 1.5f, SLIDER_WIDTH, 2, 1, Colors.BACKGROUND.getWithAlpha(Math.min(opacity, Colors.BACKGROUND.get().getAlpha())));
@@ -128,10 +126,6 @@ public class BoundsNumberValueComponent extends ValueComponent {
             renderPercentage1 = (renderPercentage1 * (speed - 1) + percentage1) / speed;
             renderPercentage2 = (renderPercentage2 * (speed - 1) + percentage2) / speed;
         }
-
-        //Selectors
-        //RenderUtil.triangleCentered(selector1 + renderPercentage1 * 100 - 5, this.position.y + 15, 11, this.getClickGUI().accentColor);
-        //RenderUtil.triangleCentered(selector2 + renderPercentage2 * 100 + 5, this.position.y + 15, -12, this.getClickGUI().accentColor);
 
         final double startPositionX = selector1 + renderPercentage1 * 100;
         final double endPositionX = selector2 + renderPercentage2 * 100;

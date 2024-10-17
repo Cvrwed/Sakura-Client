@@ -50,9 +50,10 @@ public class CookieScreen extends GuiScreen implements Accessor {
 
         Vector2d position = new Vector2d(this.width / 2 - boxWidth / 2, this.height / 2 - 24);
         usernameBox = new TextField(0, this.fontRendererObj, (int) position.x, (int) position.y, (int) boxWidth, (int) boxHeight);
-    	this.buttonList.add(new Button(1, (int) position.x, (int) position.y + boxHeight + padding, boxWidth, boxHeight, "Select File"));
-    	this.buttonList.add(new Button(2, (int) position.x, (int) position.y + (boxHeight + padding) * 2, (int) ((boxWidth / 2) * 1.5), boxHeight, "Login Without Adding"));
-    	this.buttonList.add(new Button(3, (int) (position.x + (boxWidth / 2) * 1.5 + padding), (int) (position.y + (boxHeight + padding) * 2), (int) ((boxWidth / 2) * 0.5 - padding), (int) boxHeight, "Back"));
+    	this.buttonList.add(new Button(1, (int) position.x, (int) position.y + boxHeight + padding, (int) boxWidth, (int) boxHeight, "Login Without Adding"));
+    	this.buttonList.add(new Button(2, (int) position.x, (int) position.y + (boxHeight + padding) * 2, (int) buttonWidth, (int) boxHeight, "Select File"));
+    	this.buttonList.add(new Button(3, (int) ((int) position.x + buttonWidth + padding), (int) position.y + (boxHeight + padding) * 2, (int) buttonWidth, (int) boxHeight, "Microsoft"));
+    	this.buttonList.add(new Button(4, (int) ((int) position.x + (buttonWidth + padding) * 2), (int) position.y + (boxHeight + padding) * 2, (int) buttonWidth, (int) boxHeight, "Back"));
     }
 
     @Override
@@ -82,29 +83,7 @@ public class CookieScreen extends GuiScreen implements Accessor {
     @Override
     public void actionPerformed(final GuiButton button) {
     	switch (button.id) {
-        case 1:
-            new Thread(() -> {
-                FileDialog dialog = new FileDialog((Frame) null, "Select Cookie File");
-                dialog.setMode(FileDialog.LOAD);
-                dialog.setVisible(true);
-                dialog.dispose();
-                String path = new File(dialog.getDirectory() + dialog.getFile()).getAbsolutePath();
-                try {
-                    StringBuilder content = new StringBuilder();
-                    Scanner scanner = new Scanner(new FileReader(path));
-                    while (scanner.hasNextLine()) {
-                        content.append(scanner.nextLine()).append("\n");
-                    }
-                    scanner.close();
-                    usernameBox.setText(dialog.getFile());
-                    text_to_render = "Selected file!";
-                    cookie_string = content.toString().split("\n");
-                } catch (IOException e) {
-                    text_to_render = "Error (read)";
-                }
-            }, "Select Cookie File").start();
-        	break;
-        case 2: 
+        case 1: 
             new Thread(() -> {
                 try {
                     if (cookie_string.length != 0) {
@@ -188,7 +167,32 @@ public class CookieScreen extends GuiScreen implements Accessor {
 
             }, "Login To Cookie").start();
         	break;
+        case 2:
+            new Thread(() -> {
+                FileDialog dialog = new FileDialog((Frame) null, "Select Cookie File");
+                dialog.setMode(FileDialog.LOAD);
+                dialog.setVisible(true);
+                dialog.dispose();
+                String path = new File(dialog.getDirectory() + dialog.getFile()).getAbsolutePath();
+                try {
+                    StringBuilder content = new StringBuilder();
+                    Scanner scanner = new Scanner(new FileReader(path));
+                    while (scanner.hasNextLine()) {
+                        content.append(scanner.nextLine()).append("\n");
+                    }
+                    scanner.close();
+                    usernameBox.setText(dialog.getFile());
+                    text_to_render = "Selected file!";
+                    cookie_string = content.toString().split("\n");
+                } catch (IOException e) {
+                    text_to_render = "Error (read)";
+                }
+            }, "Select Cookie File").start();
+        	break;
         case 3:
+        	mc.displayGuiScreen(new MicrosoftScreen());
+        	break;
+        case 4:
         	mc.displayGuiScreen(new AccountScreen());
         	break;
 

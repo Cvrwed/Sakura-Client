@@ -129,13 +129,6 @@ public class MicrosoftLogin {
 
         if (mcRes == null) return new LoginData();
 
-        // Check game ownership
-//        final GameOwnershipResponse gameOwnershipRes = gson.fromJson(
-//                Browser.getBearerResponse("https://api.minecraftservices.com/entitlements/mcstore", mcRes.access_token),
-//                GameOwnershipResponse.class);
-//
-//        if (gameOwnershipRes == null || !gameOwnershipRes.hasGameOwnership()) return new LoginData();
-
         // Profile
         final ProfileResponse profileRes = gson.fromJson(
                 Browser.getBearerResponse("https://api.minecraftservices.com/minecraft/profile", mcRes.access_token),
