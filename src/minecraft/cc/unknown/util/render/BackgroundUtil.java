@@ -19,7 +19,7 @@ public class BackgroundUtil implements Accessor {
 
     static {
         for (int i = 1; i <= TOTAL_IMAGES; i++) {
-            images[i - 1] = new ResourceLocation("sakura/images/background/s_x_" + i + ".jpg");
+            images[i - 1] = new ResourceLocation("sakura/images/background/" + i + ".jpg");
         }
     }
 
