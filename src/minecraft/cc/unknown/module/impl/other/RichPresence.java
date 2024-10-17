@@ -93,7 +93,6 @@ public class RichPresence extends Module {
             for (ServerData mapping : serverMappings) {
                 ServerData serverData = new ServerData();
                 serverData.name = mapping.name;
-
                 serverDataMap.put(mapping.primaryAddress.toLowerCase(), serverData);
 
                 for (String address : mapping.addresses) {

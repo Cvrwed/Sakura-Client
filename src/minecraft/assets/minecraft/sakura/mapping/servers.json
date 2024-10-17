@@ -7828,6 +7828,20 @@
     },
     {
         "addresses": [
+            "anticheat-test.com"
+        ],
+        "name": "AntiCheat Test",
+        "primaryAddress": "anticheat-test.com"
+    },
+    {
+        "addresses": [
+            "eu.loyisa.cn"
+        ],
+        "name": "Loyisa",
+        "primaryAddress": "eu.loyisa.cn"
+    },
+    {
+        "addresses": [
             "zentic.cc",
             "zentic.org",
             "cobaltcraft.net"

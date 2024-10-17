@@ -11,26 +11,29 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class BackgroundUtil implements Accessor {
-	private static int pass = 0;
-	private static final int TOTAL_IMAGES = 50;
-	private static StopWatch frames = new StopWatch();
-	private static String imageName = "";
+    private static int pass = 0;
+    private static final int TOTAL_IMAGES = 50;
+    private static final StopWatch frames = new StopWatch();
+    private static String imageName = "";
+    private static ResourceLocation[] images = new ResourceLocation[TOTAL_IMAGES];
 
-	public static void renderBackground(GuiScreen gui) {
-	    if (frames.getElapsedTime() >= 60) {
-	        for (int i = 1; i <= TOTAL_IMAGES; i++) {
-	            if (pass % TOTAL_IMAGES == i - 1) {
-	                imageName = "sakura/images/background/" + i + ".jpg";
-	                break;
-	            }
-	        }
+    static {
+        for (int i = 1; i <= TOTAL_IMAGES; i++) {
+            images[i - 1] = new ResourceLocation("sakura/images/background/s_x_" + i + ".jpg");
+        }
+    }
 
-	        frames.reset();
-	        pass++;
-	    }
+    public static synchronized void renderBackground(GuiScreen gui) {
+        if (frames.getElapsedTime() >= 50) {
+            int index = pass % TOTAL_IMAGES;
+            imageName = images[index].toString();
 
-	    RenderUtil.image(new ResourceLocation(imageName), 0, 0, gui.width, gui.height);
-	}
+            frames.reset();
+            pass++;
+        }
+
+        RenderUtil.image(images[pass % TOTAL_IMAGES], 0, 0, gui.width, gui.height);
+    }
 
 	public static void renderSplashScreen() {
 		ScaledResolution sr = new ScaledResolution(mc);
