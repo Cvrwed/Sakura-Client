@@ -63,15 +63,15 @@ public class Spider extends Module {
 		if (mode.is("polar")) {
 			if (mc.player.isCollidedHorizontally && !insideBlock()) {
 				double yaw = MoveUtil.direction();
-				mc.player.setPosition(mc.player.posX + -MathHelper.sin((float) yaw) * 0.05, mc.player.posY,
-						mc.player.posZ + MathHelper.cos((float) yaw) * 0.05);
+				mc.player.setPosition(mc.player.posX + -MathHelper.sin((float) yaw) * 0.05, mc.player.posY, mc.player.posZ + MathHelper.cos((float) yaw) * 0.05);
 				MoveUtil.stop();
 				
 				mc.gameSettings.keyBindForward.setPressed(false);
 				mc.gameSettings.keyBindBack.setPressed(false);
+				mc.gameSettings.keyBindLeft.setPressed(false);
+				mc.gameSettings.keyBindRight.setPressed(false);
 			}
 		}
-
 	};
 
 	@EventLink

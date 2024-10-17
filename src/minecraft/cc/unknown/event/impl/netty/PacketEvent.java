@@ -3,7 +3,7 @@ package cc.unknown.event.impl.netty;
 import cc.unknown.event.CancellableEvent;
 import cc.unknown.event.Event;
 import cc.unknown.script.api.wrapper.impl.event.ScriptEvent;
-import cc.unknown.script.api.wrapper.impl.event.impl.ScriptPacketEvent;
+import cc.unknown.script.api.wrapper.impl.event.impl.netty.ScriptPacketEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

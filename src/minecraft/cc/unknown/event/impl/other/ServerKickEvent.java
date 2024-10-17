@@ -4,7 +4,7 @@ import java.util.List;
 
 import cc.unknown.event.Event;
 import cc.unknown.script.api.wrapper.impl.event.ScriptEvent;
-import cc.unknown.script.api.wrapper.impl.event.impl.ScriptServerKickEvent;
+import cc.unknown.script.api.wrapper.impl.event.impl.other.ScriptServerKickEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

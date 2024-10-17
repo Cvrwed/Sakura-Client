@@ -18,7 +18,6 @@ public class Sneak extends Module {
 	
     @Override
     public void onDisable() {
-    	if (mc.player == null) return;
     	PacketUtil.send(new C0BPacketEntityAction(mc.player, STOP_SNEAKING));
     }
     
@@ -30,8 +29,6 @@ public class Sneak extends Module {
     
     @EventLink
 	public final Listener<PreMotionEvent> oPrenMotion = event -> {
-    	if (mc.player == null) return;		
-
     	PacketUtil.send(new C0BPacketEntityAction(mc.player, START_SNEAKING));
     	PacketUtil.send(new C0BPacketEntityAction(mc.player, STOP_SNEAKING));
 	};

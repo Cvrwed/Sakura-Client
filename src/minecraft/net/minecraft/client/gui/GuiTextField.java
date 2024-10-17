@@ -155,7 +155,7 @@ public class GuiTextField extends Gui {
             this.moveCursorBy(i - this.selectionEnd + l);
 
             if (this.field_175210_x != null) {
-                this.field_175210_x.func_175319_a(this.id, this.text);
+                this.field_175210_x.setEntryValue(this.id, this.text);
             }
         }
     }
@@ -203,7 +203,7 @@ public class GuiTextField extends Gui {
                     }
 
                     if (this.field_175210_x != null) {
-                        this.field_175210_x.func_175319_a(this.id, this.text);
+                        this.field_175210_x.setEntryValue(this.id, this.text);
                     }
                 }
             }

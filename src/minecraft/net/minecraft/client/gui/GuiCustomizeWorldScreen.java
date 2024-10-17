@@ -126,7 +126,7 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
         }
     }
 
-    public void func_175319_a(final int p_175319_1_, final String p_175319_2_) {
+    public void setEntryValue(final int p_175319_1_, final String p_175319_2_) {
         float f = 0.0F;
 
         try {
@@ -856,7 +856,7 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
                 final int i = guitextfield.getId();
                 final String s = this.func_175330_b(guitextfield.getId(), f1);
                 guitextfield.setText(s);
-                this.func_175319_a(i, s);
+                this.setEntryValue(i, s);
             }
         }
     }

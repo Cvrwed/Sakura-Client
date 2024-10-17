@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 @ModuleInfo(aliases = "WTap", description = "Briefly releases W after attacking to increase knockback given", category = Category.COMBAT)
 public class WTap extends Module {
 	
+	private final BoundsNumberValue hurtResist = new BoundsNumberValue("Hurt Resistant Time", this, 10, 10, 0, 10, 1);
 	private final BoundsNumberValue preDelay = new BoundsNumberValue("Pre Delay", this, 25, 55, 1, 500, 1);
 	private final BoundsNumberValue delay = new BoundsNumberValue("Delay", this, 25, 55, 1, 500, 1);
 	private final BoundsNumberValue onceEvery =  new BoundsNumberValue("Once every ... hits", this, 1, 1, 1, 10, 1);
@@ -76,7 +77,7 @@ public class WTap extends Module {
 	}
 
 	private boolean canHit(EntityPlayer target) {
-	    return (target.hurtResistantTime >= 10 || target.hurtResistantTime <= 10 )
+	    return (target.hurtResistantTime >= hurtResist.getValue().intValue() || target.hurtResistantTime <= hurtResist.getSecondValue().intValue())
 	        && (chance.getValue().intValue() == 100 
 	        || Math.random() <= chance.getValue().intValue() / 100);
 	}
@@ -131,15 +132,15 @@ public class WTap extends Module {
 
 	private void finishCombo() {
 	    if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
-	        KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), true);
+	        mc.gameSettings.keyBindForward.setPressed(false);
 	    }
 	    comboing = false;
 	}
 
 	private void startCombo() {
 	    if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
-	        KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), false);
-	        KeyBinding.onTick(mc.gameSettings.keyBindForward.getKeyCode());
+	    	mc.gameSettings.keyBindForward.setPressed(false);
+	    	mc.gameSettings.keyBindForward.pressTime++;
 	    }
 	}
 }

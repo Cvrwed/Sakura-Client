@@ -16,7 +16,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.Gson;
 
+import cc.unknown.ui.menu.account.AccountManagerScreen;
 import cc.unknown.ui.menu.main.impl.Button;
+import cc.unknown.ui.menu.main.impl.TextField;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.account.auth.MicrosoftLogin;
 import cc.unknown.util.account.impl.MicrosoftAccount;
@@ -25,11 +27,10 @@ import cc.unknown.util.vector.Vector2d;
 import cc.unknown.util.web.Browser;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class CookieScreen extends GuiScreen implements Accessor {
-    private static GuiTextField usernameBox;
+    private static TextField usernameBox;
     private static GuiScreen reference;
     private static String text_to_render = "Select file";
     private static String[] cookie_string;
@@ -48,7 +49,7 @@ public class CookieScreen extends GuiScreen implements Accessor {
         float buttonWidth = (boxWidth - padding * 2) / 3.0F;
 
         Vector2d position = new Vector2d(this.width / 2 - boxWidth / 2, this.height / 2 - 24);
-        usernameBox = new GuiTextField(0, this.fontRendererObj, (int) position.x, (int) position.y, (int) boxWidth, (int) boxHeight);
+        usernameBox = new TextField(0, this.fontRendererObj, (int) position.x, (int) position.y, (int) boxWidth, (int) boxHeight);
     	this.buttonList.add(new Button(1, (int) position.x, (int) position.y + boxHeight + padding, boxWidth, boxHeight, "Select File"));
     	this.buttonList.add(new Button(2, (int) position.x, (int) position.y + (boxHeight + padding) * 2, (int) ((boxWidth / 2) * 1.5), boxHeight, "Login Without Adding"));
     	this.buttonList.add(new Button(3, (int) (position.x + (boxWidth / 2) * 1.5 + padding), (int) (position.y + (boxHeight + padding) * 2), (int) ((boxWidth / 2) * 0.5 - padding), (int) boxHeight, "Back"));
@@ -178,6 +179,7 @@ public class CookieScreen extends GuiScreen implements Accessor {
                         ;
                         MicrosoftAccount microsoftAccount = new MicrosoftAccount(profileRes.name, profileRes.id, mcRes.access_token, "");
                         microsoftAccount.login();
+                        AccountManagerScreen.addAccount(microsoftAccount);
                         mc.displayGuiScreen(new AccountScreen());
                     }
                 } catch (Exception e) {

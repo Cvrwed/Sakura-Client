@@ -6,18 +6,18 @@ import cc.unknown.Sakura;
 import cc.unknown.ui.menu.account.AccountManagerScreen;
 import cc.unknown.ui.menu.account.display.AccountViewModel;
 import cc.unknown.ui.menu.main.impl.Button;
+import cc.unknown.ui.menu.main.impl.TextField;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.account.name.UsernameGenerator;
 import cc.unknown.util.render.BackgroundUtil;
 import cc.unknown.util.vector.Vector2d;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class RenameAccountScreen extends GuiScreen implements Accessor {
     private static GuiScreen reference;
-    private static GuiTextField usernameBox;
+    private static TextField usernameBox;
     private AccountViewModel<?> accountViewModel;
 
     public RenameAccountScreen(AccountViewModel<?> accountViewModel) {
@@ -38,7 +38,7 @@ public class RenameAccountScreen extends GuiScreen implements Accessor {
         accountViewModel.setScreenHeight(height);
 
         position = new Vector2d(width / 2 - boxWidth / 2, height / 2 + 32);
-        usernameBox = new GuiTextField(0, this.fontRendererObj, (int) position.x, (int) position.y, (int) boxWidth, (int) boxHeight);
+        usernameBox = new TextField(0, this.fontRendererObj, (int) position.x, (int) position.y, (int) boxWidth, (int) boxHeight);
         usernameBox.setText(accountViewModel.getAccount().getName());
     	this.buttonList.add(new Button(1, (int) position.x, (int) position.y + boxHeight + padding, (int) buttonWidth, (int) boxHeight, "Update"));
     	this.buttonList.add(new Button(2, (int) ((int) position.x + buttonWidth + padding), (int) position.y + boxHeight + padding, (int) buttonWidth, (int) boxHeight, "Back"));    	

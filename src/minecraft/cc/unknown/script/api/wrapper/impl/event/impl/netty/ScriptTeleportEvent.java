@@ -1,4 +1,4 @@
-package cc.unknown.script.api.wrapper.impl.event.impl;
+package cc.unknown.script.api.wrapper.impl.event.impl.netty;
 
 import cc.unknown.event.impl.other.TeleportEvent;
 import cc.unknown.script.api.wrapper.impl.event.ScriptEvent;

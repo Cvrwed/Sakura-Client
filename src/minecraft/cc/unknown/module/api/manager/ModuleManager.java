@@ -40,8 +40,8 @@ public final class ModuleManager {
         // Latency
         this.put(BackTrack.class, new BackTrack());
         this.put(PingSpoof.class, new PingSpoof());
-        //this.put(LegitBlink.class, new LegitBlink());
-        //this.put(Lag.class, new Lag());
+        /*this.put(LegitBlink.class, new LegitBlink());
+        this.put(Lag.class, new Lag());*/
         
         // Exploit
         this.put(Disabler.class, new Disabler());

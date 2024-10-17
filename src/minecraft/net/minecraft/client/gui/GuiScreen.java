@@ -631,20 +631,20 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Accesso
 		return Keyboard.isKeyDown(56) || Keyboard.isKeyDown(184);
 	}
 
-	public static boolean isKeyComboCtrlX(final int p_175277_0_) {
-		return p_175277_0_ == 45 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+	public static boolean isKeyComboCtrlX(final int key) {
+		return key == 45 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
 	}
 
-	public static boolean isKeyComboCtrlV(final int p_175279_0_) {
-		return p_175279_0_ == 47 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+	public static boolean isKeyComboCtrlV(final int key) {
+		return key == 47 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
 	}
 
-	public static boolean isKeyComboCtrlC(final int p_175280_0_) {
-		return p_175280_0_ == 46 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+	public static boolean isKeyComboCtrlC(final int key) {
+		return key == 46 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
 	}
 
-	public static boolean isKeyComboCtrlA(final int p_175278_0_) {
-		return p_175278_0_ == 30 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+	public static boolean isKeyComboCtrlA(final int key) {
+		return key == 30 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
 	}
 
 	/**

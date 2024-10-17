@@ -462,7 +462,7 @@ public class GuiPageButtonList extends GuiListExtended {
 
         void onTick(int id, float value);
 
-        void func_175319_a(int p_175319_1_, String p_175319_2_);
+        void setEntryValue(int p_175319_1_, String p_175319_2_);
     }
 
     public static class GuiSlideEntry extends GuiPageButtonList.GuiListEntry {
