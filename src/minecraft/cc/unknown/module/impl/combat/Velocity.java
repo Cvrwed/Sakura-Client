@@ -20,13 +20,18 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 @ModuleInfo(aliases = "Velocity", description = "Uses heavy dick and balls to drag across the floor to reduce velocity.", category = Category.COMBAT)
 public final class Velocity extends Module {
 
-	private final ModeValue mode = new ModeValue("Mode", this).add(new SubMode("Simple")).add(new SubMode("Legit"))
-			.add(new SubMode("Polar")).add(new SubMode("Watchdog Simple")).setDefault("Standard");
+	private final ModeValue mode = new ModeValue("Mode", this)
+			.add(new SubMode("Simple"))
+			.add(new SubMode("Legit"))
+			.add(new SubMode("Polar"))
+			.add(new SubMode("Watchdog Simple"))
+			.setDefault("Simple");
 
 	private final NumberValue horizontal = new NumberValue("Horizontal", this, 0, 0, 100, 1, () -> !mode.is("Simple"));
 	private final NumberValue vertical = new NumberValue("Vertical", this, 0, 0, 100, 1, () -> !mode.is("Simple"));
-
-	private final NumberValue chance = new NumberValue("Chance", this, 100, 0, 100, 1, () -> mode.is("Jump"));
+	
+	private final NumberValue hurtTime = new NumberValue("HurtTime", this, 5, 0, 10, 1, () -> !mode.is("Polar"));
+	private final NumberValue chance = new NumberValue("Chance", this, 100, 0, 100, 1);
 
 	private final BooleanValue onSwing = new BooleanValue("On Swing", this, false);
 	public final BooleanValue legitTiming = new BooleanValue("Legit Timing", this, true, () -> !mode.is("Legit"));
@@ -91,7 +96,7 @@ public final class Velocity extends Module {
 						}
 						break;
 					case "Polar":
-						if (mc.player.hurtTime >= 5 && mc.player.onGround) {
+						if (mc.player.hurtTime >= hurtTime.getValue().intValue() && mc.player.onGround) {
 							mc.player.jump();
 						}
 						break;
