@@ -46,7 +46,7 @@ public class WTap extends Module {
 
 	    if (comboing) {
 	        if (preDelayTimer.hasFinished()) {
-	            finishCombo();
+	        	handleCombo(false);
 	        }
 	        return;
 	    }
@@ -104,7 +104,7 @@ public class WTap extends Module {
 	        waitingForPostDelay = true;
 	    } else {
 	        comboing = true;
-	        startCombo();
+	        handleCombo(true);
 	        preDelayTimer.reset();
 	    }
 
@@ -126,21 +126,24 @@ public class WTap extends Module {
 	private void resetPostDelay() {
 	    waitingForPostDelay = false;
 	    comboing = true;
-	    startCombo();
+	    handleCombo(true);
 	    preDelayTimer.reset();
 	}
-
-	private void finishCombo() {
-	    if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
-	        mc.gameSettings.keyBindForward.setPressed(false);
-	    }
-	    comboing = false;
-	}
-
-	private void startCombo() {
-	    if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
-	    	mc.gameSettings.keyBindForward.setPressed(false);
-	    	mc.gameSettings.keyBindForward.pressTime++;
+	
+	
+	private void handleCombo(boolean start) {
+	    if (start) {
+	        if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
+	            mc.gameSettings.keyBindForward.setPressed(false);
+	            mc.gameSettings.keyBindForward.pressTime++;
+	        }
+	        mc.gameSettings.keyBindBack.setPressed(true);
+	        mc.gameSettings.keyBindBack.pressTime++;
+	    } else {
+	        if (!Keyboard.isKeyDown(mc.gameSettings.keyBindBack.getKeyCode())) {
+	        	mc.gameSettings.keyBindBack.setPressed(false);
+	        }
+	        comboing = false;
 	    }
 	}
 }
