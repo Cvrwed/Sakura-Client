@@ -3,10 +3,12 @@ package cc.unknown.util.rotation;
 import cc.unknown.component.impl.player.RotationComponent;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.RayCastUtil;
+import cc.unknown.util.chat.ChatUtil;
 import cc.unknown.util.vector.Vector2f;
 import cc.unknown.util.vector.Vector3d;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -60,26 +62,49 @@ public class RotationUtil implements Accessor {
 	}
 
 	public static Vector2f calculate(final Entity entity, final boolean adaptive, final double range) {
-		Vector2f normalRotations = calculate(entity);
-		if (!adaptive || RayCastUtil.rayCast(normalRotations, range).typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
-			return normalRotations;
-		}
+	    if (entity == null) {
+	        return null;
+	    }
+	    
+	    Vector2f normalRotations = calculate(entity);
+	    if (normalRotations == null) {
+	        return null;
+	    }
 
-		for (double yPercent = 1; yPercent >= 0; yPercent -= 0.25 + Math.random() * 0.1) {
-			for (double xPercent = 1; xPercent >= -0.5; xPercent -= 0.5) {
-				for (double zPercent = 1; zPercent >= -0.5; zPercent -= 0.5) {
-					Vector2f adaptiveRotations = calculate(entity.getCustomPositionVector().add(
-							(entity.getEntityBoundingBox().maxX - entity.getEntityBoundingBox().minX) * xPercent,
-							(entity.getEntityBoundingBox().maxY - entity.getEntityBoundingBox().minY) * yPercent,
-							(entity.getEntityBoundingBox().maxZ - entity.getEntityBoundingBox().minZ) * zPercent));
+	    MovingObjectPosition result = RayCastUtil.rayCast(normalRotations, range);
+	    if (result == null) {
+	        return normalRotations;
+	    }
 
-					if (RayCastUtil.rayCast(adaptiveRotations, range).typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
-						return adaptiveRotations;
-					}
-				}
-			}
-		}
-		return normalRotations;
+	    if (!adaptive || result.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+	        return normalRotations;
+	    }
+
+	    for (double yPercent = 1; yPercent >= 0; yPercent -= 0.25 + Math.random() * 0.1) {
+	        for (double xPercent = 1; xPercent >= -0.5; xPercent -= 0.5) {
+	            for (double zPercent = 1; zPercent >= -0.5; zPercent -= 0.5) {
+	                Vector3d customPosition = entity.getCustomPositionVector();
+	                if (customPosition == null) {
+	                    continue;
+	                }
+
+	                Vector2f adaptiveRotations = calculate(customPosition.add(
+	                    (entity.getEntityBoundingBox().maxX - entity.getEntityBoundingBox().minX) * xPercent,
+	                    (entity.getEntityBoundingBox().maxY - entity.getEntityBoundingBox().minY) * yPercent,
+	                    (entity.getEntityBoundingBox().maxZ - entity.getEntityBoundingBox().minZ) * zPercent));
+
+	                if (adaptiveRotations == null) {
+	                    continue;
+	                }
+
+	                MovingObjectPosition adaptiveResult = RayCastUtil.rayCast(adaptiveRotations, range);
+	                if (adaptiveResult != null && adaptiveResult.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+	                    return adaptiveRotations;
+	                }
+	            }
+	        }
+	    }
+	    return normalRotations;
 	}
 
 	public Vector2f calculate(final Vec3 to, final EnumFacing enumFacing) {
@@ -216,4 +241,28 @@ public class RotationUtil implements Accessor {
 
 		return new Vector2f(yaw, pitch);
 	}
+	
+    public static double nearestRotation(final AxisAlignedBB bb) {
+        final Vec3 eyes = mc.player.getPositionEyes(1F);
+
+        Vec3 vecRotation3d = null;
+
+        for(double xSearch = 0D; xSearch <= 1D; xSearch += 0.05D) {
+            for (double ySearch = 0D; ySearch < 1D; ySearch += 0.05D) {
+                for (double zSearch = 0D; zSearch <= 1D; zSearch += 0.05D) {
+                    final Vec3 vec3 = new Vec3(
+                            bb.minX + (bb.maxX - bb.minX) * xSearch,
+                            bb.minY + (bb.maxY - bb.minY) * ySearch,
+                            bb.minZ + (bb.maxZ - bb.minZ) * zSearch
+                    );
+                    final double vecDist = eyes.squareDistanceTo(vec3);
+
+                    if (vecRotation3d == null || eyes.squareDistanceTo(vecRotation3d) > vecDist) {
+                        vecRotation3d = vec3;
+                    }
+                }
+            }
+        }
+        return vecRotation3d.distanceTo(eyes);
+    }
 }

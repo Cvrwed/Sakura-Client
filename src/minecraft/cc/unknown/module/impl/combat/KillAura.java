@@ -15,6 +15,7 @@ import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.RightClickEvent;
+import cc.unknown.event.impl.other.TeleportEvent;
 import cc.unknown.event.impl.other.WorldChangeEvent;
 import cc.unknown.event.impl.player.AttackEvent;
 import cc.unknown.event.impl.player.HitSlowDownEvent;
@@ -49,7 +50,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -57,7 +57,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.Vec3;
 
-@ModuleInfo(aliases = { "KillAura", "aura" }, description = "Automatically attacks nearby entities", category = Category.COMBAT)
+@ModuleInfo(aliases = { "Kill Aura", "aura" }, description = "Automatically attacks nearby entities", category = Category.COMBAT)
 public final class KillAura extends Module {
 	private final ModeValue attackMode = new ModeValue("Attack Mode", this)
 			.add(new SubMode("Single"))
@@ -429,6 +429,17 @@ public final class KillAura extends Module {
 			break;
 		}
 	};
+	
+	@EventLink
+	public final Listener<TeleportEvent> onTeleport = event -> {
+		switch (autoBlock.getValue().getName()) {
+		case "Post":
+			mc.player.setItemInUse(getComponent(Slot.class).getItemStack(), 0);
+			PacketUtil.sendNoEvent(new C07PacketPlayerDigging(
+					C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+			break;
+		}
+	};
 
 	@EventLink
 	public final Listener<RightClickEvent> onRightClick = event -> {
@@ -507,8 +518,8 @@ public final class KillAura extends Module {
 		switch (autoBlock.getValue().getName()) {
 		case "Post":
 		case "Beta":
-			mc.player.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.player.inventory.currentItem % 8 + 1));
-			mc.player.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.player.inventory.currentItem));
+			/*mc.player.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.player.inventory.currentItem % 8 + 1));
+			mc.player.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.player.inventory.currentItem));*/
 			allowAttack = true;
 			break;
 		}
@@ -517,12 +528,22 @@ public final class KillAura extends Module {
 	private void postBlock() {
 		switch (autoBlock.getValue().getName()) {
 		case "Post":
+			boolean furry = false;
+			
 			if (PlayerUtil.isHoldingWeapon()) {
 				mc.player.setItemInUse(getComponent(Slot.class).getItemStack(), 1);
-				mc.getNetHandler()
-						.addToSendQueue(new C08PacketPlayerBlockPlacement(getComponent(Slot.class).getItemStack()));
+				PacketUtil.send(new C08PacketPlayerBlockPlacement(getComponent(Slot.class).getItemStack()));
 			} else {
-				mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(
+				furry = true;
+			}
+			
+			if (mc.player.moveStrafing > 1) {
+				furry = true;
+			}
+			
+			if (furry) {
+				mc.player.setItemInUse(getComponent(Slot.class).getItemStack(), 0);
+				PacketUtil.sendNoEvent(new C07PacketPlayerDigging(
 						C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 			}
 

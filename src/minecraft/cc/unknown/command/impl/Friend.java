@@ -25,28 +25,16 @@ public final class Friend extends Command {
 	    } else {
 	        String action = args[1].toLowerCase();
 	        String target = args[2];
-	        boolean success = false;
-	        for (EntityPlayer entityPlayer : mc.world.playerEntities) {
-	            if (!entityPlayer.getName().equalsIgnoreCase(target)) {
-	                continue;
-	            }
-	            switch (action) {
-	                case "add":
-	                    FriendAndTargetComponent.addFriend(entityPlayer.getName());
-	                    ChatUtil.display(String.format("Added %s to friends list", target));
-	                    success = true;
-	                    break;
+	        switch (action) {
+	        case "add":
+	        	FriendAndTargetComponent.addFriend(target);
+	        	ChatUtil.display(String.format("Added %s to friends list", target));
+	        	break;
 
-	                case "remove":
-	                    FriendAndTargetComponent.removeFriend(entityPlayer.getName());
-	                    ChatUtil.display(String.format("Removed %s from friends list", target));
-	                    success = true;
-	                    break;
-	            }
-	            break;
-	        }
-	        if (!success) {
-	            ChatUtil.display("That user could not be found.");
+	        case "remove":
+	        	FriendAndTargetComponent.removeFriend(target);
+	        	ChatUtil.display(String.format("Removed %s from friends list", target));
+	        	break;
 	        }
 	    }
 	}

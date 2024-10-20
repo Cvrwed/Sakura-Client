@@ -214,12 +214,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
 
             super.onUpdate();
 
-            if (this.isRiding()) {
-                this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
-                this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
-            } else {
-                this.onUpdateWalkingPlayer();
-            }
+            this.onUpdateWalkingPlayer();
 
             Sakura.instance.getEventBus().handle(new PostUpdateEvent());
         }
@@ -353,14 +348,17 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
         }
 
         if (this.isCurrentViewEntity()) {
-            double d0 = event.getPosX() - this.lastReportedPosX;
-            double d1 = event.getPosY() - this.lastReportedPosY;
-            double d2 = event.getPosZ() - this.lastReportedPosZ;
-            double d3 = event.getYaw() - this.lastReportedYaw;
-            double d4 = event.getPitch() - this.lastReportedPitch;
-            boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4 || this.positionUpdateTicks >= 20;
-            boolean flag3 = d3 != 0.0 || d4 != 0.0;
+            final double d0 = event.getPosX() - this.lastReportedPosX;
+            final double d1 = event.getPosY() - this.lastReportedPosY;
+            final double d2 = event.getPosZ() - this.lastReportedPosZ;
+            final double d3 = event.getYaw() - this.lastReportedYaw;
+            final double d4 = event.getPitch() - this.lastReportedPitch;
+
+            final boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
+            final boolean flag3 = d3 != 0.0D || d4 != 0.0D;
+
             if (this.ridingEntity == null) {
+
                 if (flag2 && flag3) {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(event.getPosX(), event.getPosY(), event.getPosZ(), event.getYaw(), event.getPitch(), event.isOnGround()));
                 } else if (flag2) {
@@ -370,23 +368,27 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
                 } else {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
                 }
+
+                ++this.positionUpdateTicks;
+
+                if (flag2) {
+                    this.lastReportedPosX = event.getPosX();
+                    this.lastReportedPosY = event.getPosY();
+                    this.lastReportedPosZ = event.getPosZ();
+                    this.positionUpdateTicks = 0;
+                }
+
+                if (flag3) {
+                    this.lastReportedYaw = event.getYaw();
+                    this.lastReportedPitch = event.getPitch();
+                }
+                
+                final EntityPlayerSP player = Minecraft.getMinecraft().player;
+                --player.rotIncrement;
+                
             } else {
-                this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, this.motionZ, event.getYaw(), event.getPitch(), event.isOnGround()));
-                flag2 = false;
-            }
-
-            ++this.positionUpdateTicks;
-
-            if (flag2) {
-                this.lastReportedPosX = event.getPosX();
-                this.lastReportedPosY = event.getPosY();
-                this.lastReportedPosZ = event.getPosZ();
-                this.positionUpdateTicks = 0;
-            }
-
-            if (flag3) {
-                this.lastReportedYaw = event.getYaw();
-                this.lastReportedPitch = event.getPitch();
+                this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(event.getYaw(), event.getPitch(), event.isOnGround()));
+                this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
             }
         }
 

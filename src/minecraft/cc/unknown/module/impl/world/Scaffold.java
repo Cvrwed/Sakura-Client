@@ -189,20 +189,15 @@ public class Scaffold extends Module {
 				action.run();
 		};
 
-		setKeyBind.accept(sneak, () -> mc.gameSettings.keyBindSneak
-				.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())));
-		setKeyBind.accept(jump, () -> mc.gameSettings.keyBindJump
-				.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode())));
-		setKeyBind.accept(right, () -> mc.gameSettings.keyBindRight
-				.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindRight.getKeyCode())));
-		setKeyBind.accept(left, () -> mc.gameSettings.keyBindLeft
-				.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.getKeyCode())));
-		setKeyBind.accept(forward, () -> mc.gameSettings.keyBindForward
-				.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())));
-		setKeyBind.accept(back, () -> mc.gameSettings.keyBindBack
-				.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindBack.getKeyCode())));
+		setKeyBind.accept(sneak, () -> mc.gameSettings.keyBindSneak.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())));
+		setKeyBind.accept(jump, () -> mc.gameSettings.keyBindJump.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode())));
+		setKeyBind.accept(right, () -> mc.gameSettings.keyBindRight.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindRight.getKeyCode())));
+		setKeyBind.accept(left, () -> mc.gameSettings.keyBindLeft.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.getKeyCode())));
+		setKeyBind.accept(forward, () -> mc.gameSettings.keyBindForward.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())));
+		setKeyBind.accept(back, () -> mc.gameSettings.keyBindBack.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindBack.getKeyCode())));
 	}
-	@EventLink(value = Priority.VERY_HIGH)
+	
+	@EventLink(value = Priority.EXTREMELY_HIGH)
 	public final Listener<PacketEvent> onPacket = event -> {
 		if (event.isReceive()) {
 			PacketUtil.correctBlockCount(event);

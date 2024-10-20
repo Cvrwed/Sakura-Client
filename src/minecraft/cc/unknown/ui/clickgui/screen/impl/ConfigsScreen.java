@@ -2,7 +2,7 @@ package cc.unknown.ui.clickgui.screen.impl;
 
 import java.awt.Color;
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 import cc.unknown.Sakura;
 import cc.unknown.font.Fonts;
@@ -111,14 +111,12 @@ public final class ConfigsScreen implements Screen, Accessor {
     @Override
     public void onClick(int mouseX, int mouseY, int mouseButton) {
         for (Row row : rows) {
-            try {
-                for (int i = 0; i < row.size(); i++) {
-                    Element element = row.get(i);
-                    if (element != null) {
-                        element.onClick(mouseX, mouseY, mouseButton);
-                    }
+            Iterator<Element> iterator = row.iterator();
+            while (iterator.hasNext()) {
+                Element element = iterator.next();
+                if (element != null) {
+                    element.onClick(mouseX, mouseY, mouseButton);
                 }
-            } catch (ConcurrentModificationException e) {
             }
         }
     }
@@ -139,9 +137,9 @@ public final class ConfigsScreen implements Screen, Accessor {
         }
 
         Sakura.instance.getConfigManager().update();
-
         yourConfigs.clear();
         Sakura.instance.getConfigManager().forEach(config ->
-                yourConfigs.add(new Element("Click to load", config.getFile().getName(), config::read)));
+                yourConfigs.add(
+                		new Element("Click to load", config.getFile().getName(), config::read)));
     }
 }

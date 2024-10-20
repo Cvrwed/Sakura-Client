@@ -28,7 +28,7 @@ public final class ClickGUI extends Module {
     	mc.setIngameFocus();
     	Keyboard.enableRepeatEvents(false);
     	Sakura.instance.getEventBus().unregister(Sakura.instance.getClickGui());
-    	threadPool.execute(() -> Sakura.instance.getConfigManager().get("latest").write());
+    	Sakura.instance.getConfigManager().get("latest").write();
     }
 
     @EventLink(value = Priority.HIGH)

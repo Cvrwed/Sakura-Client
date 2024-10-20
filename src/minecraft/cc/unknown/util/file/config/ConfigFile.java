@@ -1,6 +1,17 @@
 package cc.unknown.util.file.config;
 
-import com.google.gson.Gson;
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Optional;
+
 import com.google.gson.JsonObject;
 
 import cc.unknown.Sakura;
@@ -12,18 +23,6 @@ import cc.unknown.util.vector.Vector2d;
 import cc.unknown.value.Value;
 import cc.unknown.value.impl.*;
 
-import java.awt.*;
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Optional;
-
-
-/**
- * @author Patrick
- * @since 10/19/2021
- */
 public class ConfigFile extends cc.unknown.util.file.File {
 
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");

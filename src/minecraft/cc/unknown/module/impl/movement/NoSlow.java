@@ -30,7 +30,6 @@ import net.minecraft.util.EnumFacing;
 
 @ModuleInfo(aliases = "No Slow", description = "Allows you to move at full speed whilst using items", category = Category.MOVEMENT)
 public class NoSlow extends Module {
-	private final BooleanValue startSlow = new BooleanValue("StartSlow", this, false);
 	private final BooleanValue sword = new BooleanValue("Sword", this, false);
 	private final BooleanValue swordSlowdown = shortBoolean("Slowdown", sword);
 	private final NumberValue swordForward = shortNumber("Sword Forward", sword, swordSlowdown);
@@ -132,28 +131,26 @@ public class NoSlow extends Module {
 	    ItemStack currentItem = getComponent(Slot.class).getItemStack();
 		if (currentItem == null)
 			return;
-		if (currentItem != null && mc.gameSettings.keyBindUseItem.pressed
-				&& (mc.player.moveForward != 0.0F || mc.player.moveStrafing != 0.0F)) {
-			if (timeHelper.reached(400L) || !startSlow.getValue())
-				if (currentItem.getItem() instanceof ItemSword) {
-					event.setSprint(swordSprint.getValue());
-					if (swordSlowdown.getValue()) {
-						event.setForwardMultiplier(swordForward.getValue().floatValue());
-						event.setStrafeMultiplier(swordStrafe.getValue().floatValue());
-					}
-				} else if (currentItem.getItem() instanceof ItemBow) {
-					event.setSprint(bowSprint.getValue());
-					if (bowSlowdown.getValue()) {
-						event.setForwardMultiplier(bowForward.getValue().floatValue());
-						event.setStrafeMultiplier(bowStrafe.getValue().floatValue());
-					}
-				} else {
-					event.setSprint(restSprint.getValue());
-					if (restSlowdown.getValue()) {
-						event.setForwardMultiplier(restForward.getValue().floatValue());
-						event.setStrafeMultiplier(restStrafe.getValue().floatValue());
-					}
+		if (currentItem != null && mc.gameSettings.keyBindUseItem.pressed && (mc.player.moveForward != 0.0F || mc.player.moveStrafing != 0.0F)) {
+			if (currentItem.getItem() instanceof ItemSword) {
+				event.setSprint(swordSprint.getValue());
+				if (swordSlowdown.getValue()) {
+					event.setForwardMultiplier(swordForward.getValue().floatValue());
+					event.setStrafeMultiplier(swordStrafe.getValue().floatValue());
 				}
+			} else if (currentItem.getItem() instanceof ItemBow) {
+				event.setSprint(bowSprint.getValue());
+				if (bowSlowdown.getValue()) {
+					event.setForwardMultiplier(bowForward.getValue().floatValue());
+					event.setStrafeMultiplier(bowStrafe.getValue().floatValue());
+				}
+			} else {
+				event.setSprint(restSprint.getValue());
+				if (restSlowdown.getValue()) {
+					event.setForwardMultiplier(restForward.getValue().floatValue());
+					event.setStrafeMultiplier(restStrafe.getValue().floatValue());
+				}
+			}
 		} else {
 			timeHelper.reset();
 		}

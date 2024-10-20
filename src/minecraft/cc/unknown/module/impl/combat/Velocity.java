@@ -14,6 +14,7 @@ import cc.unknown.value.impl.BooleanValue;
 import cc.unknown.value.impl.ModeValue;
 import cc.unknown.value.impl.NumberValue;
 import cc.unknown.value.impl.SubMode;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
@@ -96,14 +97,13 @@ public final class Velocity extends Module {
 						}
 						break;
 					case "Polar":
-						if (mc.player.hurtTime >= hurtTime.getValue().intValue() && mc.player.onGround) {
+						if (mc.player.hurtTime == hurtTime.getValue().intValue() && mc.player.onGround) {
 							mc.player.jump();
 						}
 						break;
 
 					case "Watchdog Simple":
 						event.setCancelled();
-
 						if (mc.player.posY < mc.player.lastGroundY + 0.5) {
 							mc.player.motionY = wrapper.getMotionY() / 8000.0D;
 						}

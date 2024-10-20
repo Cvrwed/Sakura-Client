@@ -6,14 +6,15 @@ import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.net.URLEncodedUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -167,8 +168,9 @@ public class MicrosoftLogin {
         public void handle(final HttpExchange req) throws IOException {
             if (req.getRequestMethod().equals("GET")) {
                 // Login
-                final List<NameValuePair> query = URLEncodedUtils.parse(req.getRequestURI(), StandardCharsets.UTF_8.name());
-
+            	URI requestURI = req.getRequestURI();
+            	final List<NameValuePair> query = URLEncodedUtils.parse(requestURI, StandardCharsets.UTF_8);
+            	
                 boolean ok = false;
 
                 for (final NameValuePair pair : query) {

@@ -14,15 +14,15 @@ import net.minecraft.network.play.server.S2FPacketSetSlot;
 
 public final class PacketUtil implements Accessor {
 
-	public static void send(final Packet<?> packet) {
+	public static void send(final Packet packet) {
 		mc.getNetHandler().addToSendQueue(packet);
 	}
 
-	public static void sendNoEvent(final Packet<?> packet) {
+	public static void sendNoEvent(final Packet packet) {
 		mc.getNetHandler().addToSendQueueUnregistered(packet);
 	}
 
-	public static void queue(final Packet<?> packet) {
+	public static void queue(final Packet packet) {
 		if (packet == null) {
 			System.out.println("Packet is null");
 			return;
@@ -35,7 +35,7 @@ public final class PacketUtil implements Accessor {
 		}
 	}
 
-	public void queueNoEvent(final Packet<?> packet) {
+	public void queueNoEvent(final Packet packet) {
 		if (isClientPacket(packet)) {
 			mc.getNetHandler().addToSendQueueUnregistered(packet);
 		} else {
@@ -62,10 +62,9 @@ public final class PacketUtil implements Accessor {
 	public static void correctBlockCount(PacketEvent event) { // rewrite
 		if (mc.player == null || mc.player.isDead)
 			return;
-		Packet<?> packet = event.getPacket();
 
-		if (packet instanceof S2FPacketSetSlot) {
-			final S2FPacketSetSlot wrapper = (S2FPacketSetSlot) packet;
+		if (event.getPacket() instanceof S2FPacketSetSlot) {
+			final S2FPacketSetSlot wrapper = (S2FPacketSetSlot) event.getPacket();
 
 			if (wrapper.stack() == null) {
 				event.setCancelled();

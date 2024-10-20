@@ -11,11 +11,6 @@ import cc.unknown.util.player.MoveUtil;
 import cc.unknown.value.impl.BooleanValue;
 import cc.unknown.value.impl.ModeValue;
 
-/**
- * @author Patrick (implementation)
- * @since 10/19/2021
- */
-
 @ModuleInfo(aliases = "Speed", description = "Increases your movement speed", category = Category.MOVEMENT)
 public class Speed extends Module {
 
@@ -26,6 +21,7 @@ public class Speed extends Module {
             .add(new SparkySpeed("Sparky", this))
             .add(new GrimSpeed("Grim", this))
             .add(new LibrecraftSpeed("Librecraft", this))
+            .add(new LegitSpeed("Legit", this))
             .add(new LowSpeed("Slow Hop", this))
             .add(new WatchdogSpeed("Watchdog", this))
             .setDefault("Vanilla");

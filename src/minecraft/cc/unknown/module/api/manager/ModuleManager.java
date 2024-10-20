@@ -34,14 +34,15 @@ public final class ModuleManager {
         this.put(HitBox.class, new HitBox());
         this.put(STap.class, new STap());
         this.put(Regen.class, new Regen());
+        this.put(TeleportAura.class, new TeleportAura());
         this.put(Reach.class, new Reach());
         this.put(WTap.class, new WTap());
         
         // Latency
         //this.put(BackTrack.class, new BackTrack());
         this.put(PingSpoof.class, new PingSpoof());
-        //this.put(LegitBlink.class, new LegitBlink());
-        //this.put(Clumsy.class, new Clumsy());
+        this.put(LegitBlink.class, new LegitBlink());
+        this.put(Clumsy.class, new Clumsy());
         
         // Exploit
         this.put(Disabler.class, new Disabler());
@@ -113,7 +114,10 @@ public final class ModuleManager {
         this.put(HurtCamera.class, new HurtCamera());
         this.put(HUD.class, new HUD());
         this.put(PacketDebug.class, new PacketDebug());
+        this.put(Invisibles.class, new Invisibles());
+        this.put(ItemESP.class, new ItemESP());
         this.put(ItemPhysics.class, new ItemPhysics());
+        this.put(Chams.class, new Chams());
         this.put(NameTags.class, new NameTags());
         this.put(NoCameraClip.class, new NoCameraClip());
         this.put(ExtraSensoryPerception.class, new ExtraSensoryPerception());

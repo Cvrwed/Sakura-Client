@@ -13,25 +13,16 @@ import cc.unknown.Sakura;
 import cc.unknown.component.impl.render.ProjectionComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.event.impl.render.Render2DEvent;
-import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
-import cc.unknown.ui.clickgui.ClickGui;
 import cc.unknown.util.render.ColorUtil;
 import cc.unknown.util.render.RenderUtil;
 import cc.unknown.util.vector.Vector2d;
-import cc.unknown.value.impl.BooleanValue;
-import cc.unknown.value.impl.ColorValue;
 import cc.unknown.value.impl.ModeValue;
 import cc.unknown.value.impl.SubMode;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
 
 @ModuleInfo(aliases = "Extra Sensory Perception", description = "Renders all players into a shader and displays it", category = Category.VISUALS)
 public final class ExtraSensoryPerception extends Module {
@@ -39,6 +30,7 @@ public final class ExtraSensoryPerception extends Module {
 	private final ModeValue mode = new ModeValue("Projection", this)
 			.add(new SubMode("2D"))
 			.add(new SubMode("3D"))
+			.add(new SubMode("None"))
 			.setDefault("2D");
 	
     public final ModeValue box = new ModeValue("Box Mode", this, () -> !mode.is("2D"))
@@ -52,21 +44,8 @@ public final class ExtraSensoryPerception extends Module {
             .add(new SubMode("Gradient"))
             .add(new SubMode("None"))
             .setDefault("None");
-    
-	private final BooleanValue showInvis = new BooleanValue("Show Invisibles", this, false);
-    private final BooleanValue chamsESP = new BooleanValue("Chams", this, false);
-    
+        
     private double offset = 0.5;
-    
-    @EventLink
-    public final Listener<PreUpdateEvent> onPreUpdate = event -> {
-    	if (showInvis.getValue()) {
-            mc.world.playerEntities.stream().forEach(player -> {
-            	player.removePotionEffect(Potion.invisibility.getId());
-                player.setInvisible(false);
-            });
-    	}
-    };
     
     @EventLink
     public final Listener<Render2DEvent> onRender2D = event -> {
@@ -109,8 +88,7 @@ public final class ExtraSensoryPerception extends Module {
             		break;
             	}
             }
-
-            //healthbars
+            
             double height = pos.w - pos.y + 1;
             double health = player.getHealth() / player.getMaxHealth();
             
@@ -134,42 +112,6 @@ public final class ExtraSensoryPerception extends Module {
             	RenderUtil.rectangle(pos.x - 2.5, pos.w - bar + offset, offset, bar + offset, color);
             	break;
             }       
-        }
-    };
-    
-    @EventLink
-    public final Listener<Render3DEvent> onRender3D = event -> {
-		if (isClickGui()) return;
-
-        if (chamsESP.getValue()) {
-	        for (EntityPlayer player : mc.world.playerEntities) {
-	            if (player == mc.player || player.isDead) {
-	                continue;
-	            }
-	
-		        final float partialTicks = mc.timer.renderPartialTicks;
-		        final double renderPosX = mc.getRenderManager().renderPosX;
-		        final double renderPosY = mc.getRenderManager().renderPosY;
-		        final double renderPosZ = mc.getRenderManager().renderPosZ;
-	            final Render<EntityPlayer> render = mc.getRenderManager().getEntityRenderObject(player);
-	            if (render == null) continue;
-	
-	            Color color = new Color(0);
-	            if (color.getAlpha() <= 0) continue;
-	
-	            double x = player.prevPosX + (player.posX - player.prevPosX) * partialTicks - renderPosX;
-	            double y = player.prevPosY + (player.posY - player.prevPosY) * partialTicks - renderPosY;
-	            double z = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks - renderPosZ;
-	            float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks;
-	
-	            render.doRender(player, x, y, z, yaw, partialTicks);
-	
-	            player.hideNameTag();
-	            player.hide();
-	        }
-	
-	        RenderHelper.disableStandardItemLighting();
-	        mc.entityRenderer.disableLightmap();
         }
     };
 }

@@ -7,7 +7,11 @@ import com.google.gson.JsonObject;
 import cc.unknown.util.account.Account;
 import cc.unknown.util.account.AccountType;
 import cc.unknown.util.account.auth.MicrosoftLogin;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class MicrosoftAccount extends Account {
     private String refreshToken;
 
@@ -63,12 +67,4 @@ public class MicrosoftAccount extends Account {
             refreshToken = object.get("refreshToken").getAsString();
         }
     }
-
-	public String getRefreshToken() {
-		return refreshToken;
-	}
-
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
-	}
 }

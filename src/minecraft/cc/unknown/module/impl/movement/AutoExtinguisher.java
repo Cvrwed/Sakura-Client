@@ -19,7 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 
-@ModuleInfo(aliases = "AutoExtinguisher", description = "Extinguishes the flame", category = Category.MOVEMENT)
+@ModuleInfo(aliases = "Auto Extinguisher", description = "Extinguishes the flame", category = Category.MOVEMENT)
 public class AutoExtinguisher extends Module {
 
 	private final BoundsNumberValue rotationSpeed = new BoundsNumberValue("Rotation Speed", this, 2, 3, 0, 10, 1);

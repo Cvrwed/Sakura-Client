@@ -30,16 +30,16 @@ public class StringValueComponent extends ValueComponent {
         this.position = position;
         final StringValue stringValue = (StringValue) this.value;
 
-        this.height = 28;
+        this.height = 14;
 
         // Draws name
         Fonts.MAIN.get(16, Weight.LIGHT).draw(this.value.getName(), this.position.x, this.position.y, Colors.SECONDARY_TEXT.getRGBWithAlpha(opacity));
 
         // Draws value
         this.textBox.setColor(ColorUtil.withAlpha(this.textBox.getColor(), opacity));
-        this.position = new Vector2d(this.position.x, this.position.y + 14);
+        this.position = new Vector2d(this.position.x + 46, this.position.y);
         this.textBox.setPosition(this.position);
-        this.textBox.setWidth(242.5f - 12);
+        //this.textBox.setWidth(242.5f - 12);
         this.textBox.draw();
         stringValue.setValue(textBox.getText());
     }

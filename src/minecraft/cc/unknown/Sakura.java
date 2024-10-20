@@ -97,7 +97,7 @@ public enum Sakura {
     }
     
     private void getOptimization(Minecraft mc) {
-    	mc.gameSettings.ofFastRender = false;
+    	mc.gameSettings.ofFastRender = true;
         mc.gameSettings.ofChunkUpdatesDynamic = true;
     	mc.gameSettings.ofSmartAnimations = true;
         mc.gameSettings.ofShowGlErrors = false;

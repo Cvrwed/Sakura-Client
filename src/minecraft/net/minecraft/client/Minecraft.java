@@ -65,6 +65,7 @@ import cc.unknown.event.impl.other.GameEvent;
 import cc.unknown.event.impl.other.PreTickEvent;
 import cc.unknown.event.impl.other.TickEvent;
 import cc.unknown.event.impl.player.AttackEvent;
+import cc.unknown.module.impl.combat.TickRange;
 import cc.unknown.module.impl.visual.FreeLook;
 import cc.unknown.ui.menu.main.MainMenu;
 import cc.unknown.util.font.impl.minecraft.FontRenderer;
@@ -1988,14 +1989,14 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 				}
 			}
 
-			if (this.gameSettings.keyBindUseItem.isKeyDown() && this.rightClickDelayTimer == 0
-					&& !this.player.isUsingItem()) {
+			if (this.gameSettings.keyBindUseItem.isKeyDown() && this.rightClickDelayTimer == 0 && !this.player.isUsingItem()) {
 				this.rightClickMouse();
 			}
 
-			this.sendClickBlockToController(
-					this.currentScreen == null && this.gameSettings.keyBindAttack.isKeyDown() && this.inGameHasFocus);
+			this.sendClickBlockToController(this.currentScreen == null && this.gameSettings.keyBindAttack.isKeyDown() && this.inGameHasFocus);
 		}
+		
+		boolean pause = TickRange.publicFreeze && Sakura.instance.getModuleManager().get(TickRange.class).isEnabled() && Sakura.instance.getModuleManager().get(TickRange.class).mode.is("Blatant");
 
 		 if (this.world != null)
 	        {
@@ -2012,21 +2013,21 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 
 	            this.mcProfiler.endStartSection("gameRenderer");
 
-	            if (!this.isGamePaused)
+	            if (!this.isGamePaused && !pause)
 	            {
 	                this.entityRenderer.updateRenderer();
 	            }
 
 	            this.mcProfiler.endStartSection("levelRenderer");
 
-	            if (!this.isGamePaused)
+	            if (!this.isGamePaused && !pause)
 	            {
 	                this.renderGlobal.updateClouds();
 	            }
 
 	            this.mcProfiler.endStartSection("level");
 
-	            if (!this.isGamePaused)
+	            if (!this.isGamePaused && !pause)
 	            {
 	                if (this.world.getLastLightningBolt() > 0)
 	                {
@@ -2077,7 +2078,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 
 	            this.mcProfiler.endStartSection("animateTick");
 
-	            if (!this.isGamePaused && this.world != null)
+	            if (!this.isGamePaused && !pause && this.world != null)
 	            {
 	                this.world.doVoidFogParticles(MathHelper.floor_double(this.player.posX), MathHelper.floor_double(this.player.posY), MathHelper.floor_double(this.player.posZ));
 	            }

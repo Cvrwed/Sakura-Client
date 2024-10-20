@@ -69,7 +69,6 @@ public class MainMenu extends GuiMainMenu {
         final String title = "§7Sakura Client";
         fontRenderer.drawWithShadow(title, 2.0f, height - 10, -1);
 
-
         GlStateManager.pushMatrix();
         this.buttonList.forEach(button -> button.drawButton(mc, mouseX, mouseY));
         GlStateManager.popMatrix();

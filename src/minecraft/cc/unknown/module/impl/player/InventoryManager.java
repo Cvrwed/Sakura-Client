@@ -42,7 +42,7 @@ import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 
-@ModuleInfo(aliases = {"InventoryManager", "InvManager", "Manager"}, description = "Sorts your inventory for you and throws out useless items", category = Category.PLAYER)
+@ModuleInfo(aliases = {"Inventory Manager", "Inv Manager", "Manager"}, description = "Sorts your inventory for you and throws out useless items", category = Category.PLAYER)
 public class InventoryManager extends Module {
 
     private final BoundsNumberValue delay = new BoundsNumberValue("Delay", this, 100, 150, 0, 500, 50);
@@ -57,9 +57,7 @@ public class InventoryManager extends Module {
     private final NumberValue potionSlot = new NumberValue("Potion Slot", this, 6, 1, 9, 1);
     private final NumberValue foodSlot = new NumberValue("Food Slot", this, 9, 1, 9, 1);
     
-    private final BooleanValue dropTrash = new BooleanValue("Drop Trash", this, false);
     private final BooleanValue archery = new BooleanValue("Clean bows and arrows.", this, false);
-    private final BooleanValue gapples = new BooleanValue("Keeps Golden Apples.", this, false);
 
     private final int INVENTORY_ROWS = 4, INVENTORY_COLUMNS = 9, ARMOR_SLOTS = 4;
     private final int INVENTORY_SLOTS = (INVENTORY_ROWS * INVENTORY_COLUMNS) + ARMOR_SLOTS;
@@ -132,14 +130,6 @@ public class InventoryManager extends Module {
             }
             
         	if((stack.getItem() instanceof ItemBow || unlocalized.contains("arrow")) && archery.getValue()){
-        		this.throwItem(i);
-        	}
-        	
-        	if(stack.getItem() instanceof ItemFood && gapples.getValue() && !(stack.getItem() instanceof ItemAppleGold)) {
-        		this.throwItem(i);
-        	}
-        	        	
-        	if(dropTrash.getValue() && ((unlocalized.contains("tnt")) || (unlocalized.contains("stick")) || (unlocalized.contains("egg")) || (unlocalized.contains("string")) || (unlocalized.contains("cake")) || (unlocalized.contains("mushroom")) || (unlocalized.contains("flint")) || (unlocalized.contains("feather")) || (unlocalized.contains("bucket")) || (unlocalized.contains("shears")) || (unlocalized.contains("torch")) || (unlocalized.contains("seeds")) || (unlocalized.contains("reeds")) || (unlocalized.contains("record")) || (unlocalized.contains("snowball")) || (stack.getItem() instanceof ItemGlassBottle) || (unlocalized.contains("piston")))){
         		this.throwItem(i);
         	}
 

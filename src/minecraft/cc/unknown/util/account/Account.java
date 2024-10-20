@@ -24,8 +24,7 @@ public class Account {
     }
 
     public boolean login() {
-        Minecraft mc = Minecraft.getMinecraft();
-        mc.setSession(new Session(name, uuid, accessToken, "mojang"));
+        Minecraft.getMinecraft().setSession(new Session(name, uuid, accessToken, "mojang"));
         lastUsed = System.currentTimeMillis();
         return true;
     }

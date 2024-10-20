@@ -13,6 +13,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.swing.SwingUtilities;
 
 import com.google.gson.Gson;
 
@@ -50,7 +51,7 @@ public class CookieScreen extends GuiScreen implements Accessor {
 
         Vector2d position = new Vector2d(this.width / 2 - boxWidth / 2, this.height / 2 - 24);
         usernameBox = new TextField(0, this.fontRendererObj, (int) position.x, (int) position.y, (int) boxWidth, (int) boxHeight);
-    	this.buttonList.add(new Button(1, (int) position.x, (int) position.y + boxHeight + padding, (int) boxWidth, (int) boxHeight, "Login Without Adding"));
+    	this.buttonList.add(new Button(1, (int) position.x, (int) position.y + boxHeight + padding, (int) boxWidth, (int) boxHeight, "Login & Add"));
     	this.buttonList.add(new Button(2, (int) position.x, (int) position.y + (boxHeight + padding) * 2, (int) buttonWidth, (int) boxHeight, "Select File"));
     	this.buttonList.add(new Button(3, (int) ((int) position.x + buttonWidth + padding), (int) position.y + (boxHeight + padding) * 2, (int) buttonWidth, (int) boxHeight, "Microsoft"));
     	this.buttonList.add(new Button(4, (int) ((int) position.x + (buttonWidth + padding) * 2), (int) position.y + (boxHeight + padding) * 2, (int) buttonWidth, (int) boxHeight, "Back"));
@@ -155,10 +156,10 @@ public class CookieScreen extends GuiScreen implements Accessor {
                             text_to_render = "Invalid Account";
                             return;
                         }
-                        ;
+                        
                         MicrosoftAccount microsoftAccount = new MicrosoftAccount(profileRes.name, profileRes.id, mcRes.access_token, "");
-                        microsoftAccount.login();
                         AccountManagerScreen.addAccount(microsoftAccount);
+                        microsoftAccount.login();
                         mc.displayGuiScreen(new AccountScreen());
                     }
                 } catch (Exception e) {
@@ -172,23 +173,35 @@ public class CookieScreen extends GuiScreen implements Accessor {
                 FileDialog dialog = new FileDialog((Frame) null, "Select Cookie File");
                 dialog.setMode(FileDialog.LOAD);
                 dialog.setVisible(true);
+
+                String fileName = dialog.getFile();
+                String directory = dialog.getDirectory();
                 dialog.dispose();
-                String path = new File(dialog.getDirectory() + dialog.getFile()).getAbsolutePath();
-                try {
-                    StringBuilder content = new StringBuilder();
-                    Scanner scanner = new Scanner(new FileReader(path));
-                    while (scanner.hasNextLine()) {
-                        content.append(scanner.nextLine()).append("\n");
+
+                if (fileName != null) {
+                    String path = new File(directory, fileName).getAbsolutePath();
+                    try (Scanner scanner = new Scanner(new FileReader(path))) {
+                        StringBuilder content = new StringBuilder();
+                        while (scanner.hasNextLine()) {
+                            content.append(scanner.nextLine()).append("\n");
+                        }
+                        SwingUtilities.invokeLater(() -> {
+                            usernameBox.setText(fileName);
+                            text_to_render = "Selected file!";
+                            cookie_string = content.toString().split("\n");
+                        });
+                    } catch (IOException e) {
+                        SwingUtilities.invokeLater(() -> {
+                            text_to_render = "Error (read)";
+                        });
                     }
-                    scanner.close();
-                    usernameBox.setText(dialog.getFile());
-                    text_to_render = "Selected file!";
-                    cookie_string = content.toString().split("\n");
-                } catch (IOException e) {
-                    text_to_render = "Error (read)";
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        text_to_render = "No file selected.";
+                    });
                 }
             }, "Select Cookie File").start();
-        	break;
+            break;
         case 3:
         	mc.displayGuiScreen(new MicrosoftScreen());
         	break;

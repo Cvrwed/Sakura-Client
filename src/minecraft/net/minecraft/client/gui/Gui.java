@@ -120,7 +120,7 @@ public class Gui {
      * Draws a rectangle with a vertical gradient between the specified colors (ARGB format). Args : x1, y1, x2, y2,
      * topColor, bottomColor
      */
-    protected void drawGradientRect(final int left, final int top, final int right, final int bottom, final int startColor, final int endColor) {
+    public static void drawGradientRect(final int left, final int top, final int right, final int bottom, final int startColor, final int endColor) {
         final float f = (float) (startColor >> 24 & 255) / 255.0F;
         final float f1 = (float) (startColor >> 16 & 255) / 255.0F;
         final float f2 = (float) (startColor >> 8 & 255) / 255.0F;

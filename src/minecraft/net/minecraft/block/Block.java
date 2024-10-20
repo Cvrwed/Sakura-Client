@@ -474,6 +474,10 @@ public class Block {
     public boolean isOpaqueCube() {
         return true;
     }
+    
+    public boolean isSolidFullCube() {
+        return blockMaterial.blocksMovement() && isFullCube();
+    }
 
     public boolean canCollideCheck(final IBlockState state, final boolean hitIfLiquid) {
         return this.isCollidable();

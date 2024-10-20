@@ -1,8 +1,10 @@
 package net.minecraft.util;
 
+import lombok.Getter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
+@Getter
 public class Vec3 {
     public double xCoord;
 
@@ -43,7 +45,10 @@ public class Vec3 {
     public Vec3 toVec3() {
         return new Vec3(xCoord, yCoord, zCoord);
     }
-
+    
+    public Vec3 floor() {
+        return new Vec3(Math.floor(this.xCoord), Math.floor(this.yCoord), Math.floor(this.zCoord));
+    }
     /**
      * Returns a new vector with the result of the specified vector minus this.
      */
@@ -179,6 +184,7 @@ public class Vec3 {
         }
     }
 
+    @Override
     public String toString() {
         return "(" + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + ")";
     }
@@ -201,4 +207,7 @@ public class Vec3 {
         return new Vec3(d0, d1, d2);
     }
     
+    public net.minecraft.util.Vec3 mc() {
+        return new net.minecraft.util.Vec3(xCoord, yCoord, zCoord);
+    }
 }

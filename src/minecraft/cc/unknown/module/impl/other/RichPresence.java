@@ -45,41 +45,45 @@ public class RichPresence extends Module {
     }
     
     private void onRPC() {
-        String currentServerIP = mc.getCurrentServerData() != null ? mc.getCurrentServerData().serverIP : null;
-
-        if (!started || !isInGame() || (currentServerIP != null && !currentServerIP.endsWith(serveraddresses))) {
-            if (started) {
-                onDisable();
-            }
-            if (serverDataMap.isEmpty()) {
-                try {
-                    fetchServerMappings();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (isInGame()) {
-                if (findServerData(currentServerIP)) {
-                    DiscordRPC.discordUpdatePresence(makeRPC("https://dc.zornhub.xyz/", ""));
-                } else {
-                    updatePrivateRPC();
-                }
-            }
-
-            DiscordEventHandlers handlers = new DiscordEventHandlers();
-            DiscordRPC.discordInitialize(clientId, handlers, true);
-            new Thread(() -> {
-                while (this.isEnabled()) {
-                    DiscordRPC.discordRunCallbacks();
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
-                }
-            }, "Discord RPC Callback").start();
-            started = true;
-        }
+    	try {
+	        String currentServerIP = mc.getCurrentServerData() != null ? mc.getCurrentServerData().serverIP : null;
+	
+	        if (!started || !isInGame() || (currentServerIP != null && !currentServerIP.endsWith(serveraddresses))) {
+	            if (started) {
+	                onDisable();
+	            }
+	            if (serverDataMap.isEmpty()) {
+	                try {
+	                    fetchServerMappings();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	            if (isInGame()) {
+	                if (findServerData(currentServerIP)) {
+	                    DiscordRPC.discordUpdatePresence(makeRPC("https://dc.zornhub.xyz/", ""));
+	                } else {
+	                    updatePrivateRPC();
+	                }
+	            }
+	
+	            DiscordEventHandlers handlers = new DiscordEventHandlers();
+	            DiscordRPC.discordInitialize(clientId, handlers, true);
+	            new Thread(() -> {
+	                while (this.isEnabled()) {
+	                    DiscordRPC.discordRunCallbacks();
+	                    try {
+	                        Thread.sleep(2000);
+	                    } catch (InterruptedException e) {
+	                        Thread.currentThread().interrupt();
+	                    }
+	                }
+	            }, "Discord RPC Callback").start();
+	            started = true;
+	        }
+    	} catch (NullPointerException ignored) {
+    		
+    	}
     }
     
     private void fetchServerMappings() throws IOException {

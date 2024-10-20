@@ -26,7 +26,7 @@ public final class AutoLeave extends Module {
 	        S02PacketChat wrapper = ((S02PacketChat) packet);
 	        String receiveMessage = wrapper.getChatComponent().getFormattedText();
 
-	        if (containsAny(receiveMessage, "has ganado", "has perdido", "Deseas salirte")) {
+	        if (containsAny(receiveMessage, "has ganado", "has perdido", "Deseas salirte", "Han ganado")) {
 	            String command = text.getValue();
 	            
 	            if (!command.isEmpty()) {

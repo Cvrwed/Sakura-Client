@@ -18,7 +18,7 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
 
 
-@ModuleInfo(aliases = {"ChestStealer", "Stealer"}, description = "Steals items from chests for you", category = Category.PLAYER)
+@ModuleInfo(aliases = {"Chest Stealer", "Stealer"}, description = "Steals items from chests for you", category = Category.PLAYER)
 public class ChestStealer extends Module {
 
     private final BoundsNumberValue stealDelay = new BoundsNumberValue("Steal Delay", this, 100, 150, 0, 500, 50);

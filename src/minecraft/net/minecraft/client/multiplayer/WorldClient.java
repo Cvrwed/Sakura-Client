@@ -1,8 +1,11 @@
 package net.minecraft.client.multiplayer;
 
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.Callable;
+
 import com.google.common.collect.Sets;
 
-import cc.unknown.component.impl.player.TargetComponent;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -23,8 +26,13 @@ import net.minecraft.src.Config;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.*;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveDataMemoryStorage;
@@ -34,10 +42,6 @@ import net.optifine.CustomGuis;
 import net.optifine.DynamicLights;
 import net.optifine.override.PlayerControllerOF;
 import net.optifine.reflect.Reflector;
-
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.Callable;
 
 public class WorldClient extends World {
     /**
@@ -436,6 +440,22 @@ public class WorldClient extends World {
         } else {
             return false;
         }
+    }
+    
+    public Block getBlock(int p_147439_1_, int p_147439_2_, int p_147439_3_) {
+        if ((p_147439_1_ >= -30000000) && (p_147439_3_ >= -30000000) && (p_147439_1_ < 30000000) && (p_147439_3_ < 30000000) && (p_147439_2_ >= 0) && (p_147439_2_ < 256)) {
+            Chunk var4 = null;
+            try {
+                var4 = getChunkFromChunkCoords(p_147439_1_ >> 4, p_147439_3_ >> 4);
+                return var4.getBlock0(p_147439_1_ & 0xF, p_147439_2_, p_147439_3_ & 0xF);
+            } catch (Throwable var8) {
+                CrashReport var6 = CrashReport.makeCrashReport(var8, "Exception getting block type in world");
+                CrashReportCategory var7 = var6.makeCategory("Requested block coordinates");
+                var7.addCrashSection("Found chunk", Boolean.valueOf(var4 == null));
+                throw new ReportedException(var6);
+            }
+        }
+        return Blocks.air;
     }
 
     public boolean isPlayerUpdate() {

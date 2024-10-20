@@ -95,9 +95,9 @@ public final class SessionStats extends Module {
 			if (wrapper.getMessage() == null)
 				return;
 
-			String message = StringUtils.stripControlCodes(wrapper.getMessage().getUnformattedText());
+			String message = StringUtils.stripControlCodes(wrapper.getMessage().getUnformattedTextForChat());
 
-			if (message.startsWith(mc.player.getName().toLowerCase())) {
+			if (message.startsWith(mc.player.getName())) {
 				if (killsWords.stream().anyMatch(message::contains)) {
 					this.session.deaths++;
 				}

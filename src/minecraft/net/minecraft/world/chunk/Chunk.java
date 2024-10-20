@@ -379,7 +379,7 @@ public class Chunk {
 		return this.getBlock0(x, y, z).getLightOpacity();
 	}
 
-	private Block getBlock0(int x, int y, int z) {
+	public Block getBlock0(int x, int y, int z) {
 		Block block = Blocks.air;
 
 		if (y >= 0 && y >> 4 < this.storageArrays.length) {

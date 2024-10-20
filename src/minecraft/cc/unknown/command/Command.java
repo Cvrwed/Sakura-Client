@@ -3,6 +3,7 @@ package cc.unknown.command;
 import cc.unknown.util.Accessor;
 import cc.unknown.util.chat.ChatUtil;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.util.ChatFormatting;
 
 @Getter
