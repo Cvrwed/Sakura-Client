@@ -23,7 +23,7 @@ public class BackgroundUtil implements Accessor {
         }
     }
 
-    public static synchronized void renderBackground(GuiScreen gui) {
+    public static void renderBackground(GuiScreen gui) {
         if (frames.getElapsedTime() >= 50) {
             int index = pass % TOTAL_IMAGES;
             imageName = images[index].toString();

@@ -38,10 +38,10 @@ public final class ModuleManager {
         this.put(WTap.class, new WTap());
         
         // Latency
-        this.put(BackTrack.class, new BackTrack());
+        //this.put(BackTrack.class, new BackTrack());
         this.put(PingSpoof.class, new PingSpoof());
-        /*this.put(LegitBlink.class, new LegitBlink());
-        this.put(Lag.class, new Lag());*/
+        //this.put(LegitBlink.class, new LegitBlink());
+        //this.put(Clumsy.class, new Clumsy());
         
         // Exploit
         this.put(Disabler.class, new Disabler());
@@ -95,7 +95,6 @@ public final class ModuleManager {
         this.put(FastUse.class, new FastUse());
         this.put(InventoryManager.class, new InventoryManager());
         this.put(NoFall.class, new NoFall());
-        this.put(InventoryManager.class, new InventoryManager());
         this.put(NoFall.class, new NoFall());
         this.put(Timer.class, new Timer());
         this.put(ChestStealer.class, new ChestStealer());

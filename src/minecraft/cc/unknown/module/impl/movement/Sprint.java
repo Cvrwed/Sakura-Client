@@ -6,11 +6,13 @@ import cc.unknown.event.Listener;
 import cc.unknown.event.Priority;
 import cc.unknown.event.annotations.EventLink;
 import cc.unknown.event.impl.input.MoveInputEvent;
-import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.player.PreStrafeEvent;
+import cc.unknown.event.impl.player.PreUpdateEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
+import cc.unknown.module.impl.combat.KillAura;
+import cc.unknown.module.impl.world.Scaffold;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.util.vector.Vector2f;
 import cc.unknown.value.impl.BooleanValue;
@@ -46,6 +48,8 @@ public class Sprint extends Module {
 
     @EventLink(value = Priority.HIGH)
     public final Listener<MoveInputEvent> moveInput = event -> {
+    	if (prevent()) return;
+    	
     	if (omniLegit.getValue()) {
 	        forward = event.getForward();
 	        strafe = event.getStrafe();
@@ -53,11 +57,17 @@ public class Sprint extends Module {
     };
     
     @EventLink(value = Priority.LOW)
-    public final Listener<PreMotionEvent> onPreMotion = event -> {
+    public final Listener<PreUpdateEvent> onPreMotion = event -> {
+    	if (prevent()) return;
+    	
     	if (omniLegit.getValue()) {
 	        RotationComponent.setRotations(new Vector2f((float) Math.toDegrees(MoveUtil.direction(forward, strafe)), mc.player.rotationPitch),
 	                10, MovementFix.SILENT);
     	}
     };
+    
+    private boolean prevent() {
+    	return (getModule(KillAura.class).isEnabled() && getModule(KillAura.class).target != null) || getModule(Scaffold.class).isEnabled();
+    }
 
 }

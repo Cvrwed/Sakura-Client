@@ -37,8 +37,6 @@ public class TickRange extends Module {
             return;
         }
         
-        if (getModule(Scaffold.class).isEnabled()) return;
-
         try {
         	Thread.sleep(lagTime.getValue().intValue());                
         } catch (InterruptedException e) {
@@ -49,6 +47,7 @@ public class TickRange extends Module {
     
     private boolean shouldStart() {
         if (!isInGame()) return false;
+        if (getModule(Scaffold.class).isEnabled()) return false;
         if (onlyGround.getValue() && !mc.player.onGround) return false;
         if (!MoveUtil.isMoving()) return false;
         if (System.currentTimeMillis() - lastLagTime < delay.getValue().intValue()) return false;

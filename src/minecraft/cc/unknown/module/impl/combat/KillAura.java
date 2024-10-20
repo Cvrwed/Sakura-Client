@@ -57,26 +57,33 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.Vec3;
 
-@ModuleInfo(aliases = { "KillAura",
-		"aura" }, description = "Automatically attacks nearby entities", category = Category.COMBAT)
+@ModuleInfo(aliases = { "KillAura", "aura" }, description = "Automatically attacks nearby entities", category = Category.COMBAT)
 public final class KillAura extends Module {
-	private final ModeValue attackMode = new ModeValue("Attack Mode", this).add(new SubMode("Single"))
-			.add(new SubMode("Switch")).add(new SubMode("Multiple")).setDefault("Single");
+	private final ModeValue attackMode = new ModeValue("Attack Mode", this)
+			.add(new SubMode("Single"))
+			.add(new SubMode("Switch"))
+			.add(new SubMode("Multiple"))
+			.setDefault("Single");
 
-	private final BoundsNumberValue switchDelay = new BoundsNumberValue("Switch Delay", this, 0, 0, 0, 10, 1,
-			() -> !attackMode.is("Switch"));
+	private final BoundsNumberValue switchDelay = new BoundsNumberValue("Switch Delay", this, 0, 0, 0, 10, 1, () -> !attackMode.is("Switch"));
 
-	public final ModeValue autoBlock = new ModeValue("Auto Block", this).add(new SubMode("Fake"))
-			.add(new SubMode("Vanilla ReBlock")).add(new SubMode("Imperfect Vanilla")).add(new SubMode("Vanilla"))
-			.add(new SubMode("Beta")).add(new SubMode("Post")).setDefault("Vanilla ReBlock");
+	public final ModeValue autoBlock = new ModeValue("Auto Block", this)
+			.add(new SubMode("Fake"))
+			.add(new SubMode("Vanilla ReBlock"))
+			.add(new SubMode("Imperfect Vanilla"))
+			.add(new SubMode("Vanilla"))
+			.add(new SubMode("Beta"))
+			.add(new SubMode("Post"))
+			.setDefault("Vanilla ReBlock");
 
-	private final BooleanValue rightClickOnly = new BooleanValue("Right Click Only", this, false,
-			() -> autoBlock.is("Fake"));
-	private final BooleanValue preventServerSideBlocking = new BooleanValue("Prevent Serverside Blocking", this, false,
-			() -> !(autoBlock.is("Fake")));
+	private final BooleanValue rightClickOnly = new BooleanValue("Right Click Only", this, false, () -> autoBlock.is("Fake"));
+	private final BooleanValue preventServerSideBlocking = new BooleanValue("Prevent Serverside Blocking", this, false, () -> !autoBlock.is("Fake"));
 
-	private final ModeValue sorting = new ModeValue("Sorting", this).add(new SubMode("Distance"))
-			.add(new SubMode("Health")).add(new SubMode("Hurt Time")).setDefault("Distance");
+	private final ModeValue sorting = new ModeValue("Sorting", this)
+			.add(new SubMode("Distance"))
+			.add(new SubMode("Health"))
+			.add(new SubMode("Hurt Time"))
+			.setDefault("Distance");
 
 	public final NumberValue range = new NumberValue("Range", this, 3, 3, 6, 0.1);
 	private final BoundsNumberValue cps = new BoundsNumberValue("CPS", this, 10, 15, 1, 20, 1);
@@ -86,26 +93,20 @@ public final class KillAura extends Module {
 	private final ListValue<MovementFix> movementCorrection = new ListValue<>("Movement correction", this);
 
 	private final BooleanValue keepSprint = new BooleanValue("Keep sprint", this, false);
-	private final BooleanValue bufferAbuse = new BooleanValue("Buffer Abuse", this, false,
-			() -> !keepSprint.getValue());
-	private final NumberValue bufferDecrease = new NumberValue("Buffer Decrease", this, 1, 0.1, 10, 0.1,
-			() -> !this.bufferAbuse.getValue() || !keepSprint.getValue());
-	private final NumberValue maxBuffer = new NumberValue("Max Buffer", this, 5, 1, 10, 1,
-			() -> !this.bufferAbuse.getValue() || !keepSprint.getValue());
-	private final BooleanValue defCheck = new BooleanValue("Deffensive Check", this, false,
-			() -> !keepSprint.getValue());
-	private final NumberValue defMotion = new NumberValue("Deffensive Motion", this, 0.6, 0, 1, 0.05,
-			() -> !keepSprint.getValue() || !this.defCheck.getValue());
-	private final BooleanValue offeCheck = new BooleanValue("Offensive Check", this, false,
-			() -> !keepSprint.getValue());
-	private final NumberValue offeMotion = new NumberValue("Offensive Motion", this, 0.6, 0, 1, 0.05,
-			() -> !keepSprint.getValue() || !this.offeCheck.getValue());
+	private final BooleanValue bufferAbuse = new BooleanValue("Buffer Abuse", this, false, () -> !keepSprint.getValue());
+	private final NumberValue bufferDecrease = new NumberValue("Buffer Decrease", this, 1, 0.1, 10, 0.1, () -> !this.bufferAbuse.getValue() || !keepSprint.getValue());
+	private final NumberValue maxBuffer = new NumberValue("Max Buffer", this, 5, 1, 10, 1, () -> !this.bufferAbuse.getValue() || !keepSprint.getValue());
+	private final BooleanValue defCheck = new BooleanValue("Deffensive Check", this, false, () -> !keepSprint.getValue());
+	private final NumberValue defMotion = new NumberValue("Deffensive Motion", this, 0.6, 0, 1, 0.05, () -> !keepSprint.getValue() || !this.defCheck.getValue());
+	private final BooleanValue offeCheck = new BooleanValue("Offensive Check", this, false, () -> !keepSprint.getValue());
+	private final NumberValue offeMotion = new NumberValue("Offensive Motion", this, 0.6, 0, 1, 0.05, () -> !keepSprint.getValue() || !this.offeCheck.getValue());
 	private final BooleanValue onlyInAir = new BooleanValue("Only In Air", this, false, () -> !keepSprint.getValue());
 
 	private final BooleanValue rayCast = new BooleanValue("Ray cast", this, false);
 	private final BooleanValue throughWalls = new BooleanValue("Through Walls", this, false, () -> !rayCast.getValue());
 
-	public final ModeValue espMode = new ModeValue("Target ESP", this).add(new RingESP("Ring", this))
+	public final ModeValue espMode = new ModeValue("Target ESP", this)
+			.add(new RingESP("Ring", this))
 			.setDefault("Ring");
 
 	private final DescValue advanced = new DescValue("Advanced:", this);
@@ -114,10 +115,8 @@ public final class KillAura extends Module {
 	private final BooleanValue autoDisable = new BooleanValue("Auto disable", this, false);
 	public final BooleanValue smoothRotation = new BooleanValue("Smooth Rotation", this, false);
 	public final BooleanValue teams = new BooleanValue("Ignore Teammates", this, false);
-	public final BooleanValue scoreboardCheckTeam = new BooleanValue("Scoreboard Check Team", this, false,
-			() -> !teams.getValue());
-	public final BooleanValue checkArmorColor = new BooleanValue("Check Armor Color", this, false,
-			() -> !teams.getValue());
+	public final BooleanValue scoreboardCheckTeam = new BooleanValue("Scoreboard Check Team", this, false, () -> !teams.getValue());
+	public final BooleanValue checkArmorColor = new BooleanValue("Check Armor Color", this, false, () -> !teams.getValue());
 
 	private final DescValue showTargets = new DescValue("Targets:", this);
 	public final BooleanValue player = new BooleanValue("Players", this, true);

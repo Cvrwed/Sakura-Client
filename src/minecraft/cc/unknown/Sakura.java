@@ -31,7 +31,7 @@ public enum Sakura {
     instance;
 
     public static final String NAME = "Sakura";
-    public static final String VERSION_FULL = "4.7";
+    public static final String VERSION_FULL = "4.8";
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(4);
 
     private EventBus<Event> eventBus;
