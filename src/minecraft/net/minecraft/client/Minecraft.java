@@ -1996,7 +1996,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 			this.sendClickBlockToController(this.currentScreen == null && this.gameSettings.keyBindAttack.isKeyDown() && this.inGameHasFocus);
 		}
 		
-		boolean pause = TickRange.publicFreeze && Sakura.instance.getModuleManager().get(TickRange.class).isEnabled() && Sakura.instance.getModuleManager().get(TickRange.class).mode.is("Blatant");
+		TickRange furro = Sakura.instance.getModuleManager().get(TickRange.class);
+		boolean pause = furro.publicFreeze && furro.isEnabled() && furro.mode.is("Blatant");
 
 		 if (this.world != null)
 	        {

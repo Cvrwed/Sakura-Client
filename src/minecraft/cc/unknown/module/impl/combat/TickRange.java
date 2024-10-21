@@ -8,12 +8,12 @@ import cc.unknown.Sakura;
 import cc.unknown.component.impl.player.FriendAndTargetComponent;
 import cc.unknown.event.Listener;
 import cc.unknown.event.annotations.EventLink;
-import cc.unknown.event.impl.player.PreMotionEvent;
 import cc.unknown.event.impl.render.Render3DEvent;
 import cc.unknown.module.Module;
 import cc.unknown.module.api.Category;
 import cc.unknown.module.api.ModuleInfo;
 import cc.unknown.module.impl.world.Scaffold;
+import cc.unknown.util.chat.ChatUtil;
 import cc.unknown.util.player.MoveUtil;
 import cc.unknown.util.player.PlayerUtil;
 import cc.unknown.util.rotation.RotationUtil;
@@ -99,9 +99,9 @@ public class TickRange extends Module {
 
                 delayTicks --;
             }
-            if (!this.targetList.isEmpty()) {
-                AxisAlignedBB afterBB = targetList.get(0).getTargetEntity().getEntityBoundingBox();
-                double afterRange = RotationUtil.nearestRotation(afterBB);
+            
+            if (getModule(KillAura.class).target != null) {
+                double afterRange = RotationUtil.nearestRotation(getModule(KillAura.class).target.getEntityBoundingBox());
                 if(afterRange < range2.getValue().floatValue() && afterRange > 3 && mc.gameSettings.keyBindForward.pressed){
                     if(delayTicks > 0){
                     }else{

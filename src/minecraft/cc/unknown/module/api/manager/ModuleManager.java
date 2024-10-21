@@ -79,6 +79,7 @@ public final class ModuleManager {
         this.put(AntiAFK.class, new AntiAFK());
         this.put(AutoPlay.class, new AutoPlay());
         this.put(AutoRefill.class, new AutoRefill());
+        this.put(Translator.class, new Translator());
         this.put(Insults.class, new Insults());
         this.put(AutoLeave.class, new AutoLeave());
         this.put(MurderMystery.class, new MurderMystery());
