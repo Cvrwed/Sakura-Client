@@ -1997,7 +1997,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 		}
 		
 		TickRange furro = Sakura.instance.getModuleManager().get(TickRange.class);
-		boolean pause = furro.publicFreeze && furro.isEnabled() && furro.mode.is("Blatant");
+		boolean pause = furro.publicFreeze && furro.isEnabled();
 
 		 if (this.world != null)
 	        {
